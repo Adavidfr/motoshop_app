@@ -21,13 +21,14 @@ class ProductCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color:        AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border:       Border.all(color: AppColors.border),
+          borderRadius: BorderRadius.circular(20),
+          border:       Border.all(color: AppColors.accent.withOpacity(0.12), width: 1.2),
           boxShadow: [
             BoxShadow(
-              color:       Colors.black.withValues(alpha: 0.3),
-              blurRadius:  8,
-              offset:      const Offset(0, 2),
+              color:       AppColors.accent.withOpacity(0.04),
+              blurRadius:  10,
+              spreadRadius: 1,
+              offset:      const Offset(0, 4),
             ),
           ],
         ),
@@ -36,114 +37,128 @@ class ProductCard extends StatelessWidget {
           mainAxisSize:       MainAxisSize.min,
           children: [
             // ── Imagen ────────────────────────────────────────
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: product.imageUrl != null
-                    ? CachedNetworkImage(
-                        imageUrl:    product.imageUrl!,
-                        fit:         BoxFit.cover,
-                        placeholder: (_, __) =>
-                            Container(color: AppColors.surface2),
-                        errorWidget: (_, __, ___) => const _ImagePlaceholder(),
-                      )
-                    : const _ImagePlaceholder(),
+            Expanded(
+              flex: 5,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
+                      child: product.imageUrl != null
+                          ? CachedNetworkImage(
+                              imageUrl:    product.imageUrl!,
+                              fit:         BoxFit.cover,
+                              placeholder: (_, __) =>
+                                  Container(color: AppColors.surface2),
+                              errorWidget: (_, __, ___) => const _ImagePlaceholder(),
+                            )
+                          : const _ImagePlaceholder(),
+                    ),
+                  ),
+                  if (!product.inStock)
+                    Positioned(
+                      top: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: AppColors.error.withOpacity(0.85),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          'AGOTADO',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
 
             // ── Info ──────────────────────────────────────────
             Expanded(
+              flex: 4,
               child: Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize:       MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Tipo / Categoría
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          product.tipo == ProductType.moto ? '🏍️' : '🔧',
-                          style: const TextStyle(fontSize: 10),
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            (product.category?.name ??
-                                (product.tipo == ProductType.moto
-                                    ? 'MOTO'
-                                    : 'REPUESTO'))
-                                .toUpperCase(),
-                            style: const TextStyle(
-                              color:         AppColors.accent,
-                              fontSize:      9,
-                              fontWeight:    FontWeight.bold,
-                              letterSpacing: 0.5,
+                        // Tipo / Categoría
+                        Row(
+                          children: [
+                            Text(
+                              product.tipo == ProductType.moto ? '🏍️' : '🔧',
+                              style: const TextStyle(fontSize: 10),
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                (product.category?.name ??
+                                    (product.tipo == ProductType.moto
+                                        ? 'MOTO'
+                                        : 'REPUESTO'))
+                                    .toUpperCase(),
+                                style: const TextStyle(
+                                  color:         AppColors.accent,
+                                  fontSize:      9,
+                                  fontWeight:    FontWeight.bold,
+                                  letterSpacing: 0.8,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+
+                        // Nombre
+                        Text(
+                          product.name,
+                          style: const TextStyle(
+                            color:      AppColors.textPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize:   13,
+                            height: 1.2,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 2),
 
-                    // Nombre
-                    Flexible(
-                      child: Text(
-                        product.name,
-                        style: tt.bodySmall?.copyWith(
-                          color:      AppColors.textPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-
-                    // Precio sin IVA
-                    Text(
-                      formatPrice(product.price),
-                      style: const TextStyle(
-                        color:      AppColors.accent,
-                        fontWeight: FontWeight.bold,
-                        fontSize:   12,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    // Precio con IVA
-                    Text(
-                      '${formatPrice(product.priceWithTax)} c/IVA',
-                      style: const TextStyle(
-                        color:    AppColors.textSecondary,
-                        fontSize: 8,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-
-                    // Sin stock
-                    if (!product.inStock) ...[
-                      const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 1),
-                        decoration: BoxDecoration(
-                          color:        AppColors.error.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: const Text(
-                          'Sin stock',
-                          style: TextStyle(
-                            color:      AppColors.error,
-                            fontSize:   8,
-                            fontWeight: FontWeight.bold,
+                    // Precios
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          formatPrice(product.priceWithTax),
+                          style: const TextStyle(
+                            color:      Colors.white,
+                            fontWeight: FontWeight.black,
+                            fontSize:   15,
                           ),
                         ),
-                      ),
-                    ],
+                        Text(
+                          '${formatPrice(product.price)} sin IVA',
+                          style: const TextStyle(
+                            color:    AppColors.textSecondary,
+                            fontSize: 9,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -162,6 +177,6 @@ class _ImagePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     color:     AppColors.surface2,
     alignment: Alignment.center,
-    child: const Text('🏍️', style: TextStyle(fontSize: 40)),
+    child: const Icon(Icons.two_wheeler_rounded, color: AppColors.textFaint, size: 48),
   );
 }
