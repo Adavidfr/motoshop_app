@@ -52,6 +52,21 @@ const List<AdminNavItem> adminNavItems = [
     icon: Icons.payments_outlined,
     route: '/admin/pagos',
   ),
+  AdminNavItem(
+    label: 'Facturas',
+    icon: Icons.receipt_long_outlined,
+    route: '/admin/facturas',
+  ),
+  AdminNavItem(
+    label: 'Garantías',
+    icon: Icons.shield_outlined,
+    route: '/admin/garantias',
+  ),
+  AdminNavItem(
+    label: 'Seguros',
+    icon: Icons.policy_outlined,
+    route: '/admin/seguros',
+  ),
 ];
 
 int adminSelectedIndex(String currentRoute) {
