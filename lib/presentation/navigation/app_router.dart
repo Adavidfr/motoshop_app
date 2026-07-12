@@ -21,6 +21,7 @@ import '../screens/catalog/product_detail_screen.dart';
 import '../screens/cart/cart_screen.dart';
 import '../screens/orders/client_orders_screen.dart';
 import '../screens/orders/client_order_detail_screen.dart';
+import '../screens/orders/client_financiamientos_screen.dart';
 import 'public_shell.dart';
 
 // Pantallas administrativas y de inventario (Tarea 5)
@@ -34,6 +35,7 @@ import '../screens/admin/catalog_admin_screen.dart';
 import '../screens/admin/orders_admin_screen.dart';
 import '../screens/admin/order_admin_detail_screen.dart';
 import '../screens/admin/ventas_admin_screen.dart';
+import '../screens/admin/financiamientos_admin_screen.dart';
 import '../widgets/admin_shell.dart';
 import '../screens/catalog/moto_detail_screen.dart';
 import '../screens/catalog/moto_form_screen.dart';
@@ -149,6 +151,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/profile',
             builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: '/financiamientos',
+            builder: (context, state) => const ClientFinanciamientosScreen(),
           ),
         ],
       ),
@@ -276,6 +282,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Ventas',
           currentRoute: state.matchedLocation,
           child: const VentasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/financiamientos',
+        builder: (context, state) => AdminShell(
+          title: 'Financiamientos',
+          currentRoute: state.matchedLocation,
+          child: const FinanciamientosAdminScreen(),
         ),
       ),
     ],

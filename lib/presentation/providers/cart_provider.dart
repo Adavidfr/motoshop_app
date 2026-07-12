@@ -4,10 +4,12 @@
 // Módulo 4: versión provisional con estado local.
 // Módulo 5: sincronización con API /carritos/.
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/remote/api/carrito_remote_datasource.dart';
 import '../../domain/model/carrito.dart';
 import '../../domain/model/product.dart';
+import 'auth_provider.dart';
 
 // ── CartItem — ítem en memoria con producto completo ──────────────
 class CartItem {
@@ -57,9 +59,10 @@ class CartState {
     bool?           isLoading,
     String?         error,
     bool            clearError = false,
+    bool            clearCarritoId = false,
   }) => CartState(
     items:      items      ?? this.items,
-    carritoId:  carritoId  ?? this.carritoId,
+    carritoId:  clearCarritoId ? null : (carritoId ?? this.carritoId),
     isLoading:  isLoading  ?? this.isLoading,
     error:      clearError ? null : (error ?? this.error),
   );
@@ -80,8 +83,8 @@ class CartNotifier extends StateNotifier<CartState> {
       final carrito = await _datasource.getCarritoActivo();
       _syncFromBackend(carrito);
     } catch (_) {
-      // Sin carrito activo — estado vacío, sin error visible
-      state = state.copyWith(isLoading: false, clearError: true);
+      // Sin carrito activo o error — estado vacío
+      state = const CartState();
     }
   }
 
@@ -184,9 +187,16 @@ class CartNotifier extends StateNotifier<CartState> {
         clearError: true,
       );
     } catch (e) {
+      int? statusCode;
+      if (e is DioException) {
+        statusCode = e.response?.statusCode;
+      }
+      final isInvalidCart = statusCode == 404 || statusCode == 400;
       state = state.copyWith(
         isLoading: false,
         error: e.toString().replaceAll('Exception: ', ''),
+        clearCarritoId: isInvalidCart,
+        items: isInvalidCart ? const [] : state.items,
       );
     }
   }
@@ -222,9 +232,16 @@ class CartNotifier extends StateNotifier<CartState> {
         clearError: true,
       );
     } catch (e) {
+      int? statusCode;
+      if (e is DioException) {
+        statusCode = e.response?.statusCode;
+      }
+      final isInvalidCart = statusCode == 404 || statusCode == 400;
       state = state.copyWith(
         isLoading: false,
         error: e.toString().replaceAll('Exception: ', ''),
+        clearCarritoId: isInvalidCart,
+        items: isInvalidCart ? const [] : state.items,
       );
     }
   }
@@ -265,7 +282,18 @@ class CartNotifier extends StateNotifier<CartState> {
           precioUnitario: item.product.price,
         );
         _syncFromBackend(carrito);
-      } catch (_) {}
+      } catch (e) {
+        int? statusCode;
+        if (e is DioException) {
+          statusCode = e.response?.statusCode;
+        }
+        final isInvalidCart = statusCode == 404 || statusCode == 400;
+        state = state.copyWith(
+          error: e.toString().replaceAll('Exception: ', ''),
+          clearCarritoId: isInvalidCart,
+          items: isInvalidCart ? const [] : state.items,
+        );
+      }
     }
   }
 
@@ -281,9 +309,16 @@ class CartNotifier extends StateNotifier<CartState> {
       await _datasource.vaciarCarrito(carritoId);
       state = CartState(carritoId: carritoId);
     } catch (e) {
+      int? statusCode;
+      if (e is DioException) {
+        statusCode = e.response?.statusCode;
+      }
+      final isInvalidCart = statusCode == 404 || statusCode == 400;
       state = state.copyWith(
         isLoading: false,
         error: e.toString().replaceAll('Exception: ', ''),
+        clearCarritoId: isInvalidCart,
+        items: isInvalidCart ? const [] : state.items,
       );
     }
   }
@@ -299,5 +334,6 @@ class CartNotifier extends StateNotifier<CartState> {
 
 // ── Provider ──────────────────────────────────────────────────────
 final cartProvider = StateNotifierProvider<CartNotifier, CartState>((ref) {
+  ref.watch(authProvider.select((s) => s.user?.id));
   return CartNotifier(ref.watch(carritoDatasourceProvider));
 });
