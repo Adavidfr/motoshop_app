@@ -18,6 +18,11 @@ class AdminNavItem {
 
 const List<AdminNavItem> adminNavItems = [
   AdminNavItem(
+    label: 'Motos y Catálogo',
+    icon: Icons.two_wheeler_outlined,
+    route: '/admin/products',
+  ),
+  AdminNavItem(
     label: 'Servicios',
     icon: Icons.build_circle_outlined,
     route: '/admin/servicios',
@@ -48,9 +53,19 @@ const List<AdminNavItem> adminNavItems = [
     route: '/admin/users',
   ),
   AdminNavItem(
-    label: 'Pagos',
-    icon: Icons.payments_outlined,
-    route: '/admin/pagos',
+    label: 'Pedidos',
+    icon: Icons.receipt_long_outlined,
+    route: '/admin/orders',
+  ),
+  AdminNavItem(
+    label: 'Ventas',
+    icon: Icons.monetization_on_outlined,
+    route: '/admin/ventas',
+  ),
+  AdminNavItem(
+    label: 'Financiamientos',
+    icon: Icons.credit_card_outlined,
+    route: '/admin/financiamientos',
   ),
   AdminNavItem(
     label: 'Facturas',
