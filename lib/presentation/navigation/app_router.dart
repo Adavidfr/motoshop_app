@@ -7,6 +7,10 @@ import '../screens/auth/login_screen.dart';
 import '../screens/auth/profile_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/auth/reset_password_confirm_screen.dart';
+import '../screens/admin/users_admin_screen.dart';
+import '../screens/catalog/catalog_screen.dart';
+import '../screens/catalog/moto_detail_screen.dart';
+import '../screens/catalog/moto_form_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -33,7 +37,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: '/',
+        builder: (context, state) => const CatalogScreen(),
+      ),
+      GoRoute(
+        path: '/profile',
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/admin',
+        builder: (context, state) => const UsersAdminScreen(),
       ),
       GoRoute(
         path: '/login',
@@ -51,6 +63,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/reset-password-confirm',
         builder: (context, state) {
           return const ResetPasswordConfirmScreen();
+        },
+      ),
+      GoRoute(
+        path: '/moto-detail/:id',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return MotoDetailScreen(motoId: id);
+        },
+      ),
+      GoRoute(
+        path: '/moto-form',
+        builder: (context, state) {
+          final id = int.tryParse(state.uri.queryParameters['id'] ?? '') ?? 0;
+          return MotoFormScreen(motoId: id > 0 ? id : null);
         },
       ),
     ],
