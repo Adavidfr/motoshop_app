@@ -47,6 +47,11 @@ const List<AdminNavItem> adminNavItems = [
     icon: Icons.people_outline,
     route: '/admin/users',
   ),
+  AdminNavItem(
+    label: 'Pagos',
+    icon: Icons.payments_outlined,
+    route: '/admin/pagos',
+  ),
 ];
 
 int adminSelectedIndex(String currentRoute) {

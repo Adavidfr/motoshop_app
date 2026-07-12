@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:motoshop_app/presentation/screens/admin/repuestos_mantenimiento_admin_screen.dart';
+import 'package:motoshop_app/presentation/screens/admin/pagos_admin_screen.dart';
 import '../providers/auth_provider.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/login_screen.dart';
@@ -224,6 +225,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Usuarios',
           currentRoute: state.matchedLocation,
           child: const UsersAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/pagos',
+        builder: (context, state) => AdminShell(
+          title: 'Pagos',
+          currentRoute: state.matchedLocation,
+          child: const PagosAdminScreen(),
         ),
       ),
     ],
