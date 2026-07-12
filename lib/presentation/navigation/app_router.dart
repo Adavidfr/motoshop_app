@@ -2,7 +2,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
+import '../screens/admin/compras_admin_screen.dart';
 import '../providers/auth_provider.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/login_screen.dart';
@@ -93,6 +93,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Proveedores',
           currentRoute: state.matchedLocation,
           child: const ProveedoresAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/compras',
+        builder: (context, state) => AdminShell(
+          title: 'Compras',
+          currentRoute: state.matchedLocation,
+          child: const ComprasAdminScreen(),
         ),
       ),
     ],

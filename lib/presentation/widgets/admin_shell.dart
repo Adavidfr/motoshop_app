@@ -23,6 +23,11 @@ const adminNavItems = [
     icon: Icons.local_shipping_outlined,
     route: '/admin/proveedores',
   ),
+  AdminNavItem(
+    label: 'Compras',
+    icon: Icons.shopping_cart_checkout_outlined,
+    route: '/admin/compras',
+  ),
 ];
 
 int adminSelectedIndex(String currentRoute) {
