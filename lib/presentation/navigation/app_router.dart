@@ -18,7 +18,7 @@ import '../screens/admin/proveedores_admin_screen.dart';
 import '../screens/admin/servicios_admin_screen.dart';
 import '../screens/admin/users_admin_screen.dart';
 import '../widgets/admin_shell.dart';
-
+import '../screens/admin/mantenimientos_admin_screen.dart';
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
 
@@ -199,6 +199,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Compras',
           currentRoute: state.matchedLocation,
           child: const ComprasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/mantenimientos',
+        builder: (context, state) => AdminShell(
+          title: 'Mantenimientos',
+          currentRoute: state.matchedLocation,
+          child: const MantenimientosAdminScreen(),
         ),
       ),
 

@@ -33,6 +33,11 @@ const List<AdminNavItem> adminNavItems = [
     route: '/admin/compras',
   ),
   AdminNavItem(
+    label: 'Mantenimientos',
+    icon: Icons.miscellaneous_services_outlined,
+    route: '/admin/mantenimientos',
+  ),
+  AdminNavItem(
     label: 'Usuarios',
     icon: Icons.people_outline,
     route: '/admin/users',
