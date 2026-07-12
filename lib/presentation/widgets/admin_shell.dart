@@ -53,6 +53,21 @@ const List<AdminNavItem> adminNavItems = [
     route: '/admin/pagos',
   ),
   AdminNavItem(
+    label: 'Documentos',
+    icon: Icons.folder_open_outlined,
+    route: '/admin/documentos-venta',
+  ),
+  AdminNavItem(
+    label: 'Historial',
+    icon: Icons.history_outlined,
+    route: '/admin/historial-venta',
+  ),
+  AdminNavItem(
+    label: 'Devoluciones',
+    icon: Icons.undo_outlined,
+    route: '/admin/devoluciones',
+  ),
+  AdminNavItem(
     label: 'Facturas',
     icon: Icons.receipt_long_outlined,
     route: '/admin/facturas',
