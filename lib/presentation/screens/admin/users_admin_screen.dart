@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../theme/app_colors.dart';
 import '../../../domain/model/user.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/users_admin_provider.dart';
 import '../../widgets/user_form.dart';
 
@@ -12,6 +13,8 @@ class UsersAdminScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user     = ref.watch(authProvider).user;
+    final isAdmin  = user?.role == 'administrador';
     final state    = ref.watch(usersAdminProvider);
     final filtered = state.filtered;
     final tt       = Theme.of(context).textTheme;
@@ -134,6 +137,7 @@ class UsersAdminScreen extends ConsumerWidget {
               separatorBuilder:(_, __) => const SizedBox(height: 10),
               itemBuilder: (_, i) => _UserCard(
                 user:          filtered[i],
+                canDelete:     isAdmin,
                 onToggleStaff: () => ref.read(usersAdminProvider.notifier)
                     .toggleStaff(filtered[i].id, !filtered[i].isStaff),
                 onToggleActive:() => ref.read(usersAdminProvider.notifier)
@@ -183,6 +187,7 @@ class UsersAdminScreen extends ConsumerWidget {
 
 class _UserCard extends StatelessWidget {
   final User         user;
+  final bool         canDelete;
   final VoidCallback onToggleStaff;
   final VoidCallback onToggleActive;
   final VoidCallback onEdit;
@@ -190,6 +195,7 @@ class _UserCard extends StatelessWidget {
 
   const _UserCard({
     required this.user,
+    required this.canDelete,
     required this.onToggleStaff,
     required this.onToggleActive,
     required this.onEdit,
@@ -330,14 +336,15 @@ class _UserCard extends StatelessWidget {
                     ),
                   ),
                   // Eliminar
-                  GestureDetector(
-                    onTap: onDelete,
-                    child: const Padding(
-                      padding: EdgeInsets.all(4),
-                      child:   Icon(Icons.person_remove_outlined,
-                          color: AppColors.error, size: 20),
+                  if (canDelete)
+                    GestureDetector(
+                      onTap: onDelete,
+                      child: const Padding(
+                        padding: EdgeInsets.all(4),
+                        child:   Icon(Icons.person_remove_outlined,
+                            color: AppColors.error, size: 20),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],
