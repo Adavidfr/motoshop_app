@@ -282,6 +282,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       const SizedBox(height: 16),
                     ],
 
+                    // Client Financing Button
+                    if (user?.isStaff != true) ...[
+                      SizedBox(
+                        width: double.infinity,
+                        height: 52,
+                        child: ElevatedButton.icon(
+                          onPressed: () => context.push('/financiamientos'),
+                          icon: const Icon(Icons.credit_card_outlined),
+                          label: const Text('Mis Planes de Financiamiento'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.surface,
+                            foregroundColor: AppColors.accent,
+                            side: const BorderSide(color: AppColors.border),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+
                     // Logout Button
                     _LogoutButton(
                       onConfirm: () async {
