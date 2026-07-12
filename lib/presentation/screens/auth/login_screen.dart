@@ -64,13 +64,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 80),
 
               // Logo
-              Text(
-                'Flutter Shop App',
-                style: tt.displayMedium?.copyWith(color: AppColors.accent),
+              Image.asset(
+                'assets/images/logo_transparente.png',
+                height: 160,
+                fit: BoxFit.contain,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               Text('Inicia sesión en tu cuenta', style: tt.bodyMedium),
-              const SizedBox(height: 48),
+              const SizedBox(height: 32),
 
               // Card del formulario
               Container(

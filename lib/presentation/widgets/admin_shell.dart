@@ -180,22 +180,10 @@ class AdminShell extends ConsumerWidget {
                       width: 48,
                       height: 48,
                       decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.accent,
-                            AppColors.accentLight,
-                          ],
-                        ),
                         shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          _getInitial(user?.username),
-                          style: const TextStyle(
-                            color: AppColors.onAccent,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/logo_circular.jpg'),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

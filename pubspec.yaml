@@ -55,3 +55,5 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/images/logo_circular.jpg
+    - assets/images/logo_transparente.png

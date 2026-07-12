@@ -43,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    'MotoShop',
+                    'AuraRider',
                     style: tt.displaySmall?.copyWith(
                       color:      AppColors.accent,
                       fontWeight: FontWeight.bold,
