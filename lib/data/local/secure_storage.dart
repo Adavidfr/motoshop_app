@@ -15,6 +15,7 @@ class SecureStorage {
   static const _keyUsername = 'flutter_shop_app:username';
   static const _keyEmail    = 'flutter_shop_app:email';
   static const _keyIsStaff  = 'flutter_shop_app:is_staff';
+  static const _keyRole     = 'flutter_shop_app:role';
 
   // ── Tokens ────────────────────────────────────────────────
   Future<String?> getAccess()  => _storage.read(key: _keyAccess);
@@ -34,11 +35,13 @@ class SecureStorage {
     required String username,
     required String email,
     required bool   isStaff,
+    required String role,
   }) async {
     await _storage.write(key: _keyUserId,   value: id.toString());
     await _storage.write(key: _keyUsername, value: username);
     await _storage.write(key: _keyEmail,    value: email);
     await _storage.write(key: _keyIsStaff,  value: isStaff.toString());
+    await _storage.write(key: _keyRole,     value: role);
   }
 
   Future<Map<String, String>?> getUser() async {
@@ -46,12 +49,14 @@ class SecureStorage {
     final username = await _storage.read(key: _keyUsername);
     final email    = await _storage.read(key: _keyEmail);
     final isStaff  = await _storage.read(key: _keyIsStaff);
+    final role     = await _storage.read(key: _keyRole);
     if (id == null || username == null) return null;
     return {
       'id':       id,
       'username': username,
       'email':    email ?? '',
       'is_staff': isStaff ?? 'false',
+      'role':     role ?? 'usuario',
     };
   }
 

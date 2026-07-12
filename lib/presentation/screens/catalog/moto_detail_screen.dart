@@ -16,7 +16,10 @@ class MotoDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authProvider).user;
-    final isStaff = user?.isStaff ?? false;
+    final isAdmin = user?.role == 'administrador';
+    final isVendedor = user?.role == 'vendedor';
+    final canEdit = isAdmin || isVendedor || user?.isStaff == true;
+    final canDelete = isAdmin;
 
     // Retrieve moto from provider list
     final motosState = ref.watch(motosProvider);
@@ -35,18 +38,19 @@ class MotoDetailScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('${moto.marca.nombre} ${moto.modelo}'),
-        actions: isStaff
+        actions: canEdit
             ? [
                 IconButton(
                   icon: const Icon(Icons.edit_outlined),
                   onPressed: () => context.push('/moto-form?id=$motoId'),
                   tooltip: 'Editar Motocicleta',
                 ),
-                IconButton(
-                  icon: const Icon(Icons.delete_outline, color: AppColors.error),
-                  onPressed: () => _confirmDelete(context, ref, moto),
-                  tooltip: 'Eliminar Motocicleta',
-                ),
+                if (canDelete)
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                    onPressed: () => _confirmDelete(context, ref, moto),
+                    tooltip: 'Eliminar Motocicleta',
+                  ),
               ]
             : null,
       ),

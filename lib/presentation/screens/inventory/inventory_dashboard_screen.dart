@@ -67,7 +67,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authProvider).user;
-    final isStaff = user?.isStaff ?? false;
+    final isAdmin = user?.role == 'administrador';
+    final isVendedor = user?.role == 'vendedor';
+    final canEdit = isAdmin || isVendedor || user?.isStaff == true;
 
     return Scaffold(
       appBar: AppBar(
@@ -86,16 +88,16 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
       body: TabBarView(
         controller: _tabController,
         children: [
-          _buildRepuestosTab(isStaff),
-          _buildMovimientosTab(isStaff),
+          _buildRepuestosTab(canEdit),
+          _buildMovimientosTab(canEdit),
         ],
       ),
-      floatingActionButton: _buildFAB(isStaff),
+      floatingActionButton: _buildFAB(canEdit),
     );
   }
 
   // --- REPUESTOS TAB ---
-  Widget _buildRepuestosTab(bool isStaff) {
+  Widget _buildRepuestosTab(bool canEdit) {
     final state = ref.watch(repuestosProvider);
 
     return Column(
@@ -255,7 +257,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
   }
 
   // --- MOVIMIENTOS TAB ---
-  Widget _buildMovimientosTab(bool isStaff) {
+  Widget _buildMovimientosTab(bool canEdit) {
     final state = ref.watch(movimientosProvider);
 
     return Column(
@@ -378,9 +380,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
   }
 
   // --- FLOATING ACTION BUTTON ---
-  Widget? _buildFAB(bool isStaff) {
+  Widget? _buildFAB(bool canEdit) {
     // Both Spare parts and inventory actions are for staff.
-    if (!isStaff) return null;
+    if (!canEdit) return null;
 
     return FloatingActionButton.extended(
       backgroundColor: AppColors.accent,

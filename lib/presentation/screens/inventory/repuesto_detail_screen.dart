@@ -16,7 +16,10 @@ class RepuestoDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authProvider).user;
-    final isStaff = user?.isStaff ?? false;
+    final isAdmin = user?.role == 'administrador';
+    final isVendedor = user?.role == 'vendedor';
+    final canEdit = isAdmin || isVendedor || user?.isStaff == true;
+    final canDelete = isAdmin;
 
     final repuestosState = ref.watch(repuestosProvider);
     final repIndex = repuestosState.repuestos.indexWhere((r) => r.idRepuesto == repuestoId);
@@ -34,18 +37,19 @@ class RepuestoDetailScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(repuesto.nombre),
-        actions: isStaff
+        actions: canEdit
             ? [
                 IconButton(
                   icon: const Icon(Icons.edit_outlined),
                   onPressed: () => context.push('/repuesto-form?id=$repuestoId'),
                   tooltip: 'Editar Repuesto',
                 ),
-                IconButton(
-                  icon: const Icon(Icons.delete_outline, color: AppColors.error),
-                  onPressed: () => _confirmDelete(context, ref, repuesto),
-                  tooltip: 'Eliminar Repuesto',
-                ),
+                if (canDelete)
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                    onPressed: () => _confirmDelete(context, ref, repuesto),
+                    tooltip: 'Eliminar Repuesto',
+                  ),
               ]
             : null,
       ),

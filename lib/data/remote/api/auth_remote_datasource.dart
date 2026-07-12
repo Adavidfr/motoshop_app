@@ -40,6 +40,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         username: data['username'] as String,
         email:    data['email']    as String,
         isStaff:  data['is_staff'] as bool,
+        role:     data['role'] as String? ?? 'usuario',
       );
       return LoggedUser.fromMap(data);
     } on DioException catch (e) {
@@ -71,6 +72,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         username: data['username'] as String,
         email:    data['email']    as String,
         isStaff:  data['is_staff'] as bool,
+        role:     data['role'] as String? ?? 'usuario',
       );
       return LoggedUser.fromMap(data);
     } on DioException catch (e) {

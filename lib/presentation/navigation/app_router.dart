@@ -33,7 +33,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       final inAuthFlow = goingToLogin || goingToRegister || goingToForgot || goingToReset;
 
-      if (!isAuth && !inAuthFlow) return '/login';
+      // Áreas privadas que requieren inicio de sesión obligatorio
+      final isPrivateArea = state.uri.path == '/moto-form' ||
+          state.uri.path == '/repuesto-form' ||
+          state.uri.path == '/movimiento-form' ||
+          state.uri.path == '/admin' ||
+          state.uri.path == '/profile';
+
+      if (!isAuth && isPrivateArea) return '/login';
       if (isAuth && inAuthFlow) return '/';
 
       return null;

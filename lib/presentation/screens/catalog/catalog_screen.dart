@@ -61,7 +61,10 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authProvider).user;
-    final isStaff = user?.isStaff ?? false;
+    final isAdmin = user?.role == 'administrador';
+    final isVendedor = user?.role == 'vendedor';
+    final canEdit = isAdmin || isVendedor || user?.isStaff == true;
+    final canDelete = isAdmin;
 
     return Scaffold(
       appBar: AppBar(
@@ -106,12 +109,12 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
       body: TabBarView(
         controller: _tabController,
         children: [
-          _buildMotosTab(isStaff),
-          _buildMarcasTab(isStaff),
-          _buildCategoriasTab(isStaff),
+          _buildMotosTab(canEdit),
+          _buildMarcasTab(canEdit: canEdit, canDelete: canDelete),
+          _buildCategoriasTab(canEdit: canEdit, canDelete: canDelete),
         ],
       ),
-      floatingActionButton: _buildFAB(isStaff),
+      floatingActionButton: _buildFAB(canEdit),
     );
   }
 
@@ -292,7 +295,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
   }
 
   // --- MARCAS TAB ---
-  Widget _buildMarcasTab(bool isStaff) {
+  Widget _buildMarcasTab({required bool canEdit, required bool canDelete}) {
     final state = ref.watch(marcasProvider);
 
     return Column(
@@ -334,7 +337,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
                               style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(marca.descripcion ?? 'Sin descripción'),
-                            trailing: isStaff
+                            trailing: canEdit
                                 ? Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -342,10 +345,11 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
                                         icon: const Icon(Icons.edit_outlined, color: Colors.blue),
                                         onPressed: () => _showMarcaDialog(marca),
                                       ),
-                                      IconButton(
-                                        icon: const Icon(Icons.delete_outline, color: Colors.red),
-                                        onPressed: () => _confirmDeleteMarca(marca),
-                                      ),
+                                      if (canDelete)
+                                        IconButton(
+                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                          onPressed: () => _confirmDeleteMarca(marca),
+                                        ),
                                     ],
                                   )
                                 : Container(
@@ -375,7 +379,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
   }
 
   // --- CATEGORÍAS TAB ---
-  Widget _buildCategoriasTab(bool isStaff) {
+  Widget _buildCategoriasTab({required bool canEdit, required bool canDelete}) {
     final state = ref.watch(categoriasProvider);
 
     return Column(
@@ -417,7 +421,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
                               style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(categoria.descripcion ?? 'Sin descripción'),
-                            trailing: isStaff
+                            trailing: canEdit
                                 ? Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -425,10 +429,11 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
                                         icon: const Icon(Icons.edit_outlined, color: Colors.blue),
                                         onPressed: () => _showCategoriaDialog(categoria),
                                       ),
-                                      IconButton(
-                                        icon: const Icon(Icons.delete_outline, color: Colors.red),
-                                        onPressed: () => _confirmDeleteCategoria(categoria),
-                                      ),
+                                      if (canDelete)
+                                        IconButton(
+                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                          onPressed: () => _confirmDeleteCategoria(categoria),
+                                        ),
                                     ],
                                   )
                                 : Container(
@@ -458,8 +463,8 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
   }
 
   // --- FLOATING ACTION BUTTON ---
-  Widget? _buildFAB(bool isStaff) {
-    if (!isStaff) return null;
+  Widget? _buildFAB(bool canEdit) {
+    if (!canEdit) return null;
 
     return FloatingActionButton(
       backgroundColor: AppColors.accent,
