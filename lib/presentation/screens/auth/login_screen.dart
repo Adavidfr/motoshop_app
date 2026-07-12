@@ -55,119 +55,174 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 80),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF180405), // Muy profundo tono rojo oscuro
+              Color(0xFF000000), // Negro absoluto
+            ],
+            stops: [0.0, 0.45],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 24),
 
-              // Logo
-              Image.asset(
-                'assets/images/logo_transparente.png',
-                height: 160,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(height: 16),
-              Text('Inicia sesión en tu cuenta', style: tt.bodyMedium),
-              const SizedBox(height: 32),
+                  // Logo Card
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black.withOpacity(0.2),
+                      border: Border.all(
+                        color: AppColors.accent.withOpacity(0.25),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Image.asset(
+                      'assets/images/logo_transparente.png',
+                      height: 140,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'AuraRider',
+                    style: tt.headlineMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Diseño, potencia y control en tus manos',
+                    style: TextStyle(
+                      color: AppColors.textSecondary.withOpacity(0.85),
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 36),
 
-              // Card del formulario
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Error general del servidor
-                      if (error != null) ...[
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppColors.error.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                                color: AppColors.error.withValues(alpha: 0.3)),
-                          ),
-                          child: Text(
-                            error,
-                            style: const TextStyle(
-                                color: AppColors.error, fontSize: 13),
-                          ),
+                  // Card del formulario
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: AppColors.accent.withOpacity(0.15),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.accent.withOpacity(0.05),
+                          blurRadius: 24,
+                          spreadRadius: 4,
                         ),
-                        const SizedBox(height: 16),
                       ],
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Error general del servidor
+                          if (error != null) ...[
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.error.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: AppColors.error.withValues(alpha: 0.3)),
+                              ),
+                              child: Text(
+                                error,
+                                style: const TextStyle(
+                                    color: AppColors.error, fontSize: 13),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                          ],
 
-                      // Campo usuario
-                      AuthTextField(
-                        label: 'Usuario',
-                        hint: 'tu_usuario',
-                        controller: _userCtrl,
-                        enabled: !isLoading,
-                        validator: _submitted ? validateUsername : null,
-                        onChanged: (_) =>
-                            ref.read(authProvider.notifier).clearError(),
+                          // Campo usuario
+                          AuthTextField(
+                            label: 'Usuario',
+                            hint: 'tu_usuario',
+                            controller: _userCtrl,
+                            enabled: !isLoading,
+                            validator: _submitted ? validateUsername : null,
+                            onChanged: (_) =>
+                                ref.read(authProvider.notifier).clearError(),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Campo contraseña
+                          AuthTextField(
+                            label: 'Contraseña',
+                            hint: '••••••••',
+                            controller: _passCtrl,
+                            isPassword: true,
+                            enabled: !isLoading,
+                            keyboardType: TextInputType.visiblePassword,
+                            textInputAction: TextInputAction.done,
+                            validator: _submitted
+                                ? (v) => (v == null || v.isEmpty)
+                                    ? 'Campo obligatorio'
+                                    : null
+                                : null,
+                            onChanged: (_) =>
+                                ref.read(authProvider.notifier).clearError(),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Botón
+                          AuthButton(
+                            label: 'Iniciar sesión',
+                            onPressed: _submit,
+                            isLoading: isLoading,
+                          ),
+
+                          const SizedBox(height: 8),
+                          Center(
+                            child: TextButton(
+                              onPressed: () => context.push('/forgot-password'),
+                              child: const Text('¿Olvidaste tu contraseña?'),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 16),
+                    ),
+                  ),
 
-                      // Campo contraseña
-                      AuthTextField(
-                        label: 'Contraseña',
-                        hint: '••••••••',
-                        controller: _passCtrl,
-                        isPassword: true,
-                        enabled: !isLoading,
-                        keyboardType: TextInputType.visiblePassword,
-                        textInputAction: TextInputAction.done,
-                        validator: _submitted
-                            ? (v) => (v == null || v.isEmpty)
-                                ? 'Campo obligatorio'
-                                : null
-                            : null,
-                        onChanged: (_) =>
-                            ref.read(authProvider.notifier).clearError(),
-                      ),
-                      const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                      // Botón
-                      AuthButton(
-                        label: 'Iniciar sesión',
-                        onPressed: _submit,
-                        isLoading: isLoading,
-                      ),
-
-                      const SizedBox(height: 8),
+                  // Link al registro
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('¿No tienes cuenta? ', style: tt.bodyMedium),
                       TextButton(
-                        onPressed: () => context.push('/forgot-password'),
-                        child: const Text('¿Olvidaste tu contraseña?'),
+                        onPressed: () => context.push('/register'),
+                        child: const Text('Regístrate'),
                       ),
                     ],
                   ),
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Link al registro
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('¿No tienes cuenta? ', style: tt.bodyMedium),
-                  TextButton(
-                    onPressed: () => context.push('/register'),
-                    child: const Text('Regístrate'),
-                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
