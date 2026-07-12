@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/model/servicio.dart';
 import '../../../theme/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/servicios_admin_provider.dart';
 import '../../widgets/servicio_form.dart';
 
@@ -47,6 +48,8 @@ class _ServiciosAdminScreenState
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(authProvider).user;
+    final isAdmin = user?.role == 'administrador';
     final state = ref.watch(serviciosAdminProvider);
     final notifier = ref.read(
       serviciosAdminProvider.notifier,
@@ -294,6 +297,7 @@ class _ServiciosAdminScreenState
 
                     return _ServicioCard(
                       servicio: servicio,
+                      canDelete: isAdmin,
                       onToggle: () {
                         notifier.toggleEstado(
                           servicio.id,
@@ -596,12 +600,14 @@ class _OrderingMenu extends StatelessWidget {
 
 class _ServicioCard extends StatelessWidget {
   final Servicio servicio;
+  final bool canDelete;
   final VoidCallback onToggle;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const _ServicioCard({
     required this.servicio,
+    required this.canDelete,
     required this.onToggle,
     required this.onEdit,
     required this.onDelete,
@@ -722,20 +728,21 @@ class _ServicioCard extends StatelessWidget {
                   ),
                   tooltip: 'Editar',
                 ),
-                IconButton(
-                  onPressed: onDelete,
-                  icon: const Icon(
-                    Icons.delete_outline,
-                    size: 20,
+                if (canDelete)
+                  IconButton(
+                    onPressed: onDelete,
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      size: 20,
+                    ),
+                    color: AppColors.error,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 36,
+                      minHeight: 36,
+                    ),
+                    tooltip: 'Eliminar',
                   ),
-                  color: AppColors.error,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(
-                    minWidth: 36,
-                    minHeight: 36,
-                  ),
-                  tooltip: 'Eliminar',
-                ),
               ],
             ),
           ],

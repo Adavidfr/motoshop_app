@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/model/compra.dart';
 import '../../../theme/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/compras_admin_provider.dart';
 import '../../widgets/compra_form.dart';
 
@@ -47,6 +48,8 @@ class _ComprasAdminScreenState
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(authProvider).user;
+    final isAdmin = user?.role == 'administrador';
     final state = ref.watch(comprasAdminProvider);
     final notifier = ref.read(
       comprasAdminProvider.notifier,
@@ -316,11 +319,9 @@ class _ComprasAdminScreenState
 
                     return _CompraCard(
                       compra: compra,
-                      proveedorNombre:
-                          proveedor?.nombre ??
-                              'Proveedor #${compra.proveedorId}',
+                      proveedorNombre: proveedor?.nombre ?? 'Desconocido',
                       productoNombre: moto != null
-                          ? '${moto.modelo} - ${moto.anio}'
+                          ? '${moto.marca.nombre} ${moto.modelo}'
                           : repuesto != null
                               ? '${repuesto.nombre} (${repuesto.sku})'
                               : compra.motoId != null
@@ -330,6 +331,7 @@ class _ComprasAdminScreenState
                               compra.motoId != null
                           ? 'Moto'
                           : 'Repuesto',
+                      canDelete: isAdmin,
                       onEdit: () {
                         showCompraForm(
                           context,
@@ -650,6 +652,7 @@ class _CompraCard extends StatelessWidget {
   final String proveedorNombre;
   final String productoNombre;
   final String tipoProducto;
+  final bool canDelete;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final ValueChanged<String> onChangeState;
@@ -659,6 +662,7 @@ class _CompraCard extends StatelessWidget {
     required this.proveedorNombre,
     required this.productoNombre,
     required this.tipoProducto,
+    required this.canDelete,
     required this.onEdit,
     required this.onDelete,
     required this.onChangeState,
@@ -719,39 +723,40 @@ class _CompraCard extends StatelessWidget {
 
                   onChangeState(value);
                 },
-                itemBuilder: (_) => const [
-                  PopupMenuItem(
+                itemBuilder: (_) => [
+                  const PopupMenuItem(
                     value: 'Pendiente',
                     child: Text(
                       'Marcar como pendiente',
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'Recibida',
                     child: Text(
                       'Marcar como recibida',
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'Cancelada',
                     child: Text(
                       'Marcar como cancelada',
                     ),
                   ),
-                  PopupMenuDivider(),
-                  PopupMenuItem(
+                  const PopupMenuDivider(),
+                  const PopupMenuItem(
                     value: 'editar',
                     child: Text('Editar'),
                   ),
-                  PopupMenuItem(
-                    value: 'eliminar',
-                    child: Text(
-                      'Eliminar',
-                      style: TextStyle(
-                        color: AppColors.error,
+                  if (canDelete)
+                    const PopupMenuItem(
+                      value: 'eliminar',
+                      child: Text(
+                        'Eliminar',
+                        style: TextStyle(
+                          color: AppColors.error,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ],

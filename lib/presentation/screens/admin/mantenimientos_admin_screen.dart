@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/model/mantenimiento.dart';
 import '../../../theme/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/mantenimientos_admin_provider.dart';
 import '../../widgets/mantenimiento_form.dart';
 
@@ -55,6 +56,8 @@ class _MantenimientosAdminScreenState
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(authProvider).user;
+    final isAdmin = user?.role == 'administrador';
     final state =
         ref.watch(mantenimientosAdminProvider);
 
@@ -378,6 +381,7 @@ class _MantenimientosAdminScreenState
                           servicio == null
                               ? 'Servicio #${mantenimiento.servicioId}'
                               : servicio.nombre,
+                      canDelete: isAdmin,
                       onEdit: () {
                         showMantenimientoForm(
                           context,
@@ -720,6 +724,7 @@ class _MantenimientoCard
   final String motoNombre;
   final String clienteNombre;
   final String servicioNombre;
+  final bool canDelete;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final ValueChanged<String>
@@ -730,6 +735,7 @@ class _MantenimientoCard
     required this.motoNombre,
     required this.clienteNombre,
     required this.servicioNombre,
+    required this.canDelete,
     required this.onEdit,
     required this.onDelete,
     required this.onChangeState,
@@ -795,46 +801,47 @@ class _MantenimientoCard
 
                   onChangeState(value);
                 },
-                itemBuilder: (_) => const [
-                  PopupMenuItem(
+                itemBuilder: (_) => [
+                  const PopupMenuItem(
                     value: 'Pendiente',
                     child: Text(
                       'Marcar como pendiente',
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'En proceso',
                     child: Text(
                       'Marcar en proceso',
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'Finalizado',
                     child: Text(
                       'Marcar como finalizado',
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'Cancelado',
                     child: Text(
                       'Marcar como cancelado',
                     ),
                   ),
-                  PopupMenuDivider(),
-                  PopupMenuItem(
+                  const PopupMenuDivider(),
+                  const PopupMenuItem(
                     value: 'editar',
                     child: Text('Editar'),
                   ),
-                  PopupMenuItem(
-                    value: 'eliminar',
-                    child: Text(
-                      'Eliminar',
-                      style: TextStyle(
-                        color:
-                            AppColors.error,
+                  if (canDelete)
+                    const PopupMenuItem(
+                      value: 'eliminar',
+                      child: Text(
+                        'Eliminar',
+                        style: TextStyle(
+                          color:
+                              AppColors.error,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ],

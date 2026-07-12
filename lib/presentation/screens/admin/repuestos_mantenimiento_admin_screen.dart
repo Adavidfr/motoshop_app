@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/model/repuesto_mantenimiento.dart';
 import '../../../theme/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/repuestos_mantenimiento_admin_provider.dart';
 import '../../widgets/repuesto_mantenimiento_form.dart';
 
@@ -54,6 +55,8 @@ class _RepuestosMantenimientoAdminScreenState
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(authProvider).user;
+    final isAdmin = user?.role == 'administrador';
     final state = ref.watch(
       repuestosMantenimientoAdminProvider,
     );
@@ -311,6 +314,7 @@ class _RepuestosMantenimientoAdminScreenState
                           repuesto == null
                               ? 'Repuesto #${registro.repuestoId}'
                               : '${repuesto.nombre} (${repuesto.sku})',
+                      canDelete: isAdmin,
                       onEdit: () {
                         showRepuestoMantenimientoForm(
                           context,
@@ -513,6 +517,7 @@ class _RepuestoMantenimientoCard
   final RepuestoMantenimiento registro;
   final String mantenimientoNombre;
   final String repuestoNombre;
+  final bool canDelete;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -520,6 +525,7 @@ class _RepuestoMantenimientoCard
     required this.registro,
     required this.mantenimientoNombre,
     required this.repuestoNombre,
+    required this.canDelete,
     required this.onEdit,
     required this.onDelete,
   });
@@ -560,15 +566,16 @@ class _RepuestoMantenimientoCard
                 color: AppColors.textSecondary,
                 tooltip: 'Editar',
               ),
-              IconButton(
-                onPressed: onDelete,
-                icon: const Icon(
-                  Icons.delete_outline,
-                  size: 20,
+              if (canDelete)
+                IconButton(
+                  onPressed: onDelete,
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    size: 20,
+                  ),
+                  color: AppColors.error,
+                  tooltip: 'Eliminar',
                 ),
-                color: AppColors.error,
-                tooltip: 'Eliminar',
-              ),
             ],
           ),
 
