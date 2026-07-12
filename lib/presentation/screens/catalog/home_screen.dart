@@ -84,7 +84,7 @@ class HomeScreen extends ConsumerWidget {
                     'AuraRider',
                     style: tt.displaySmall?.copyWith(
                       color:      Colors.white,
-                      fontWeight: FontWeight.black,
+                      fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,
                     ),
                   ),

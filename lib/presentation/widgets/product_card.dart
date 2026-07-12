@@ -144,7 +144,7 @@ class ProductCard extends StatelessWidget {
                           formatPrice(product.priceWithTax),
                           style: const TextStyle(
                             color:      Colors.white,
-                            fontWeight: FontWeight.black,
+                            fontWeight: FontWeight.w900,
                             fontSize:   15,
                           ),
                         ),
