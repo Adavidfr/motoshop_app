@@ -192,7 +192,7 @@ class _RepuestoMantenimientoFormSheetState
               const SizedBox(height: 20),
 
               DropdownButtonFormField<int>(
-                initialValue: _mantenimientoId,
+                value: _mantenimientoId,
                 decoration: const InputDecoration(
                   labelText: 'Mantenimiento *',
                 ),
@@ -219,7 +219,7 @@ class _RepuestoMantenimientoFormSheetState
               const SizedBox(height: 14),
 
               DropdownButtonFormField<int>(
-                initialValue: _repuestoId,
+                value: _repuestoId,
                 decoration: const InputDecoration(
                   labelText: 'Repuesto *',
                 ),

@@ -274,6 +274,30 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           child: const NotificacionesAdminScreen(),
         ),
       ),
+      GoRoute(
+        path: '/admin/facturas',
+        builder: (context, state) => AdminShell(
+          title: 'Facturas',
+          currentRoute: state.matchedLocation,
+          child: const FacturasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/garantias',
+        builder: (context, state) => AdminShell(
+          title: 'Garantías',
+          currentRoute: state.matchedLocation,
+          child: const GarantiasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/seguros',
+        builder: (context, state) => AdminShell(
+          title: 'Seguros',
+          currentRoute: state.matchedLocation,
+          child: const SegurosAdminScreen(),
+        ),
+      ),
     ],
   );
 });

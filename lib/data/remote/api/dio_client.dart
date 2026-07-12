@@ -88,7 +88,7 @@ class _AuthInterceptor extends Interceptor {
 Dio createDioClient(SecureStorage storage) {
   final dio = Dio(
     BaseOptions(
-      baseUrl:        '${AppConfig.baseUrl}/',
+      baseUrl:        AppConfig.baseUrl.endsWith('/') ? AppConfig.baseUrl : '${AppConfig.baseUrl}/',
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers:        {'Content-Type': 'application/json'},
@@ -97,6 +97,15 @@ Dio createDioClient(SecureStorage storage) {
 
   dio.interceptors.addAll([
     _AuthInterceptor(storage, dio),
+    InterceptorsWrapper(
+      onRequest: (options, handler) {
+        // Dio descarta el path de baseUrl si el path de la ruta empieza con '/'
+        if (options.path.startsWith('/')) {
+          options.path = options.path.substring(1);
+        }
+        handler.next(options);
+      },
+    ),
     LogInterceptor(
       requestBody:  true,
       responseBody: true,

@@ -635,7 +635,7 @@ class _ServicioCard extends StatelessWidget {
             Switch(
               value: servicio.estado,
               onChanged: (_) => onToggle(),
-              activeThumbColor: AppColors.accent,
+              activeColor: AppColors.accent,
               trackColor:
                   WidgetStateProperty.resolveWith(
                 (states) {

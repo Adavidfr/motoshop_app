@@ -494,7 +494,7 @@ class _ServicioFormSheetState
                                     _estado = value;
                                   });
                                 },
-                          activeThumbColor:
+                          activeColor:
                               AppColors.accent,
                           trackColor:
                               WidgetStateProperty.resolveWith(

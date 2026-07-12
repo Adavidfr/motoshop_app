@@ -50,6 +50,16 @@ class ApiException implements Exception {
       );
     }
 
+    if (data is String) {
+      final text = data.trim();
+      if (text.toLowerCase().startsWith('<!doctype html>') || 
+          text.toLowerCase().startsWith('<html') ||
+          text.length > 200) {
+        return ApiException('Error del servidor o recurso no encontrado (${code ?? 500})', statusCode: code);
+      }
+      return ApiException(text, statusCode: code);
+    }
+
     return ApiException(data.toString(), statusCode: code);
   }
 

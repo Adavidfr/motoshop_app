@@ -554,7 +554,7 @@ class _CompraFormSheetState
               child: Column(
                 children: [
                   DropdownButtonFormField<int>(
-                    initialValue:
+                    value:
                         _valorDisponibleProveedor(
                       state.proveedores,
                     ),
@@ -661,7 +661,7 @@ class _CompraFormSheetState
                   if (_tipoCompra ==
                       TipoCompra.moto)
                     DropdownButtonFormField<int>(
-                      initialValue:
+                      value:
                           _valorDisponibleMoto(
                         state.motos,
                       ),
@@ -716,7 +716,7 @@ class _CompraFormSheetState
                   if (_tipoCompra ==
                       TipoCompra.repuesto)
                     DropdownButtonFormField<int>(
-                      initialValue:
+                      value:
                           _valorDisponibleRepuesto(
                         state.repuestos,
                       ),
@@ -877,7 +877,7 @@ class _CompraFormSheetState
                   const SizedBox(height: 14),
 
                   DropdownButtonFormField<String>(
-                    initialValue: estadosCompra
+                    value: estadosCompra
                             .contains(_estado)
                         ? _estado
                         : 'Pendiente',

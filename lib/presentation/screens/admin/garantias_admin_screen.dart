@@ -606,13 +606,12 @@ class _FiltroDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
+      isExpanded: true,
       value: value,
+      hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
       style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
-        hintText: hint,
-        hintStyle:
-            const TextStyle(color: AppColors.textFaint, fontSize: 13),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
@@ -630,20 +629,13 @@ class _FiltroDropdown extends StatelessWidget {
           borderSide: const BorderSide(color: AppColors.accent),
         ),
       ),
-      items: [
-        const DropdownMenuItem<String>(
-          value: null,
-          child: Text('Todos',
-              style: TextStyle(color: AppColors.textSecondary)),
-        ),
-        ...items.map(
-          (item) => DropdownMenuItem<String>(
-            value: item,
-            child: Text(item),
-          ),
-        ),
-      ],
-      onChanged: onChanged,
+      items: items
+          .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(item),
+              ))
+          .toList(),
+      onChanged: (v) => onChanged(v),
     );
   }
 }

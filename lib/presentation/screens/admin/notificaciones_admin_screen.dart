@@ -470,14 +470,14 @@ class _FiltroLeidoDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<bool?>(
+    return DropdownButtonFormField<bool>(
+      isExpanded: true,
       value: value,
+      hint: const Text('Estado lectura',
+          style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
       style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
-        hintText: 'Estado lectura',
-        hintStyle:
-            const TextStyle(color: AppColors.textFaint, fontSize: 13),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
@@ -496,21 +496,16 @@ class _FiltroLeidoDropdown extends StatelessWidget {
         ),
       ),
       items: const [
-        DropdownMenuItem<bool?>(
-          value: null,
-          child: Text('Todos',
-              style: TextStyle(color: AppColors.textSecondary)),
-        ),
-        DropdownMenuItem<bool?>(
+        DropdownMenuItem<bool>(
           value: true,
           child: Text('Leídos'),
         ),
-        DropdownMenuItem<bool?>(
+        DropdownMenuItem<bool>(
           value: false,
           child: Text('No leídos'),
         ),
       ],
-      onChanged: onChanged,
+      onChanged: (v) => onChanged(v),
     );
   }
 }

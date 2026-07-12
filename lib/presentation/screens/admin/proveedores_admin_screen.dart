@@ -496,7 +496,7 @@ class _ProveedorCard extends StatelessWidget {
             Switch(
               value: proveedor.estado,
               onChanged: (_) => onToggle(),
-              activeThumbColor: AppColors.accent,
+              activeColor: AppColors.accent,
               trackColor:
                   WidgetStateProperty.resolveWith(
                 (states) {
