@@ -442,54 +442,38 @@ class _FiltroDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      dropdownColor: AppColors.surface2,
-      style: const TextStyle(
-        color: AppColors.textPrimary,
-        fontSize: 13,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+      decoration: BoxDecoration(
+        color: AppColors.surface2,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.border),
       ),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(
-          color: AppColors.textFaint,
-          fontSize: 13,
-        ),
-        filled: true,
-        fillColor: AppColors.surface2,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 8,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          isExpanded: true,
+          value: value,
+          hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
+          dropdownColor: AppColors.surface2,
+          style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+          items: [
+            const DropdownMenuItem<String>(
+              value: null,
+              child: Text(
+                'Todos',
+                style: TextStyle(color: AppColors.textSecondary),
+              ),
+            ),
+            ...items.map(
+              (item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(item),
+              ),
+            ),
+          ],
+          onChanged: onChanged,
         ),
       ),
-      items: [
-        const DropdownMenuItem<String>(
-          value: null,
-          child: Text(
-            'Todos',
-            style: TextStyle(color: AppColors.textSecondary),
-          ),
-        ),
-        ...items.map(
-          (item) => DropdownMenuItem<String>(
-            value: item,
-            child: Text(item),
-          ),
-        ),
-      ],
-      onChanged: onChanged,
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:motoshop_app/presentation/screens/admin/seguros_admin_screen.dar
 import 'package:motoshop_app/presentation/screens/admin/documentos_venta_admin_screen.dart';
 import 'package:motoshop_app/presentation/screens/admin/historial_estado_venta_admin_screen.dart';
 import 'package:motoshop_app/presentation/screens/admin/devoluciones_admin_screen.dart';
+import 'package:motoshop_app/presentation/screens/admin/notificaciones_admin_screen.dart';
 
 // Modelos y providers comunes
 import '../../domain/model/auth_state.dart';
@@ -322,6 +323,38 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Devoluciones',
           currentRoute: state.matchedLocation,
           child: const DevolucionesAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/notificaciones',
+        builder: (context, state) => AdminShell(
+          title: 'Notificaciones',
+          currentRoute: state.matchedLocation,
+          child: const NotificacionesAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/facturas',
+        builder: (context, state) => AdminShell(
+          title: 'Facturas',
+          currentRoute: state.matchedLocation,
+          child: const FacturasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/garantias',
+        builder: (context, state) => AdminShell(
+          title: 'Garantías',
+          currentRoute: state.matchedLocation,
+          child: const GarantiasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/seguros',
+        builder: (context, state) => AdminShell(
+          title: 'Seguros',
+          currentRoute: state.matchedLocation,
+          child: const SegurosAdminScreen(),
         ),
       ),
     ],

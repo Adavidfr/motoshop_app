@@ -492,7 +492,7 @@ class _ProveedorFormSheetState
                                     _estado = value;
                                   });
                                 },
-                          activeThumbColor:
+                          activeColor:
                               AppColors.accent,
                           trackColor:
                               WidgetStateProperty.resolveWith(

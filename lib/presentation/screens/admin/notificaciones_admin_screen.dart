@@ -1,24 +1,24 @@
-// lib/presentation/screens/admin/garantias_admin_screen.dart
+// lib/presentation/screens/admin/notificaciones_admin_screen.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/model/garantia.dart';
+import '../../../domain/model/notificacion.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/garantias_admin_provider.dart';
-import '../../widgets/garantia_form.dart';
+import '../../providers/notificaciones_admin_provider.dart';
+import '../../widgets/notificacion_form.dart';
 
-class GarantiasAdminScreen extends ConsumerStatefulWidget {
-  const GarantiasAdminScreen({super.key});
+class NotificacionesAdminScreen extends ConsumerStatefulWidget {
+  const NotificacionesAdminScreen({super.key});
 
   @override
-  ConsumerState<GarantiasAdminScreen> createState() =>
-      _GarantiasAdminScreenState();
+  ConsumerState<NotificacionesAdminScreen> createState() =>
+      _NotificacionesAdminScreenState();
 }
 
-class _GarantiasAdminScreenState
-    extends ConsumerState<GarantiasAdminScreen> {
+class _NotificacionesAdminScreenState
+    extends ConsumerState<NotificacionesAdminScreen> {
   final _searchController = TextEditingController();
 
   @override
@@ -29,26 +29,26 @@ class _GarantiasAdminScreenState
 
   Future<void> _buscar() async {
     await ref
-        .read(garantiasAdminProvider.notifier)
+        .read(notificacionesAdminProvider.notifier)
         .setSearch(_searchController.text);
   }
 
   Future<void> _limpiarBusqueda() async {
     _searchController.clear();
-    await ref.read(garantiasAdminProvider.notifier).setSearch('');
+    await ref.read(notificacionesAdminProvider.notifier).setSearch('');
     if (mounted) setState(() {});
   }
 
   Future<void> _confirmarEliminar(
-      BuildContext context, Garantia garantia) async {
+      BuildContext context, Notificacion notif) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar garantía',
+        title: const Text('Eliminar notificación',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
-          '¿Eliminar la garantía #${garantia.idGarantia}?',
+          '¿Eliminar la notificación "${notif.titulo}"?',
           style: const TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
@@ -71,70 +71,8 @@ class _GarantiasAdminScreenState
 
     if (confirm == true && mounted) {
       await ref
-          .read(garantiasAdminProvider.notifier)
-          .eliminarGarantia(garantia.idGarantia);
-    }
-  }
-
-  Future<void> _mostrarCambioEstado(
-      BuildContext context, Garantia garantia) async {
-    final nuevoEstado = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: AppColors.surface2,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (_) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                'Cambiar estado',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const Divider(color: AppColors.border),
-            ...EstadoGarantia.values.map(
-              (e) => ListTile(
-                leading: Icon(
-                  _iconoPorEstado(e.value),
-                  color: _colorPorEstado(e.value),
-                ),
-                title: Text(
-                  e.label,
-                  style: TextStyle(
-                    color: e.value == garantia.estado.value
-                        ? AppColors.accent
-                        : AppColors.textPrimary,
-                    fontWeight: e.value == garantia.estado.value
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                ),
-                trailing: e.value == garantia.estado.value
-                    ? const Icon(Icons.check, color: AppColors.accent)
-                    : null,
-                onTap: () => Navigator.pop(context, e.value),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    if (nuevoEstado != null &&
-        nuevoEstado != garantia.estado.value &&
-        mounted) {
-      await ref
-          .read(garantiasAdminProvider.notifier)
-          .cambiarEstado(garantia.idGarantia, nuevoEstado);
+          .read(notificacionesAdminProvider.notifier)
+          .eliminarNotificacion(notif.idNotificacion);
     }
   }
 
@@ -142,8 +80,8 @@ class _GarantiasAdminScreenState
   Widget build(BuildContext context) {
     final user = ref.watch(authProvider).user;
     final isAdmin = user?.role == 'administrador';
-    final state = ref.watch(garantiasAdminProvider);
-    final notifier = ref.read(garantiasAdminProvider.notifier);
+    final state = ref.watch(notificacionesAdminProvider);
+    final notifier = ref.read(notificacionesAdminProvider.notifier);
 
     return Column(
       children: [
@@ -160,7 +98,7 @@ class _GarantiasAdminScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Garantías',
+                          'Notificaciones',
                           style: TextStyle(
                             color: AppColors.textPrimary,
                             fontSize: 22,
@@ -168,7 +106,7 @@ class _GarantiasAdminScreenState
                           ),
                         ),
                         Text(
-                          '${state.total} garantía${state.total == 1 ? '' : 's'} '
+                          '${state.total} notificación${state.total == 1 ? '' : 'es'} '
                           'registrada${state.total == 1 ? '' : 's'}',
                           style: const TextStyle(
                             color: AppColors.textSecondary,
@@ -180,7 +118,7 @@ class _GarantiasAdminScreenState
                   ),
                   if (isAdmin)
                     ElevatedButton.icon(
-                      onPressed: () => showGarantiaForm(context),
+                      onPressed: () => showNotificacionForm(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         foregroundColor: AppColors.onAccent,
@@ -201,7 +139,7 @@ class _GarantiasAdminScreenState
                       controller: _searchController,
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
-                        hintText: 'Buscar garantía…',
+                        hintText: 'Buscar por título o mensaje...',
                         hintStyle:
                             const TextStyle(color: AppColors.textFaint),
                         prefixIcon: const Icon(Icons.search,
@@ -258,15 +196,12 @@ class _GarantiasAdminScreenState
               Row(
                 children: [
                   Expanded(
-                    child: _FiltroDropdown(
-                      hint: 'Estado',
-                      value: state.filtroEstado,
-                      items:
-                          EstadoGarantia.values.map((e) => e.value).toList(),
-                      onChanged: (v) => notifier.setFiltroEstado(v),
+                    child: _FiltroLeidoDropdown(
+                      value: state.filtroLeido,
+                      onChanged: (v) => notifier.setFiltroLeido(v),
                     ),
                   ),
-                  if (state.filtroEstado != null ||
+                  if (state.filtroLeido != null ||
                       state.search.isNotEmpty) ...[
                     const SizedBox(width: 8),
                     TextButton(
@@ -286,44 +221,45 @@ class _GarantiasAdminScreenState
           ),
         ),
 
+        // ── Error ─────────────────────────────────────────────────────────────
         if (state.error != null)
-          _ErrorBanner(
-              message: state.error!, onClose: notifier.clearError),
+          _ErrorBanner(message: state.error!, onClose: notifier.clearError),
 
+        // ── Lista ─────────────────────────────────────────────────────────────
         Expanded(
           child: state.isLoading
               ? const Center(
                   child: CircularProgressIndicator(color: AppColors.accent))
-              : state.garantias.isEmpty
+              : state.notificaciones.isEmpty
                   ? _EmptyState(
-                      tieneFiltos: state.filtroEstado != null ||
+                      tieneFiltos: state.filtroLeido != null ||
                           state.search.isNotEmpty)
                   : RefreshIndicator(
                       color: AppColors.accent,
                       onRefresh: notifier.load,
                       child: ListView.separated(
                         padding: const EdgeInsets.all(12),
-                        itemCount: state.garantias.length,
+                        itemCount: state.notificaciones.length,
                         separatorBuilder: (_, __) =>
                             const SizedBox(height: 8),
                         itemBuilder: (context, index) {
-                          final garantia = state.garantias[index];
-                          return _GarantiaCard(
-                            garantia: garantia,
+                          final notif = state.notificaciones[index];
+                          return _NotificacionCard(
+                            notificacion: notif,
                             isAdmin: isAdmin,
-                            onEdit: () => showGarantiaForm(context,
-                                garantia: garantia),
-                            onDelete: () =>
-                                _confirmarEliminar(context, garantia),
-                            onChangeEstado: () =>
-                                _mostrarCambioEstado(context, garantia),
+                            onEdit: () => showNotificacionForm(context,
+                                notificacion: notif),
+                            onDelete: () => _confirmarEliminar(context, notif),
+                            onToggleLeido: () => notifier.marcarComoLeido(
+                                notif.idNotificacion, !notif.leido),
                           );
                         },
                       ),
                     ),
         ),
 
-        if (!state.isLoading && state.garantias.isNotEmpty)
+        // ── Paginación ────────────────────────────────────────────────────────
+        if (!state.isLoading && state.notificaciones.isNotEmpty)
           _Paginacion(
             page: state.page,
             total: state.total,
@@ -340,31 +276,33 @@ class _GarantiasAdminScreenState
 
 // ── Card ──────────────────────────────────────────────────────────────────────
 
-class _GarantiaCard extends StatelessWidget {
-  final Garantia garantia;
+class _NotificacionCard extends StatelessWidget {
+  final Notificacion notificacion;
   final bool isAdmin;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
-  final VoidCallback onChangeEstado;
+  final VoidCallback onToggleLeido;
 
-  const _GarantiaCard({
-    required this.garantia,
+  const _NotificacionCard({
+    required this.notificacion,
     required this.isAdmin,
     required this.onEdit,
     required this.onDelete,
-    required this.onChangeEstado,
+    required this.onToggleLeido,
   });
 
   @override
   Widget build(BuildContext context) {
-    final colorEstado = _colorPorEstado(garantia.estado.value);
-    final iconoEstado = _iconoPorEstado(garantia.estado.value);
-
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface2,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderLight),
+        border: Border.all(
+          color: notificacion.leido
+              ? AppColors.borderLight
+              : AppColors.accent.withValues(alpha: 0.3),
+          width: notificacion.leido ? 1 : 2,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(14),
@@ -377,10 +315,16 @@ class _GarantiaCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: colorEstado.withValues(alpha: 0.12),
+                    color: AppColors.accent.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(iconoEstado, color: colorEstado, size: 20),
+                  child: Icon(
+                    notificacion.leido
+                        ? Icons.notifications_none_outlined
+                        : Icons.notifications_active_outlined,
+                    color: AppColors.accent,
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -388,15 +332,17 @@ class _GarantiaCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Garantía #${garantia.idGarantia}',
-                        style: const TextStyle(
+                        notificacion.titulo,
+                        style: TextStyle(
                           color: AppColors.textPrimary,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: notificacion.leido
+                              ? FontWeight.w500
+                              : FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
                       Text(
-                        'Venta #${garantia.idVenta} · Moto #${garantia.idMoto}',
+                        'Usuario #${notificacion.idUsuario}',
                         style: const TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
@@ -405,61 +351,42 @@ class _GarantiaCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: colorEstado.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                        color: colorEstado.withValues(alpha: 0.3)),
+                IconButton(
+                  onPressed: onToggleLeido,
+                  icon: Icon(
+                    notificacion.leido
+                        ? Icons.check_circle_outline
+                        : Icons.radio_button_unchecked,
+                    color: notificacion.leido
+                        ? AppColors.success
+                        : AppColors.textSecondary,
                   ),
-                  child: Text(
-                    garantia.estado.label,
-                    style: TextStyle(
-                      color: colorEstado,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  tooltip: notificacion.leido
+                      ? 'Marcar como no leído'
+                      : 'Marcar como leído',
                 ),
               ],
             ),
             const SizedBox(height: 12),
             const Divider(color: AppColors.border, height: 1),
             const SizedBox(height: 10),
-            Wrap(
-              spacing: 16,
-              runSpacing: 6,
-              children: [
-                _InfoItem(
-                  label: 'Duración',
-                  value: '${garantia.mesesGarantia} mes'
-                      '${garantia.mesesGarantia == 1 ? '' : 'es'}',
-                ),
-                if (garantia.fechaInicio != null)
-                  _InfoItem(
-                    label: 'Inicio',
-                    value: _formatDate(garantia.fechaInicio!),
-                  ),
-                if (garantia.fechaFin != null)
-                  _InfoItem(
-                    label: 'Fin',
-                    value: _formatDate(garantia.fechaFin!),
-                  ),
-              ],
+            Text(
+              notificacion.mensaje,
+              style: TextStyle(
+                color: notificacion.leido
+                    ? AppColors.textSecondary
+                    : AppColors.textPrimary,
+                fontSize: 14,
+              ),
             ),
-            if (garantia.descripcion != null &&
-                garantia.descripcion!.isNotEmpty) ...[
+            if (notificacion.fechaCreacion != null) ...[
               const SizedBox(height: 8),
               Text(
-                garantia.descripcion!,
+                'Enviada: ${_formatDate(notificacion.fechaCreacion!)}',
                 style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 12,
+                  color: AppColors.textFaint,
+                  fontSize: 11,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
             ],
             if (isAdmin) ...[
@@ -469,13 +396,6 @@ class _GarantiaCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  _AccionBtn(
-                    label: 'Estado',
-                    icon: Icons.swap_horiz_outlined,
-                    color: AppColors.info,
-                    onPressed: onChangeEstado,
-                  ),
-                  const SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Editar',
                     icon: Icons.edit_outlined,
@@ -501,66 +421,15 @@ class _GarantiaCard extends StatelessWidget {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-Color _colorPorEstado(String estado) {
-  switch (estado) {
-    case 'Activa':
-      return AppColors.success;
-    case 'Expirada':
-      return AppColors.warning;
-    case 'Cancelada':
-      return AppColors.error;
-    case 'En proceso':
-      return AppColors.info;
-    default:
-      return AppColors.textSecondary;
-  }
-}
-
-IconData _iconoPorEstado(String estado) {
-  switch (estado) {
-    case 'Activa':
-      return Icons.verified_outlined;
-    case 'Expirada':
-      return Icons.schedule_outlined;
-    case 'Cancelada':
-      return Icons.cancel_outlined;
-    case 'En proceso':
-      return Icons.pending_outlined;
-    default:
-      return Icons.shield_outlined;
-  }
-}
-
 String _formatDate(DateTime date) {
   final d = date.day.toString().padLeft(2, '0');
   final m = date.month.toString().padLeft(2, '0');
-  return '$d/$m/${date.year}';
+  final hh = date.hour.toString().padLeft(2, '0');
+  final mm = date.minute.toString().padLeft(2, '0');
+  return '$d/$m/${date.year} a las $hh:$mm';
 }
 
-// ── Widgets compartidos ───────────────────────────────────────────────────────
-
-class _InfoItem extends StatelessWidget {
-  final String label;
-  final String value;
-  const _InfoItem({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: const TextStyle(
-                color: AppColors.textFaint, fontSize: 11)),
-        Text(value,
-            style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 13,
-                fontWeight: FontWeight.w600)),
-      ],
-    );
-  }
-}
+// ── Widgets auxiliares ────────────────────────────────────────────────────────
 
 class _AccionBtn extends StatelessWidget {
   final String label;
@@ -590,25 +459,22 @@ class _AccionBtn extends StatelessWidget {
   }
 }
 
-class _FiltroDropdown extends StatelessWidget {
-  final String hint;
-  final String? value;
-  final List<String> items;
-  final ValueChanged<String?> onChanged;
+class _FiltroLeidoDropdown extends StatelessWidget {
+  final bool? value;
+  final ValueChanged<bool?> onChanged;
 
-  const _FiltroDropdown({
-    required this.hint,
+  const _FiltroLeidoDropdown({
     required this.value,
-    required this.items,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
+    return DropdownButtonFormField<bool>(
       isExpanded: true,
       value: value,
-      hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
+      hint: const Text('Estado lectura',
+          style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
       style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
@@ -629,12 +495,16 @@ class _FiltroDropdown extends StatelessWidget {
           borderSide: const BorderSide(color: AppColors.accent),
         ),
       ),
-      items: items
-          .map((item) => DropdownMenuItem<String>(
-                value: item,
-                child: Text(item),
-              ))
-          .toList(),
+      items: const [
+        DropdownMenuItem<bool>(
+          value: true,
+          child: Text('Leídos'),
+        ),
+        DropdownMenuItem<bool>(
+          value: false,
+          child: Text('No leídos'),
+        ),
+      ],
       onChanged: (v) => onChanged(v),
     );
   }
@@ -690,7 +560,7 @@ class _EmptyState extends StatelessWidget {
           Icon(
             tieneFiltos
                 ? Icons.search_off_outlined
-                : Icons.shield_outlined,
+                : Icons.notifications_off_outlined,
             color: AppColors.textFaint,
             size: 64,
           ),
@@ -698,7 +568,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
-                : 'No hay garantías registradas',
+                : 'No hay notificaciones registradas',
             style: const TextStyle(
                 color: AppColors.textSecondary, fontSize: 16),
           ),

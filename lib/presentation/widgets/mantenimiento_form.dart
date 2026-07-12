@@ -569,7 +569,7 @@ class _MantenimientoFormSheetState
               child: Column(
                 children: [
                   DropdownButtonFormField<int>(
-                    initialValue:
+                    value:
                         _motoDisponible(
                       state.motos,
                     ),
@@ -619,7 +619,7 @@ class _MantenimientoFormSheetState
                   const SizedBox(height: 14),
 
                   DropdownButtonFormField<int>(
-                    initialValue:
+                    value:
                         _clienteDisponible(
                       state.clientes,
                     ),
@@ -669,7 +669,7 @@ class _MantenimientoFormSheetState
                   const SizedBox(height: 14),
 
                   DropdownButtonFormField<int>(
-                    initialValue:
+                    value:
                         _servicioDisponible(
                       state.servicios,
                     ),
@@ -821,7 +821,7 @@ class _MantenimientoFormSheetState
                   const SizedBox(height: 14),
 
                   DropdownButtonFormField<String>(
-                    initialValue:
+                    value:
                         estadosMantenimiento
                                 .contains(_estado)
                             ? _estado

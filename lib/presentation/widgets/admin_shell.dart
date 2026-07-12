@@ -83,6 +83,11 @@ const List<AdminNavItem> adminNavItems = [
     route: '/admin/devoluciones',
   ),
   AdminNavItem(
+    label: 'Notificaciones',
+    icon: Icons.notifications_none_outlined,
+    route: '/admin/notificaciones',
+  ),
+  AdminNavItem(
     label: 'Facturas',
     icon: Icons.receipt_long_outlined,
     route: '/admin/facturas',
