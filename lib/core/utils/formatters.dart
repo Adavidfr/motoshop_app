@@ -1,6 +1,9 @@
 // lib/core/utils/formatters.dart
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../domain/model/order.dart';
+import '../../theme/app_colors.dart';
 
 
 String formatPrice(double value, {String currency = '\$'}) =>
@@ -31,4 +34,19 @@ String formatDateTime(String iso) {
 
 String truncate(String text, int max) =>
     text.length <= max ? text : '${text.substring(0, max).trimRight()}…';
+
+Color orderStatusColor(OrderStatus status) {
+  switch (status) {
+    case OrderStatus.pending:
+      return AppColors.warning;
+    case OrderStatus.confirmed:
+      return AppColors.info;
+    case OrderStatus.shipped:
+      return Colors.purpleAccent;
+    case OrderStatus.delivered:
+      return AppColors.success;
+    case OrderStatus.cancelled:
+      return AppColors.error;
+  }
+}
 
