@@ -120,6 +120,12 @@ Implementar una aplicación móvil en Flutter integrada con una API Django REST 
 
 <h2>Arquitectura del Proyecto</h2>
 
+<p>
+La aplicación utiliza una arquitectura limpia por capas, permitiendo separar la interfaz, la lógica de negocio, el acceso a datos y la comunicación con la API REST.
+</p>
+
+<h3>Estructura principal</h3>
+
 <pre>
 lib/
 ├── main.dart
@@ -142,11 +148,33 @@ lib/
 └── theme/
 </pre>
 
+<h3>Flujo de comunicación</h3>
+
+<pre>
+Interfaz Flutter
+       │
+       ▼
+Providers con Riverpod
+       │
+       ▼
+Repositorios
+       │
+       ▼
+Datasources y Dio
+       │
+       ▼
+API REST Django
+       │
+       ▼
+Base de datos PostgreSQL
+</pre>
+
 <p>
-La aplicación utiliza una arquitectura limpia por capas, separando la lógica de presentación, dominio, repositorios, fuentes de datos remotas y almacenamiento local.
+Esta organización facilita el mantenimiento del proyecto, la reutilización de componentes y la incorporación de nuevos módulos sin afectar directamente otras capas de la aplicación.
 </p>
 
 </div>
+
 
 <br>
 
@@ -169,30 +197,59 @@ La aplicación utiliza una arquitectura limpia por capas, separando la lógica d
 
 <div style="border-left: 4px solid #4527a0; padding-left: 15px; margin-top: 20px;">
 
-<h2>Autenticación y Sesión</h2>
+<h2>Autenticación y Gestión de Sesión</h2>
 
 <p>
-El inicio de sesión se realiza consumiendo el endpoint de autenticación de Django. El token JWT se almacena de forma persistente y se adjunta automáticamente en las solicitudes protegidas.
+La aplicación implementa autenticación mediante <strong>JSON Web Token (JWT)</strong>. El usuario inicia sesión consumiendo la API de Django y el token recibido se almacena de forma segura utilizando <strong>Flutter Secure Storage</strong>, permitiendo acceder a los módulos protegidos.
 </p>
+
+<h3>Endpoint de autenticación</h3>
 
 <pre>
 POST /api/auth/login/
 </pre>
 
+<h3>Cabecera utilizada en las peticiones protegidas</h3>
+
 <pre>
 Authorization: Bearer TOKEN_DE_ACCESO
 </pre>
 
+<h3>Flujo de autenticación</h3>
+
+<pre>
+Usuario
+    │
+    ▼
+Pantalla Login
+    │
+    ▼
+API Django REST
+    │
+    ▼
+Respuesta JWT
+    │
+    ▼
+Flutter Secure Storage
+    │
+    ▼
+Peticiones autenticadas mediante Dio
+</pre>
+
+<h3>Características implementadas</h3>
+
 <ul>
-  <li>Inicio de sesión.</li>
-  <li>Persistencia del token.</li>
-  <li>Validación de sesión.</li>
-  <li>Manejo de errores 401.</li>
-  <li>Cierre de sesión y limpieza del token.</li>
-  <li>Protección de rutas privadas.</li>
+  <li>Inicio de sesión mediante credenciales.</li>
+  <li>Almacenamiento seguro del token JWT.</li>
+  <li>Persistencia de la sesión del usuario.</li>
+  <li>Adjunta automáticamente el token en cada petición HTTP.</li>
+  <li>Manejo de respuestas 401 (Unauthorized).</li>
+  <li>Cierre de sesión y eliminación del token almacenado.</li>
+  <li>Protección de pantallas privadas mediante GoRouter.</li>
 </ul>
 
 </div>
+
 
 <br>
 
@@ -288,23 +345,70 @@ Las opciones del menú, botones y acciones se muestran u ocultan según el rol r
 <h2>Consumo de la API REST</h2>
 
 <p>
-Los módulos consumen los endpoints implementados en Django REST Framework mediante peticiones HTTP.
+La aplicación móvil consume los servicios REST desarrollados con Django REST Framework mediante la librería <strong>Dio</strong>. Las operaciones CRUD se realizan sobre los diferentes módulos del sistema utilizando peticiones HTTP autenticadas con JWT.
 </p>
 
+<h3>Operaciones HTTP soportadas</h3>
+
 <pre>
-GET     /api/recurso/
-GET     /api/recurso/{id}/
-POST    /api/recurso/
-PUT     /api/recurso/{id}/
-PATCH   /api/recurso/{id}/
-DELETE  /api/recurso/{id}/
+GET     Obtener información
+POST    Crear registros
+PUT     Actualizar registros
+PATCH   Actualización parcial
+DELETE  Eliminar registros
 </pre>
 
+<h3>Principales endpoints consumidos</h3>
+
+<table>
+  <tr>
+    <th>Módulo</th>
+    <th>Endpoint</th>
+  </tr>
+  <tr>
+    <td>Autenticación</td>
+    <td>/api/auth/login/</td>
+  </tr>
+  <tr>
+    <td>Marcas</td>
+    <td>/api/marcas/</td>
+  </tr>
+  <tr>
+    <td>Categorías</td>
+    <td>/api/categorias/</td>
+  </tr>
+  <tr>
+    <td>Motos</td>
+    <td>/api/motos/</td>
+  </tr>
+  <tr>
+    <td>Repuestos</td>
+    <td>/api/repuestos/</td>
+  </tr>
+  <tr>
+    <td>Proveedores</td>
+    <td>/api/proveedores/</td>
+  </tr>
+  <tr>
+    <td>Compras</td>
+    <td>/api/compras/</td>
+  </tr>
+  <tr>
+    <td>Servicios</td>
+    <td>/api/servicios/</td>
+  </tr>
+  <tr>
+    <td>Mantenimientos</td>
+    <td>/api/mantenimientos/</td>
+  </tr>
+</table>
+
 <p>
-Cada módulo dispone de listado, detalle, formularios de creación y edición y eliminación cuando el rol del usuario lo permite.
+Cada módulo implementa funcionalidades de consulta, registro, edición y eliminación según los permisos asociados al rol del usuario autenticado.
 </p>
 
 </div>
+
 
 <br>
 
@@ -340,9 +444,44 @@ La aplicación permite realizar búsquedas, cambiar de página y aplicar filtros
   <li>Manejo de errores HTTP.</li>
   <li>Actualización de listados después de operaciones CRUD.</li>
 </ul>
+</div>
+<br>
+<div style="border-left: 4px solid #00897b; padding-left: 15px; margin-top: 20px;">
+
+<h2>Instalación y Ejecución</h2>
+
+<h3>1. Clonar el repositorio</h3>
+
+<pre>
+git clone URL_DEL_REPOSITORIO
+cd motoshop-flutter
+</pre>
+
+<h3>2. Instalar dependencias</h3>
+
+<pre>
+flutter pub get
+</pre>
+
+<h3>3. Verificar Flutter</h3>
+
+<pre>
+flutter doctor
+</pre>
+
+<h3>4. Configurar la URL de la API</h3>
+
+<pre>
+lib/core/config/app_config.dart
+</pre>
+
+<h3>5. Ejecutar la aplicación</h3>
+
+<pre>
+flutter run
+</pre>
 
 </div>
-
 <br>
 
 <div style="border-left: 4px solid #6d4c41; padding-left: 15px; margin-top: 20px;">
@@ -385,44 +524,7 @@ En caso de que la variable <code>API_BASE_URL</code> no esté definida, la aplic
 
 </div>
 
-<br>
 
-<div style="border-left: 4px solid #00897b; padding-left: 15px; margin-top: 20px;">
-
-<h2>Instalación y Ejecución</h2>
-
-<h3>1. Clonar el repositorio</h3>
-
-<pre>
-git clone URL_DEL_REPOSITORIO
-cd motoshop-flutter
-</pre>
-
-<h3>2. Instalar dependencias</h3>
-
-<pre>
-flutter pub get
-</pre>
-
-<h3>3. Verificar Flutter</h3>
-
-<pre>
-flutter doctor
-</pre>
-
-<h3>4. Configurar la URL de la API</h3>
-
-<pre>
-lib/core/config/app_config.dart
-</pre>
-
-<h3>5. Ejecutar la aplicación</h3>
-
-<pre>
-flutter run
-</pre>
-
-</div>
 
 <br>
 
@@ -519,3 +621,4 @@ Las credenciales deben reemplazarse por usuarios válidos registrados en la API.
 <p>Universidad Tecnológica Equinoccial</p>
 
 </div>
+
