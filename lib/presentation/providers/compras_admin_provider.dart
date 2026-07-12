@@ -19,7 +19,6 @@ const estadosCompra = <String>[
 class ComprasAdminState {
   final List<Compra> compras;
 
-  // Catálogos para el formulario
   final List<Proveedor> proveedores;
   final List<Moto> motos;
   final List<Repuesto> repuestos;
@@ -224,60 +223,67 @@ class ComprasAdminNotifier
   }
 
   Future<void> cargarCatalogos() async {
-    state = state.copyWith(
-      isLoadingCatalogos: true,
-      clearCatalogosError: true,
+  state = state.copyWith(
+    isLoadingCatalogos: true,
+    clearCatalogosError: true,
+  );
+
+  try {
+    final proveedoresResponse =
+        await _proveedorDatasource.getProveedores(
+      page: 1,
+      pageSize: 100,
+      estado: true,
+      ordering: 'nombre',
     );
 
-    try {
-      final resultados = await Future.wait([
-        _proveedorDatasource.getProveedores(
-          page: 1,
-          pageSize: 100,
-          estado: true,
-          ordering: 'nombre',
-        ),
-        _catalogDatasource.getMotos(
-          ordering: 'modelo',
-          limit: 100,
-          offset: 0,
-        ),
-        _inventoryDatasource.getRepuestos(
-          ordering: 'nombre',
-          limit: 100,
-          offset: 0,
-        ),
-      ]);
 
-      final proveedoresResponse = resultados[0]
-          as dynamic;
-      final motosResponse = resultados[1]
-          as dynamic;
-      final repuestosResponse = resultados[2]
-          as dynamic;
+    final motosResponse =
+        await _catalogDatasource.getMotos(
+      ordering: 'modelo',
+      limit: 100,
+      offset: 0,
+    );
 
-      state = state.copyWith(
-        proveedores: proveedoresResponse.results
-            .map<Proveedor>(
+   
+    final repuestosResponse =
+        await _inventoryDatasource.getRepuestos(
+      ordering: 'nombre',
+      limit: 100,
+      offset: 0,
+    );
+
+    final List<Proveedor> proveedores =
+        proveedoresResponse.results
+            .map(
               (dto) => dto.toDomain(),
             )
-            .toList(),
-        motos: List<Moto>.from(
-          motosResponse.results,
-        ),
-        repuestos: List<Repuesto>.from(
-          repuestosResponse.results,
-        ),
-        isLoadingCatalogos: false,
-        clearCatalogosError: true,
-      );
-    } catch (error) {
-      state = state.copyWith(
-        isLoadingCatalogos: false,
-        catalogosError: _obtenerMensajeError(error),
-      );
-    }
+            .toList();
+
+    final List<Moto> motos =
+        List<Moto>.from(
+      motosResponse.results,
+    );
+
+    final List<Repuesto> repuestos =
+        List<Repuesto>.from(
+      repuestosResponse.results,
+    );
+
+    state = state.copyWith(
+      proveedores: proveedores,
+      motos: motos,
+      repuestos: repuestos,
+      isLoadingCatalogos: false,
+      clearCatalogosError: true,
+    );
+  } catch (error) {
+    state = state.copyWith(
+      isLoadingCatalogos: false,
+      catalogosError: _obtenerMensajeError(error),
+    );
   }
+}
 
   Future<void> setSearch(String value) async {
     state = state.copyWith(

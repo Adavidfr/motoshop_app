@@ -56,7 +56,9 @@ class ProveedorRemoteDatasource {
 
       return PaginatedResponseDto<ProveedorDto>.fromJson(
         Map<String, dynamic>.from(response.data as Map),
-        ProveedorDto.fromJson,
+        (Map<String, dynamic> json) {
+          return ProveedorDto.fromJson(json);
+        },
       );
     } on DioException catch (error) {
       throw ApiException.fromDioError(error);
