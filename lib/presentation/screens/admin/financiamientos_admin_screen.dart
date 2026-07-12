@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/model/venta.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/financiamientos_admin_provider.dart';
 
 const _statusFilters = [
@@ -46,7 +47,9 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(financiamientosAdminProvider);
+    final user = ref.watch(authProvider).user;
+    final isAdmin = user?.role == 'administrador';
+    final state    = ref.watch(financiamientosAdminProvider);
     final tt    = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -211,6 +214,7 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
                   final f = state.financiamientos[i];
                   return _FinanciamientoCard(
                     f: f,
+                    isAdmin: isAdmin,
                     onStatus: (newStatus) => ref.read(financiamientosAdminProvider.notifier).changeStatus(f.idFinanciamiento, newStatus),
                     onDelete: () => _confirmDelete(context, f.idFinanciamiento),
                   );
@@ -268,11 +272,13 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
 // ── _FinanciamientoCard Widget ────────────────────────────────
 class _FinanciamientoCard extends StatelessWidget {
   final Financiamiento f;
+  final bool isAdmin;
   final void Function(String) onStatus;
   final VoidCallback onDelete;
 
   const _FinanciamientoCard({
     required this.f,
+    required this.isAdmin,
     required this.onStatus,
     required this.onDelete,
   });
@@ -298,12 +304,13 @@ class _FinanciamientoCard extends StatelessWidget {
                 'Financiamiento #${f.idFinanciamiento}',
                 style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
               ),
-              IconButton(
-                icon: const Icon(Icons.delete_outline, color: AppColors.error, size: 18),
-                onPressed: onDelete,
-                constraints: const BoxConstraints(),
-                padding: EdgeInsets.zero,
-              ),
+              if (isAdmin)
+                IconButton(
+                  icon: const Icon(Icons.delete_outline, color: AppColors.error, size: 18),
+                  onPressed: onDelete,
+                  constraints: const BoxConstraints(),
+                  padding: EdgeInsets.zero,
+                ),
             ],
           ),
           const SizedBox(height: 2),
