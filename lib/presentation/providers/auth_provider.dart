@@ -33,6 +33,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         username: userData['username']!,
         email:    userData['email']!,
         isStaff:  userData['is_staff'] == 'true',
+        role:     userData['role'] ?? 'usuario',
       );
       state = AuthState.authenticated(user);
     } catch (_) {

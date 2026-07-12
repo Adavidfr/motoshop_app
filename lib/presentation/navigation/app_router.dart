@@ -3,173 +3,229 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../domain/model/auth_state.dart';
-import '../../domain/model/product.dart';
+import 'package:motoshop_app/presentation/screens/admin/repuestos_mantenimiento_admin_screen.dart';
 import '../providers/auth_provider.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/auth/reset_password_confirm_screen.dart';
-import '../screens/auth/profile_screen.dart';
-import '../screens/catalog/home_screen.dart';
 import '../screens/catalog/catalog_screen.dart';
-import '../screens/catalog/product_detail_screen.dart';
-import '../screens/cart/cart_screen.dart';
-import 'public_shell.dart';
-
-// ── Placeholder para pantallas aún no implementadas ──────────────
-class _PlaceholderScreen extends ConsumerWidget {
-  final String title;
-  const _PlaceholderScreen(this.title);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0F),
-      appBar: AppBar(
-        title: Text(title),
-        actions: [
-          IconButton(
-            tooltip:  'Cerrar sesión',
-            icon:     const Icon(Icons.logout),
-            onPressed: () async {
-              await ref.read(authProvider.notifier).logout();
-              if (context.mounted) context.go('/login');
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text(
-          title,
-          style: const TextStyle(color: Color(0xFF8888AA), fontSize: 16),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Provider del router ───────────────────────────────────────────
+import '../screens/catalog/moto_detail_screen.dart';
+import '../screens/catalog/moto_form_screen.dart';
+import '../screens/inventory/inventory_dashboard_screen.dart';
+import '../screens/inventory/movimiento_form_screen.dart';
+import '../screens/inventory/repuesto_detail_screen.dart';
+import '../screens/inventory/repuesto_form_screen.dart';
+import '../screens/admin/compras_admin_screen.dart';
+import '../screens/admin/proveedores_admin_screen.dart';
+import '../screens/admin/servicios_admin_screen.dart';
+import '../screens/admin/users_admin_screen.dart';
+import '../widgets/admin_shell.dart';
+import '../screens/admin/mantenimientos_admin_screen.dart';
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
-    refreshListenable: _AuthStateListenable(ref),
+
     redirect: (context, state) {
-      final auth     = ref.read(authProvider);
+      if (authState.isChecking) {
+        return null;
+      }
+
+      final isAuthenticated = authState.isAuthenticated;
+      final isStaff = authState.isStaff;
       final location = state.matchedLocation;
 
-      if (auth.isChecking) return null;
+      final isAuthRoute =
+          location == '/login' ||
+          location == '/register' ||
+          location == '/forgot-password' ||
+          location == '/reset-password-confirm';
 
-      final isAuthRoute = location == '/login'   ||
-                          location == '/register' ||
-                          location == '/forgot-password' ||
-                          location == '/reset-password-confirm';
+      final isAdminRoute = location.startsWith('/admin');
 
-      if (!auth.isAuthenticated && !isAuthRoute) { return '/login'; }
-      if ( auth.isAuthenticated &&  isAuthRoute) {
-        return auth.isStaff ? '/admin' : '/';
+      final isPrivateRoute =
+          location == '/profile' ||
+          location == '/moto-form' ||
+          location == '/repuesto-form' ||
+          location == '/movimiento-form' ||
+          isAdminRoute;
+
+      if (!isAuthenticated && isPrivateRoute) {
+        return '/login';
       }
-      if ( auth.isAuthenticated && !auth.isStaff &&
-           location.startsWith('/admin')) { return '/'; }
+
+      if (isAuthenticated && isAuthRoute) {
+        return isStaff ? '/admin' : '/';
+      }
+
+
+      if (isAuthenticated && !isStaff && isAdminRoute) {
+        return '/';
+      }
 
       return null;
     },
+
     routes: [
-      // ── Auth ────────────────────────────────────────────────
+      // ── Sección pública ─────────────────────────────────
+
       GoRoute(
-        path:    '/login',
-        builder: (_, __) => const LoginScreen(),
+        path: '/',
+        builder: (context, state) => const CatalogScreen(),
       ),
+
+      GoRoute(
+        path: '/moto-detail/:id',
+        builder: (context, state) {
+          final id = int.tryParse(
+                state.pathParameters['id'] ?? '',
+              ) ??
+              0;
+
+          return MotoDetailScreen(motoId: id);
+        },
+      ),
+
+      GoRoute(
+        path: '/inventory',
+        builder: (context, state) =>
+            const InventoryDashboardScreen(),
+      ),
+
+      GoRoute(
+        path: '/repuesto-detail/:id',
+        builder: (context, state) {
+          final id = int.tryParse(
+                state.pathParameters['id'] ?? '',
+              ) ??
+              0;
+
+          return RepuestoDetailScreen(repuestoId: id);
+        },
+      ),
+
+      // ── Autenticación ───────────────────────────────────
+
       GoRoute(
         path:    '/register',
         builder: (_, __) => const RegisterScreen(),
       ),
+
       GoRoute(
-        path:    '/forgot-password',
-        builder: (_, __) => const ForgotPasswordScreen(),
+        path: '/register',
+        builder: (context, state) => const RegisterScreen(),
       ),
+
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) =>
+            const ForgotPasswordScreen(),
+      ),
+
       GoRoute(
         path: '/reset-password-confirm',
-        builder: (_, __) => const ResetPasswordConfirmScreen(),
+        builder: (context, state) =>
+            const ResetPasswordConfirmScreen(),
       ),
 
-      // ── Zona pública con BottomNavBar ────────────────────────
-      ShellRoute(
-        builder: (_, __, child) => PublicShell(child: child),
-        routes: [
-          GoRoute(
-            path:    '/',
-            builder: (_, __) => const HomeScreen(),
-          ),
-          GoRoute(
-            path:    '/catalog',
-            builder: (_, __) => const CatalogScreen(),
-            routes: [
-              GoRoute(
-                path: ':tipo/:id',
-                builder: (_, state) {
-                  final id   = int.parse(state.pathParameters['id']!);
-                  final tipo = state.pathParameters['tipo'] == 'moto'
-                      ? ProductType.moto
-                      : ProductType.repuesto;
-                  return ProductDetailScreen(productId: id, tipo: tipo);
-                },
-              ),
-            ],
-          ),
-          GoRoute(
-            path:    '/cart',
-            builder: (_, __) => const CartScreen(),
-          ),
-          GoRoute(
-            path:    '/orders',
-            builder: (_, __) => const _PlaceholderScreen('Mis pedidos — M6'),
-          ),
-          GoRoute(
-            path:    '/orders/:id',
-            builder: (_, state) =>
-                _PlaceholderScreen('Pedido #${state.pathParameters['id']} — M6'),
-          ),
-          GoRoute(
-            path:    '/profile',
-            builder: (_, __) => const ProfileScreen(),
-          ),
-        ],
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfileScreen(),
       ),
 
-      // ── Admin ────────────────────────────────────────────────
+      // ── Formularios privados ────────────────────────────
+
       GoRoute(
-        path:    '/admin',
-        builder: (_, __) => const _PlaceholderScreen('Dashboard — M8'),
+        path: '/moto-form',
+        builder: (context, state) {
+          final id = int.tryParse(
+                state.uri.queryParameters['id'] ?? '',
+              ) ??
+              0;
+
+          return MotoFormScreen(
+            motoId: id > 0 ? id : null,
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/repuesto-form',
+        builder: (context, state) {
+          final id = int.tryParse(
+                state.uri.queryParameters['id'] ?? '',
+              ) ??
+              0;
+
+          return RepuestoFormScreen(
+            repuestoId: id > 0 ? id : null,
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/movimiento-form',
+        builder: (context, state) =>
+            const MovimientoFormScreen(),
+      ),
+
+      // ── Administración ──────────────────────────────────
+
+      GoRoute(
+        path: '/admin',
+        redirect: (context, state) => '/admin/servicios',
+      ),
+
+      GoRoute(
+        path: '/admin/servicios',
+        builder: (context, state) => AdminShell(
+          title: 'Servicios',
+          currentRoute: state.matchedLocation,
+          child: const ServiciosAdminScreen(),
+        ),
+      ),
+
+      GoRoute(
+        path: '/admin/proveedores',
+        builder: (context, state) => AdminShell(
+          title: 'Proveedores',
+          currentRoute: state.matchedLocation,
+          child: const ProveedoresAdminScreen(),
+        ),
+      ),
+
+      GoRoute(
+        path: '/admin/compras',
+        builder: (context, state) => AdminShell(
+          title: 'Compras',
+          currentRoute: state.matchedLocation,
+          child: const ComprasAdminScreen(),
+        ),
       ),
       GoRoute(
-        path:    '/admin/categories',
-        builder: (_, __) => const _PlaceholderScreen('Categorías — M9'),
+        path: '/admin/mantenimientos',
+        builder: (context, state) => AdminShell(
+          title: 'Mantenimientos',
+          currentRoute: state.matchedLocation,
+          child: const MantenimientosAdminScreen(),
+        ),
       ),
       GoRoute(
-        path:    '/admin/products',
-        builder: (_, __) => const _PlaceholderScreen('Productos — M10'),
+        path: '/admin/repuestos-mantenimiento',
+        builder: (context, state) => AdminShell(
+          title: 'Repuestos de mantenimiento',
+          currentRoute: state.matchedLocation,
+          child: const RepuestosMantenimientoAdminScreen(),
+        ),
       ),
       GoRoute(
-        path:    '/admin/orders',
-        builder: (_, __) => const _PlaceholderScreen('Pedidos admin — M11'),
-      ),
-      GoRoute(
-        path:    '/admin/orders/:id',
-        builder: (_, state) =>
-            _PlaceholderScreen('Pedido admin #${state.pathParameters['id']}'),
-      ),
-      GoRoute(
-        path:    '/admin/users',
-        builder: (_, __) => const _PlaceholderScreen('Usuarios — M12'),
+        path: '/admin/users',
+        builder: (context, state) => AdminShell(
+          title: 'Usuarios',
+          currentRoute: state.matchedLocation,
+          child: const UsersAdminScreen(),
+        ),
       ),
     ],
   );
 });
-
-// ── Listenable de cambios en AuthState ───────────────────────────
-class _AuthStateListenable extends ChangeNotifier {
-  _AuthStateListenable(Ref ref) {
-    ref.listen<AuthState>(authProvider, (_, __) => notifyListeners());
-  }
-}
