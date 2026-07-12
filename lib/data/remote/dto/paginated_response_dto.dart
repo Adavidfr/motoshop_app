@@ -15,19 +15,23 @@ class PaginatedResponseDto<T> {
     Map<String, dynamic> json,
     T Function(Map<String, dynamic>) fromJsonT,
   ) {
-    final rawResults = json['results'] as List<dynamic>? ?? [];
+    final rawResults =
+        json['results'] as List<dynamic>? ?? <dynamic>[];
 
     return PaginatedResponseDto<T>(
-      count: json['count'] as int? ?? 0,
-      next: json['next'] as String?,
-      previous: json['previous'] as String?,
-      results: rawResults
-          .map(
-            (item) => fromJsonT(
-              item as Map<String, dynamic>,
-            ),
-          )
-          .toList(),
+      count: int.tryParse(
+            json['count']?.toString() ?? '',
+          ) ??
+          0,
+      next: json['next']?.toString(),
+      previous: json['previous']?.toString(),
+      results: rawResults.map<T>((item) {
+        final itemJson = Map<String, dynamic>.from(
+          item as Map,
+        );
+
+        return fromJsonT(itemJson);
+      }).toList(),
     );
   }
 }
