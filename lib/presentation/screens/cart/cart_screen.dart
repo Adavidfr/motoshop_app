@@ -1,9 +1,11 @@
 // lib/presentation/screens/cart/cart_screen.dart
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/error/api_exception.dart';
 import '../../../theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/model/product.dart';
@@ -129,13 +131,16 @@ class CartScreen extends ConsumerWidget {
     final cartState = ref.read(cartProvider);
     final carritoId = cartState.carritoId;
     if (carritoId == null || cartState.items.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:         Text('El carrito está vacío'),
-          backgroundColor: AppColors.error,
-          behavior:        SnackBarBehavior.floating,
-        ),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:         Text('El carrito está vacío'),
+            backgroundColor: AppColors.error,
+            behavior:        SnackBarBehavior.floating,
+          ),
+        );
+      }
       return;
     }
 
@@ -147,6 +152,7 @@ class CartScreen extends ConsumerWidget {
       ref.read(cartProvider.notifier).resetCart();
 
       if (context.mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content:         Text('¡Pedido confirmado exitosamente!'),
@@ -157,7 +163,19 @@ class CartScreen extends ConsumerWidget {
         context.go('/orders');
       }
     } catch (e) {
+      int? statusCode;
+      if (e is ApiException) {
+        statusCode = e.statusCode;
+      } else if (e is DioException) {
+        statusCode = e.response?.statusCode;
+      }
+
+      if (statusCode == 404 || statusCode == 400) {
+        ref.read(cartProvider.notifier).resetCart();
+      }
+
       if (context.mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content:         Text('Error al confirmar pedido: $e'),

@@ -352,11 +352,13 @@ class _ProductBody extends ConsumerWidget {
                               quantity: quantity,
                             );
                             if (context.mounted) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
                                     '${product.name} agregado al carrito',
                                   ),
+                                  duration: const Duration(seconds: 2),
                                   backgroundColor: AppColors.success,
                                   behavior: SnackBarBehavior.floating,
                                   action: SnackBarAction(
