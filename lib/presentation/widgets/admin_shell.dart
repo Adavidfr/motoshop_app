@@ -62,6 +62,11 @@ const List<AdminNavItem> adminNavItems = [
     icon: Icons.monetization_on_outlined,
     route: '/admin/ventas',
   ),
+  AdminNavItem(
+    label: 'Financiamientos',
+    icon: Icons.credit_card_outlined,
+    route: '/admin/financiamientos',
+  ),
 ];
 
 int adminSelectedIndex(String currentRoute) {
