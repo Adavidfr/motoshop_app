@@ -3,6 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:motoshop_app/presentation/screens/admin/repuestos_mantenimiento_admin_screen.dart';
+import 'package:motoshop_app/presentation/screens/admin/pagos_admin_screen.dart';
+import 'package:motoshop_app/presentation/screens/admin/facturas_admin_screen.dart';
+import 'package:motoshop_app/presentation/screens/admin/garantias_admin_screen.dart';
+import 'package:motoshop_app/presentation/screens/admin/seguros_admin_screen.dart';
 
 // Modelos y providers comunes
 import '../../domain/model/auth_state.dart';
@@ -290,6 +295,30 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Financiamientos',
           currentRoute: state.matchedLocation,
           child: const FinanciamientosAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/facturas',
+        builder: (context, state) => AdminShell(
+          title: 'Facturas',
+          currentRoute: state.matchedLocation,
+          child: const FacturasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/garantias',
+        builder: (context, state) => AdminShell(
+          title: 'Garantías',
+          currentRoute: state.matchedLocation,
+          child: const GarantiasAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/seguros',
+        builder: (context, state) => AdminShell(
+          title: 'Seguros',
+          currentRoute: state.matchedLocation,
+          child: const SegurosAdminScreen(),
         ),
       ),
     ],
