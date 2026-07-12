@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/catalog_providers.dart';
+import 'package:motoshop_app/presentation/providers/catalog_providers.dart';
 import '../../../domain/model/marca.dart';
 import '../../../theme/app_colors.dart';
 

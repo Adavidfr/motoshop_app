@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:motoshop_app/domain/model/categoria_moto.dart';
+import 'package:motoshop_app/domain/model/marca.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/catalog_providers.dart';
