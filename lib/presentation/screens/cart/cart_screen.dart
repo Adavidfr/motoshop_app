@@ -8,6 +8,7 @@ import '../../../theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/model/product.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/orders_client_provider.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -125,16 +126,47 @@ class CartScreen extends ConsumerWidget {
   );
 
   Future<void> _checkout(BuildContext context, WidgetRef ref) async {
-    // El checkout real se implementa en M6 con el módulo de pedidos.
-    // Por ahora mostramos un SnackBar y navegamos a /orders.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content:         Text('Pedido confirmado (M6)'),
-        backgroundColor: AppColors.success,
-        behavior:        SnackBarBehavior.floating,
-      ),
-    );
-    context.go('/orders');
+    final cartState = ref.read(cartProvider);
+    final carritoId = cartState.carritoId;
+    if (carritoId == null || cartState.items.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:         Text('El carrito está vacío'),
+          backgroundColor: AppColors.error,
+          behavior:        SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    try {
+      // 1. Crear el pedido en el backend
+      await ref.read(ordersClientProvider.notifier).checkout(carritoId);
+
+      // 2. Reiniciar el estado local del carrito
+      ref.read(cartProvider.notifier).resetCart();
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:         Text('¡Pedido confirmado exitosamente!'),
+            backgroundColor: AppColors.success,
+            behavior:        SnackBarBehavior.floating,
+          ),
+        );
+        context.go('/orders');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:         Text('Error al confirmar pedido: $e'),
+            backgroundColor: AppColors.error,
+            behavior:        SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
   }
 }
 
