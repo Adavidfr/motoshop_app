@@ -19,6 +19,8 @@ import '../screens/catalog/home_screen.dart';
 import '../screens/catalog/catalog_screen.dart';
 import '../screens/catalog/product_detail_screen.dart';
 import '../screens/cart/cart_screen.dart';
+import '../screens/orders/client_orders_screen.dart';
+import '../screens/orders/client_order_detail_screen.dart';
 import 'public_shell.dart';
 
 // Pantallas administrativas y de inventario (Tarea 5)
@@ -29,6 +31,9 @@ import '../screens/admin/users_admin_screen.dart';
 import '../screens/admin/mantenimientos_admin_screen.dart';
 import '../screens/admin/repuestos_mantenimiento_admin_screen.dart';
 import '../screens/admin/catalog_admin_screen.dart';
+import '../screens/admin/orders_admin_screen.dart';
+import '../screens/admin/order_admin_detail_screen.dart';
+import '../screens/admin/ventas_admin_screen.dart';
 import '../widgets/admin_shell.dart';
 import '../screens/catalog/moto_detail_screen.dart';
 import '../screens/catalog/moto_form_screen.dart';
@@ -37,37 +42,6 @@ import '../screens/inventory/movimiento_form_screen.dart';
 import '../screens/inventory/repuesto_detail_screen.dart';
 import '../screens/inventory/repuesto_form_screen.dart';
 
-// ── Placeholder para pantallas aún no implementadas ──────────────
-class _PlaceholderScreen extends ConsumerWidget {
-  final String title;
-  const _PlaceholderScreen(this.title);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0F),
-      appBar: AppBar(
-        title: Text(title),
-        actions: [
-          IconButton(
-            tooltip: 'Cerrar sesión',
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await ref.read(authProvider.notifier).logout();
-              if (context.mounted) context.go('/login');
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text(
-          title,
-          style: const TextStyle(color: Color(0xFF8888AA), fontSize: 16),
-        ),
-      ),
-    );
-  }
-}
 
 // ── Provider del router ───────────────────────────────────────────
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -163,12 +137,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/orders',
-            builder: (context, state) => const _PlaceholderScreen('Mis pedidos — M6'),
+            builder: (context, state) => const ClientOrdersScreen(),
           ),
           GoRoute(
             path: '/orders/:id',
-            builder: (context, state) =>
-                _PlaceholderScreen('Pedido #${state.pathParameters['id']} — M6'),
+            builder: (context, state) {
+              final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+              return ClientOrderDetailScreen(orderId: id);
+            },
           ),
           GoRoute(
             path: '/profile',
@@ -274,6 +250,32 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           title: 'Usuarios',
           currentRoute: state.matchedLocation,
           child: const UsersAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/orders',
+        builder: (context, state) => AdminShell(
+          title: 'Pedidos',
+          currentRoute: state.matchedLocation,
+          child: const OrdersAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/orders/:id',
+        builder: (context, state) => AdminShell(
+          title: 'Detalle pedido #${state.pathParameters['id']}',
+          currentRoute: '/admin/orders',
+          child: OrderAdminDetailScreen(
+            orderId: int.parse(state.pathParameters['id']!),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/ventas',
+        builder: (context, state) => AdminShell(
+          title: 'Ventas',
+          currentRoute: state.matchedLocation,
+          child: const VentasAdminScreen(),
         ),
       ),
     ],

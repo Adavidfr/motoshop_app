@@ -290,6 +290,11 @@ class CartNotifier extends StateNotifier<CartState> {
 
   /// Recarga el carrito desde el backend.
   Future<void> refresh() => _loadCarritoActivo();
+
+  /// Reinicia el carrito local a vacío.
+  void resetCart() {
+    state = const CartState();
+  }
 }
 
 // ── Provider ──────────────────────────────────────────────────────
