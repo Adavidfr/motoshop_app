@@ -362,7 +362,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                initialValue: estadoVal,
+                value: estadoVal,
                 dropdownColor: AppColors.surface,
                 decoration: const InputDecoration(labelText: 'Estado'),
                 style: const TextStyle(color: AppColors.textPrimary),

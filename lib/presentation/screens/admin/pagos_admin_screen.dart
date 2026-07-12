@@ -632,14 +632,15 @@ class _PagoCard extends StatelessWidget {
                     color: AppColors.accent,
                     onPressed: onEdit,
                   ),
-                  const SizedBox(width: 8),
-                  // Eliminar
-                  _AccionBoton(
-                    label: 'Eliminar',
-                    icon: Icons.delete_outline,
-                    color: AppColors.error,
-                    onPressed: onDelete,
-                  ),
+                  if (isAdmin) ...[
+                    const SizedBox(width: 8),
+                    _AccionBoton(
+                      label: 'Eliminar',
+                      icon: Icons.delete_outline,
+                      color: AppColors.error,
+                      onPressed: onDelete,
+                    ),
+                  ],
                 ],
               ),
             ],

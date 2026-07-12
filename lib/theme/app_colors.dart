@@ -3,23 +3,23 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // ── Fondos ────────────────────────────────────────────────
-  static const Color background  = Color(0xFF0A0A0F);
-  static const Color surface     = Color(0xFF111118);
-  static const Color surface2    = Color(0xFF1A1A24);
-  static const Color border      = Color(0xFF2A2A38);
-  static const Color borderLight = Color(0xFF1E1E2A);
+  // ── Fondos (Negro Predominante) ───────────────────────────
+  static const Color background  = Color(0xFF000000);
+  static const Color surface     = Color(0xFF121212);
+  static const Color surface2    = Color(0xFF1E1E1E);
+  static const Color border      = Color(0xFF2E2E2E);
+  static const Color borderLight = Color(0xFF222222);
 
-  // ── Texto ─────────────────────────────────────────────────
-  static const Color textPrimary   = Color(0xFFF0F0F8);
-  static const Color textSecondary = Color(0xFF8888AA);
-  static const Color textFaint     = Color(0xFF44445A);
+  // ── Texto (Blancos e Intermedios) ─────────────────────────
+  static const Color textPrimary   = Color(0xFFFFFFFF);
+  static const Color textSecondary = Color(0xFFB0B0B0);
+  static const Color textFaint     = Color(0xFF555555);
 
-  // ── Accent dorado ─────────────────────────────────────────
-  static const Color accent      = Color(0xFFD4A843);
-  static const Color accentLight = Color(0xFFF0C96E);
-  static const Color accentDark  = Color(0xFFA07820);
-  static const Color onAccent    = Color(0xFF0A0A0F);
+  // ── Accent (Rojo Deportivo) ───────────────────────────────
+  static const Color accent      = Color(0xFFE50914);
+  static const Color accentLight = Color(0xFFFF3B30);
+  static const Color accentDark  = Color(0xFFB30006);
+  static const Color onAccent    = Color(0xFFFFFFFF);
 
   // ── Semánticos ────────────────────────────────────────────
   static const Color success = Color(0xFF22C55E);

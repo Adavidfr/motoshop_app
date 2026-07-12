@@ -482,13 +482,15 @@ class _GarantiaCard extends StatelessWidget {
                     color: AppColors.accent,
                     onPressed: onEdit,
                   ),
-                  const SizedBox(width: 8),
-                  _AccionBtn(
-                    label: 'Eliminar',
-                    icon: Icons.delete_outline,
-                    color: AppColors.error,
-                    onPressed: onDelete,
-                  ),
+                  if (isAdmin) ...[
+                    const SizedBox(width: 8),
+                    _AccionBtn(
+                      label: 'Eliminar',
+                      icon: Icons.delete_outline,
+                      color: AppColors.error,
+                      onPressed: onDelete,
+                    ),
+                  ],
                 ],
               ),
             ],

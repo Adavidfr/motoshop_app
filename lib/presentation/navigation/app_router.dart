@@ -45,6 +45,7 @@ import '../screens/admin/orders_admin_screen.dart';
 import '../screens/admin/order_admin_detail_screen.dart';
 import '../screens/admin/ventas_admin_screen.dart';
 import '../screens/admin/financiamientos_admin_screen.dart';
+import '../screens/admin/dashboard_screen.dart';
 import '../widgets/admin_shell.dart';
 import '../screens/catalog/moto_detail_screen.dart';
 import '../screens/catalog/moto_form_screen.dart';
@@ -89,7 +90,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // Si está autenticado e intenta ir a auth, redirigir según rol
       if (isAuthenticated && isAuthRoute) {
-        return isStaff ? '/admin/servicios' : '/';
+        return isStaff ? '/admin/dashboard' : '/';
       }
 
       // Si es cliente común e intenta ir a rutas admin, redirigir a /
@@ -209,7 +210,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // ── Admin Shell (Panel de administración) ─────────────────
       GoRoute(
         path: '/admin',
-        redirect: (context, state) => '/admin/servicios',
+        redirect: (context, state) => '/admin/dashboard',
+      ),
+      GoRoute(
+        path: '/admin/dashboard',
+        builder: (context, state) => AdminShell(
+          title: 'Dashboard',
+          currentRoute: state.matchedLocation,
+          child: const DashboardScreen(),
+        ),
       ),
       GoRoute(
         path: '/admin/products',

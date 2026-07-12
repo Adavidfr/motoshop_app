@@ -18,6 +18,11 @@ class AdminNavItem {
 
 const List<AdminNavItem> adminNavItems = [
   AdminNavItem(
+    label: 'Dashboard',
+    icon: Icons.dashboard_outlined,
+    route: '/admin/dashboard',
+  ),
+  AdminNavItem(
     label: 'Motos y Catálogo',
     icon: Icons.two_wheeler_outlined,
     route: '/admin/products',
