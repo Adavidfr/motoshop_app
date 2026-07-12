@@ -1,30 +1,66 @@
-// lib/domain/model/user_profile.dart  (extracto relevante)
+// lib/domain/model/user_profile.dart
+
 class UserProfile {
+  final int idPerfil;
+  final String username;
+  final String email;
+  final String cedula;
+  final String telefono;
+  final String direccion;
+  final String? fotoPerfil;
+  final String? fechaNacimiento;
+
   const UserProfile({
-    required this.id,
+    required this.idPerfil,
     required this.username,
     required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.isStaff,
-    this.avatarUrl,
+    required this.cedula,
+    required this.telefono,
+    required this.direccion,
+    this.fotoPerfil,
+    this.fechaNacimiento,
   });
 
-  final int     id;
-  final String  username;
-  final String  email;
-  final String  firstName;
-  final String  lastName;
-  final bool    isStaff;
-  final String? avatarUrl; // <-- URL absoluta o null
+  factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
+        idPerfil: json['id_perfil'] as int,
+        username: json['username'] as String? ?? '',
+        email: json['email'] as String? ?? '',
+        cedula: json['cedula'] as String? ?? '',
+        telefono: json['telefono'] as String? ?? '',
+        direccion: json['direccion'] as String? ?? '',
+        fotoPerfil: json['foto_perfil'] as String?,
+        fechaNacimiento: json['fecha_nacimiento'] as String?,
+      );
 
-  factory UserProfile.fromJson(Map<String, dynamic> j) => UserProfile(
-    id:         j['id']          as int,
-    username:   j['username']    as String,
-    email:      j['email']       as String,
-    firstName:  j['first_name']  as String? ?? '',
-    lastName:   j['last_name']   as String? ?? '',
-    isStaff:    j['is_staff']    as bool?   ?? false,
-    avatarUrl:  j['avatar_url']  as String?,
-  );
+  Map<String, dynamic> toJson() => {
+        'id_perfil': idPerfil,
+        'username': username,
+        'email': email,
+        'cedula': cedula,
+        'telefono': telefono,
+        'direccion': direccion,
+        'foto_perfil': fotoPerfil,
+        'fecha_nacimiento': fechaNacimiento,
+      };
+
+  UserProfile copyWith({
+    int? idPerfil,
+    String? username,
+    String? email,
+    String? cedula,
+    String? telefono,
+    String? direccion,
+    String? fotoPerfil,
+    String? fechaNacimiento,
+  }) =>
+      UserProfile(
+        idPerfil: idPerfil ?? this.idPerfil,
+        username: username ?? this.username,
+        email: email ?? this.email,
+        cedula: cedula ?? this.cedula,
+        telefono: telefono ?? this.telefono,
+        direccion: direccion ?? this.direccion,
+        fotoPerfil: fotoPerfil ?? this.fotoPerfil,
+        fechaNacimiento: fechaNacimiento ?? this.fechaNacimiento,
+      );
 }
