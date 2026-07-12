@@ -11,6 +11,10 @@ import '../screens/admin/users_admin_screen.dart';
 import '../screens/catalog/catalog_screen.dart';
 import '../screens/catalog/moto_detail_screen.dart';
 import '../screens/catalog/moto_form_screen.dart';
+import '../screens/inventory/inventory_dashboard_screen.dart';
+import '../screens/inventory/repuesto_detail_screen.dart';
+import '../screens/inventory/repuesto_form_screen.dart';
+import '../screens/inventory/movimiento_form_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -78,6 +82,28 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final id = int.tryParse(state.uri.queryParameters['id'] ?? '') ?? 0;
           return MotoFormScreen(motoId: id > 0 ? id : null);
         },
+      ),
+      GoRoute(
+        path: '/inventory',
+        builder: (context, state) => const InventoryDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/repuesto-detail/:id',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return RepuestoDetailScreen(repuestoId: id);
+        },
+      ),
+      GoRoute(
+        path: '/repuesto-form',
+        builder: (context, state) {
+          final id = int.tryParse(state.uri.queryParameters['id'] ?? '') ?? 0;
+          return RepuestoFormScreen(repuestoId: id > 0 ? id : null);
+        },
+      ),
+      GoRoute(
+        path: '/movimiento-form',
+        builder: (context, state) => const MovimientoFormScreen(),
       ),
     ],
   );

@@ -80,6 +80,11 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> with SingleTicker
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.inventory_2_outlined),
+            onPressed: () => context.push('/inventory'),
+            tooltip: 'Repuestos e Inventario',
+          ),
+          IconButton(
             icon: const Icon(Icons.person_outline),
             onPressed: () => context.push('/profile'),
             tooltip: 'Ver perfil',
