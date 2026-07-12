@@ -38,6 +38,11 @@ const List<AdminNavItem> adminNavItems = [
     route: '/admin/mantenimientos',
   ),
   AdminNavItem(
+    label: 'Repuestos usados',
+    icon: Icons.settings_outlined,
+    route: '/admin/repuestos-mantenimiento',
+  ),
+  AdminNavItem(
     label: 'Usuarios',
     icon: Icons.people_outline,
     route: '/admin/users',
