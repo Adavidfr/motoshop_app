@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../theme/app_colors.dart';
 import '../providers/auth_provider.dart';
 
@@ -17,7 +16,12 @@ class AdminNavItem {
   });
 }
 
-const adminNavItems = [
+const List<AdminNavItem> adminNavItems = [
+  AdminNavItem(
+    label: 'Servicios',
+    icon: Icons.build_circle_outlined,
+    route: '/admin/servicios',
+  ),
   AdminNavItem(
     label: 'Proveedores',
     icon: Icons.local_shipping_outlined,
@@ -27,6 +31,21 @@ const adminNavItems = [
     label: 'Compras',
     icon: Icons.shopping_cart_checkout_outlined,
     route: '/admin/compras',
+  ),
+  AdminNavItem(
+    label: 'Mantenimientos',
+    icon: Icons.miscellaneous_services_outlined,
+    route: '/admin/mantenimientos',
+  ),
+  AdminNavItem(
+    label: 'Repuestos usados',
+    icon: Icons.settings_outlined,
+    route: '/admin/repuestos-mantenimiento',
+  ),
+  AdminNavItem(
+    label: 'Usuarios',
+    icon: Icons.people_outline,
+    route: '/admin/users',
   ),
 ];
 
@@ -59,7 +78,6 @@ class AdminShell extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-
       appBar: AppBar(
         title: Text(title),
         actions: [
@@ -75,7 +93,6 @@ class AdminShell extends ConsumerWidget {
           ),
         ],
       ),
-
       drawer: NavigationDrawer(
         selectedIndex: adminSelectedIndex(currentRoute),
         onDestinationSelected: (index) {
@@ -122,9 +139,7 @@ class AdminShell extends ConsumerWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 12),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment:
@@ -139,9 +154,7 @@ class AdminShell extends ConsumerWidget {
                               fontSize: 16,
                             ),
                           ),
-
                           const SizedBox(height: 4),
-
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
@@ -151,8 +164,9 @@ class AdminShell extends ConsumerWidget {
                               color: AppColors.accent.withValues(
                                 alpha: 0.15,
                               ),
-                              borderRadius:
-                                  BorderRadius.circular(999),
+                              borderRadius: BorderRadius.circular(
+                                999,
+                              ),
                             ),
                             child: const Text(
                               'Administrador',
@@ -168,9 +182,7 @@ class AdminShell extends ConsumerWidget {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 12),
-
                 const Text(
                   'Panel de administración',
                   style: TextStyle(
@@ -181,10 +193,8 @@ class AdminShell extends ConsumerWidget {
               ],
             ),
           ),
-
           const Divider(height: 1),
           const SizedBox(height: 8),
-
           ...adminNavItems.map(
             (item) => NavigationDrawerDestination(
               icon: Icon(item.icon),
@@ -195,9 +205,7 @@ class AdminShell extends ConsumerWidget {
               label: Text(item.label),
             ),
           ),
-
           const Divider(),
-
           ListTile(
             leading: const Icon(
               Icons.person_outline,
@@ -211,10 +219,9 @@ class AdminShell extends ConsumerWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              context.go('/');
+              context.go('/profile');
             },
           ),
-
           ListTile(
             leading: const Icon(
               Icons.logout,
@@ -230,9 +237,7 @@ class AdminShell extends ConsumerWidget {
             onTap: () async {
               Navigator.pop(context);
 
-              await ref
-                  .read(authProvider.notifier)
-                  .logout();
+              await ref.read(authProvider.notifier).logout();
 
               if (context.mounted) {
                 context.go('/login');
@@ -241,7 +246,6 @@ class AdminShell extends ConsumerWidget {
           ),
         ],
       ),
-
       body: SafeArea(
         child: child,
       ),

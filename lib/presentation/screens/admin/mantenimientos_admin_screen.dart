@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../domain/model/compra.dart';
+import '../../../domain/model/mantenimiento.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/compras_admin_provider.dart';
-import '../../widgets/compra_form.dart';
+import '../../providers/mantenimientos_admin_provider.dart';
+import '../../widgets/mantenimiento_form.dart';
 
-class ComprasAdminScreen extends ConsumerStatefulWidget {
-  const ComprasAdminScreen({
+class MantenimientosAdminScreen
+    extends ConsumerStatefulWidget {
+  const MantenimientosAdminScreen({
     super.key,
   });
 
   @override
-  ConsumerState<ComprasAdminScreen> createState() {
-    return _ComprasAdminScreenState();
+  ConsumerState<MantenimientosAdminScreen>
+      createState() {
+    return _MantenimientosAdminScreenState();
   }
 }
 
-class _ComprasAdminScreenState
-    extends ConsumerState<ComprasAdminScreen> {
-  final _searchController = TextEditingController();
+class _MantenimientosAdminScreenState
+    extends ConsumerState<MantenimientosAdminScreen> {
+  final _searchController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -30,15 +32,21 @@ class _ComprasAdminScreenState
 
   Future<void> _buscar() async {
     await ref
-        .read(comprasAdminProvider.notifier)
-        .setSearch(_searchController.text);
+        .read(
+          mantenimientosAdminProvider.notifier,
+        )
+        .setSearch(
+          _searchController.text,
+        );
   }
 
   Future<void> _limpiarBusqueda() async {
     _searchController.clear();
 
     await ref
-        .read(comprasAdminProvider.notifier)
+        .read(
+          mantenimientosAdminProvider.notifier,
+        )
         .setSearch('');
 
     if (mounted) {
@@ -50,9 +58,11 @@ class _ComprasAdminScreenState
   Widget build(BuildContext context) {
     final user = ref.watch(authProvider).user;
     final isAdmin = user?.role == 'administrador';
-    final state = ref.watch(comprasAdminProvider);
+    final state =
+        ref.watch(mantenimientosAdminProvider);
+
     final notifier = ref.read(
-      comprasAdminProvider.notifier,
+      mantenimientosAdminProvider.notifier,
     );
 
     return Column(
@@ -75,18 +85,21 @@ class _ComprasAdminScreenState
                           CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Compras',
+                          'Mantenimientos',
                           style: TextStyle(
-                            color: AppColors.textPrimary,
+                            color:
+                                AppColors.textPrimary,
                             fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                            fontWeight:
+                                FontWeight.bold,
                           ),
                         ),
                         Text(
-                          '${state.total} compra${state.total == 1 ? '' : 's'} '
-                          'registrada${state.total == 1 ? '' : 's'}',
+                          '${state.total} mantenimiento${state.total == 1 ? '' : 's'} '
+                          'registrado${state.total == 1 ? '' : 's'}',
                           style: const TextStyle(
-                            color: AppColors.textSecondary,
+                            color:
+                                AppColors.textSecondary,
                             fontSize: 13,
                           ),
                         ),
@@ -94,22 +107,25 @@ class _ComprasAdminScreenState
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: state.isLoadingCatalogos
-                        ? null
-                        : () {
-                            showCompraForm(
-                              context,
-                              ref,
-                            );
-                          },
+                    onPressed:
+                        state.isLoadingCatalogos
+                            ? null
+                            : () {
+                                showMantenimientoForm(
+                                  context,
+                                  ref,
+                                );
+                              },
                     icon: const Icon(
                       Icons.add,
                       size: 18,
                     ),
-                    label: const Text('Nueva'),
+                    label: const Text('Nuevo'),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(0, 40),
-                      padding: const EdgeInsets.symmetric(
+                      minimumSize:
+                          const Size(0, 40),
+                      padding:
+                          const EdgeInsets.symmetric(
                         horizontal: 16,
                       ),
                     ),
@@ -123,20 +139,23 @@ class _ComprasAdminScreenState
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _searchController,
+                      controller:
+                          _searchController,
                       textInputAction:
                           TextInputAction.search,
                       onSubmitted: (_) => _buscar(),
                       decoration: InputDecoration(
                         hintText:
-                            'Buscar por proveedor, moto, repuesto o estado...',
+                            'Buscar por moto, cliente, servicio o diagnóstico...',
                         prefixIcon: const Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
                         ),
                         suffixIcon:
-                            _searchController.text.isEmpty
+                            _searchController
+                                    .text
+                                    .isEmpty
                                 ? null
                                 : IconButton(
                                     onPressed:
@@ -151,7 +170,8 @@ class _ComprasAdminScreenState
                         ),
                       ),
                       style: const TextStyle(
-                        color: AppColors.textPrimary,
+                        color:
+                            AppColors.textPrimary,
                       ),
                       onChanged: (_) {
                         setState(() {});
@@ -161,7 +181,9 @@ class _ComprasAdminScreenState
                   const SizedBox(width: 8),
                   IconButton.filled(
                     onPressed:
-                        state.isLoading ? null : _buscar,
+                        state.isLoading
+                            ? null
+                            : _buscar,
                     icon: const Icon(
                       Icons.search,
                     ),
@@ -174,23 +196,28 @@ class _ComprasAdminScreenState
 
               SizedBox(
                 width: double.infinity,
-                child: _EstadoCompraFilter(
-                  selected: state.filtroEstado,
-                  onChanged: state.isLoading
-                      ? null
-                      : notifier.setFiltroEstado,
+                child:
+                    _EstadoMantenimientoFilter(
+                  selected:
+                      state.filtroEstado,
+                  onChanged:
+                      state.isLoading
+                          ? null
+                          : notifier
+                              .setFiltroEstado,
                 ),
               ),
 
               const SizedBox(height: 10),
 
-
               Row(
                 children: [
                   Expanded(
                     child: _OrderingMenu(
-                      selected: state.ordering,
-                      enabled: !state.isLoading,
+                      selected:
+                          state.ordering,
+                      enabled:
+                          !state.isLoading,
                       onChanged:
                           notifier.setOrdering,
                     ),
@@ -199,26 +226,31 @@ class _ComprasAdminScreenState
                   if (state.search.isNotEmpty ||
                       state.filtroEstado != null ||
                       state.ordering !=
-                          '-fecha_compra') ...[
+                          '-fecha_registro') ...[
                     const SizedBox(width: 8),
                     IconButton(
-                      onPressed: state.isLoading
-                          ? null
-                          : () async {
-                              _searchController.clear();
+                      onPressed:
+                          state.isLoading
+                              ? null
+                              : () async {
+                                  _searchController
+                                      .clear();
 
-                              await notifier
-                                  .limpiarFiltros();
+                                  await notifier
+                                      .limpiarFiltros();
 
-                              if (mounted) {
-                                setState(() {});
-                              }
-                            },
+                                  if (mounted) {
+                                    setState(() {});
+                                  }
+                                },
                       icon: const Icon(
-                        Icons.filter_alt_off_outlined,
+                        Icons
+                            .filter_alt_off_outlined,
                       ),
-                      tooltip: 'Limpiar filtros',
-                      color: AppColors.textSecondary,
+                      tooltip:
+                          'Limpiar filtros',
+                      color:
+                          AppColors.textSecondary,
                     ),
                   ],
                 ],
@@ -227,127 +259,148 @@ class _ComprasAdminScreenState
           ),
         ),
 
-
         Expanded(
           child: Builder(
             builder: (_) {
               if (state.isLoading &&
-                  state.compras.isEmpty) {
+                  state.mantenimientos.isEmpty) {
                 return const Center(
-                  child: CircularProgressIndicator(
+                  child:
+                      CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
                 );
               }
 
               if (state.error != null &&
-                  state.compras.isEmpty) {
+                  state.mantenimientos.isEmpty) {
                 return _ErrorView(
                   message: state.error!,
                   onRetry: notifier.load,
                 );
               }
 
-              if (state.compras.isEmpty) {
+              if (state.mantenimientos.isEmpty) {
                 return _EmptyView(
                   hasFilters:
                       state.search.isNotEmpty ||
-                          state.filtroEstado != null,
+                          state.filtroEstado !=
+                              null,
                 );
               }
 
               return RefreshIndicator(
                 onRefresh: () async {
                   await notifier.load();
-                  await notifier.cargarCatalogos();
+                  await notifier
+                      .cargarCatalogos();
                 },
                 color: AppColors.accent,
                 child: ListView.separated(
                   physics:
                       const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
+                  padding:
+                      const EdgeInsets.all(16),
                   itemCount:
-                      state.compras.length + 1,
-                  separatorBuilder: (_, index) {
+                      state.mantenimientos.length +
+                          1,
+                  separatorBuilder:
+                      (_, index) {
                     if (index ==
-                        state.compras.length - 1) {
-                      return const SizedBox(height: 16);
+                        state.mantenimientos
+                                .length -
+                            1) {
+                      return const SizedBox(
+                        height: 16,
+                      );
                     }
 
-                    return const SizedBox(height: 10);
+                    return const SizedBox(
+                      height: 10,
+                    );
                   },
                   itemBuilder: (_, index) {
                     if (index ==
-                        state.compras.length) {
+                        state.mantenimientos
+                            .length) {
                       return _PaginationControls(
                         page: state.page,
-                        pageSize: state.pageSize,
+                        pageSize:
+                            state.pageSize,
                         total: state.total,
                         hasPrevious:
                             state.hasPreviousPage,
-                        hasNext: state.hasNextPage,
-                        isLoading: state.isLoading,
+                        hasNext:
+                            state.hasNextPage,
+                        isLoading:
+                            state.isLoading,
                         onPrevious:
-                            notifier.paginaAnterior,
+                            notifier
+                                .paginaAnterior,
                         onNext:
-                            notifier.siguientePagina,
+                            notifier
+                                .siguientePagina,
                         onPageSizeChanged:
                             notifier.setPageSize,
                       );
                     }
 
-                    final compra =
-                        state.compras[index];
+                    final mantenimiento =
+                        state.mantenimientos[
+                            index];
 
-                    final proveedor =
-                        state.proveedorPorId(
-                      compra.proveedorId,
+                    final moto = state.motoPorId(
+                      mantenimiento.motoId,
                     );
 
-                    final moto = compra.motoId == null
-                        ? null
-                        : state.motoPorId(
-                            compra.motoId!,
-                          );
+                    final cliente =
+                        state.clientePorId(
+                      mantenimiento
+                          .usuarioClienteId,
+                    );
 
-                    final repuesto =
-                        compra.repuestoId == null
-                            ? null
-                            : state.repuestoPorId(
-                                compra.repuestoId!,
-                              );
+                    final servicio =
+                        state.servicioPorId(
+                      mantenimiento.servicioId,
+                    );
 
-                    return _CompraCard(
-                      compra: compra,
-                      proveedorNombre: proveedor?.nombre ?? 'Desconocido',
-                      productoNombre: moto != null
-                          ? '${moto.marca.nombre} ${moto.modelo}'
-                          : repuesto != null
-                              ? '${repuesto.nombre} (${repuesto.sku})'
-                              : compra.motoId != null
-                                  ? 'Moto #${compra.motoId}'
-                                  : 'Repuesto #${compra.repuestoId}',
-                      tipoProducto: moto != null ||
-                              compra.motoId != null
-                          ? 'Moto'
-                          : 'Repuesto',
+                    return _MantenimientoCard(
+                      mantenimiento:
+                          mantenimiento,
+                      motoNombre: moto == null
+                          ? 'Moto #${mantenimiento.motoId}'
+                          : '${moto.marca.nombre} ${moto.modelo} ${moto.anio}',
+                      clienteNombre:
+                          cliente == null
+                              ? 'Cliente #${mantenimiento.usuarioClienteId}'
+                              : state
+                                  .nombreCliente(
+                                  cliente,
+                                ),
+                      servicioNombre:
+                          servicio == null
+                              ? 'Servicio #${mantenimiento.servicioId}'
+                              : servicio.nombre,
                       canDelete: isAdmin,
                       onEdit: () {
-                        showCompraForm(
+                        showMantenimientoForm(
                           context,
                           ref,
-                          initial: compra,
+                          initial:
+                              mantenimiento,
                         );
                       },
                       onDelete: () {
                         _confirmDelete(
                           context,
-                          compra,
+                          mantenimiento,
                         );
                       },
-                      onChangeState: (nuevoEstado) {
+                      onChangeState:
+                          (nuevoEstado) {
                         notifier.cambiarEstado(
-                          compra.idCompra,
+                          mantenimiento
+                              .idMantenimiento,
                           nuevoEstado,
                         );
                       },
@@ -364,24 +417,27 @@ class _ComprasAdminScreenState
 
   void _confirmDelete(
     BuildContext context,
-    Compra compra,
+    Mantenimiento mantenimiento,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: AppColors.surface,
+          backgroundColor:
+              AppColors.surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius:
+                BorderRadius.circular(16),
           ),
           title: const Text(
-            '¿Eliminar compra?',
+            '¿Eliminar mantenimiento?',
             style: TextStyle(
               color: AppColors.textPrimary,
             ),
           ),
           content: Text(
-            'La compra #${compra.idCompra} se eliminará permanentemente.',
+            'El mantenimiento #${mantenimiento.idMantenimiento} '
+            'se eliminará permanentemente.',
             style: const TextStyle(
               color: AppColors.textSecondary,
             ),
@@ -399,10 +455,12 @@ class _ComprasAdminScreenState
 
                 await ref
                     .read(
-                      comprasAdminProvider.notifier,
+                      mantenimientosAdminProvider
+                          .notifier,
                     )
-                    .eliminarCompra(
-                      compra.idCompra,
+                    .eliminarMantenimiento(
+                      mantenimiento
+                          .idMantenimiento,
                     );
 
                 if (!mounted) {
@@ -410,7 +468,9 @@ class _ComprasAdminScreenState
                 }
 
                 final error = ref
-                    .read(comprasAdminProvider)
+                    .read(
+                      mantenimientosAdminProvider,
+                    )
                     .error;
 
                 if (error != null) {
@@ -428,7 +488,8 @@ class _ComprasAdminScreenState
                 'Eliminar',
                 style: TextStyle(
                   color: AppColors.error,
-                  fontWeight: FontWeight.bold,
+                  fontWeight:
+                      FontWeight.bold,
                 ),
               ),
             ),
@@ -439,126 +500,129 @@ class _ComprasAdminScreenState
   }
 }
 
-
-
-class _EstadoCompraFilter extends StatelessWidget {
+class _EstadoMantenimientoFilter
+    extends StatelessWidget {
   final String? selected;
   final ValueChanged<String?>? onChanged;
 
-  const _EstadoCompraFilter({
+  const _EstadoMantenimientoFilter({
     required this.selected,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<String?>(
-      segments: const [
-        ButtonSegment<String?>(
-          value: null,
-          label: Text(
-            'Todas',
-            maxLines: 1,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SegmentedButton<String?>(
+        segments: const [
+          ButtonSegment<String?>(
+            value: null,
+            label: Text('Todos'),
+            icon: Icon(
+              Icons.list_alt_outlined,
+              size: 18,
+            ),
           ),
-          icon: Icon(
-            Icons.list_alt_outlined,
-            size: 18,
+          ButtonSegment<String?>(
+            value: 'Pendiente',
+            label: Text('Pendientes'),
+            icon: Icon(
+              Icons.schedule_outlined,
+              size: 18,
+            ),
           ),
-        ),
-        ButtonSegment<String?>(
-          value: 'Pendiente',
-          label: Text(
-            'Pendientes',
-            maxLines: 1,
+          ButtonSegment<String?>(
+            value: 'En proceso',
+            label: Text('En proceso'),
+            icon: Icon(
+              Icons.build_outlined,
+              size: 18,
+            ),
           ),
-          icon: Icon(
-            Icons.schedule_outlined,
-            size: 18,
+          ButtonSegment<String?>(
+            value: 'Finalizado',
+            label: Text('Finalizados'),
+            icon: Icon(
+              Icons.check_circle_outline,
+              size: 18,
+            ),
           ),
-        ),
-        ButtonSegment<String?>(
-          value: 'Recibida',
-          label: Text(
-            'Recibidas',
-            maxLines: 1,
+          ButtonSegment<String?>(
+            value: 'Cancelado',
+            label: Text('Cancelados'),
+            icon: Icon(
+              Icons.block_outlined,
+              size: 18,
+            ),
           ),
-          icon: Icon(
-            Icons.check_circle_outline,
-            size: 18,
+        ],
+        selected: <String?>{selected},
+        onSelectionChanged:
+            onChanged == null
+                ? null
+                : (values) {
+                    onChanged!(values.first);
+                  },
+        showSelectedIcon: false,
+        style: ButtonStyle(
+          minimumSize:
+              WidgetStateProperty.all(
+            const Size(108, 46),
           ),
-        ),
-        ButtonSegment<String?>(
-          value: 'Cancelada',
-          label: Text(
-            'Canceladas',
-            maxLines: 1,
+          padding:
+              WidgetStateProperty.all(
+            const EdgeInsets.symmetric(
+              horizontal: 8,
+            ),
           ),
-          icon: Icon(
-            Icons.block_outlined,
-            size: 18,
+          textStyle:
+              WidgetStateProperty.all(
+            const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-      ],
-      selected: <String?>{selected},
-      onSelectionChanged: onChanged == null
-          ? null
-          : (values) {
-              onChanged!(values.first);
+          visualDensity:
+              VisualDensity.compact,
+          backgroundColor:
+              WidgetStateProperty
+                  .resolveWith(
+            (states) {
+              if (states.contains(
+                WidgetState.selected,
+              )) {
+                return AppColors.accent
+                    .withValues(alpha: 0.15);
+              }
+
+              return AppColors.surface2;
             },
-      showSelectedIcon: false,
-      expandedInsets: EdgeInsets.zero,
-      style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(
-          const Size(0, 46),
-        ),
-        padding: WidgetStateProperty.all(
-          const EdgeInsets.symmetric(
-            horizontal: 4,
           ),
-        ),
-        textStyle: WidgetStateProperty.all(
-          const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
+          foregroundColor:
+              WidgetStateProperty
+                  .resolveWith(
+            (states) {
+              if (states.contains(
+                WidgetState.selected,
+              )) {
+                return AppColors.accent;
+              }
+
+              return AppColors
+                  .textSecondary;
+            },
           ),
-        ),
-        visualDensity: VisualDensity.compact,
-        backgroundColor:
-            WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(
-              WidgetState.selected,
-            )) {
-              return AppColors.accent.withValues(
-                alpha: 0.15,
-              );
-            }
-
-            return AppColors.surface2;
-          },
-        ),
-        foregroundColor:
-            WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(
-              WidgetState.selected,
-            )) {
-              return AppColors.accent;
-            }
-
-            return AppColors.textSecondary;
-          },
-        ),
-        side: WidgetStateProperty.all(
-          const BorderSide(
-            color: AppColors.border,
+          side: WidgetStateProperty.all(
+            const BorderSide(
+              color: AppColors.border,
+            ),
           ),
         ),
       ),
     );
   }
 }
-
 
 class _OrderingMenu extends StatelessWidget {
   final String selected;
@@ -576,33 +640,35 @@ class _OrderingMenu extends StatelessWidget {
     return PopupMenuButton<String>(
       enabled: enabled,
       initialValue: selected,
-      tooltip: 'Ordenar compras',
+      tooltip: 'Ordenar mantenimientos',
       color: AppColors.surface2,
       onSelected: onChanged,
       itemBuilder: (_) => const [
         PopupMenuItem(
-          value: '-fecha_compra',
+          value: '-fecha_registro',
           child: Text('Más recientes'),
         ),
         PopupMenuItem(
-          value: 'fecha_compra',
-          child: Text('Más antiguas'),
+          value: 'fecha_registro',
+          child: Text('Más antiguos'),
         ),
         PopupMenuItem(
-          value: '-subtotal',
-          child: Text('Mayor subtotal'),
+          value: '-kilometraje_actual',
+          child:
+              Text('Mayor kilometraje'),
         ),
         PopupMenuItem(
-          value: 'subtotal',
-          child: Text('Menor subtotal'),
+          value: 'kilometraje_actual',
+          child:
+              Text('Menor kilometraje'),
         ),
         PopupMenuItem(
-          value: '-cantidad',
-          child: Text('Mayor cantidad'),
+          value: '-costo_final',
+          child: Text('Mayor costo'),
         ),
         PopupMenuItem(
-          value: 'cantidad',
-          child: Text('Menor cantidad'),
+          value: 'costo_final',
+          child: Text('Menor costo'),
         ),
         PopupMenuItem(
           value: 'estado',
@@ -612,12 +678,14 @@ class _OrderingMenu extends StatelessWidget {
       child: Container(
         height: 42,
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(
+        padding:
+            const EdgeInsets.symmetric(
           horizontal: 12,
         ),
         decoration: BoxDecoration(
           color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius:
+              BorderRadius.circular(10),
           border: Border.all(
             color: AppColors.border,
           ),
@@ -629,15 +697,18 @@ class _OrderingMenu extends StatelessWidget {
             Icon(
               Icons.sort,
               size: 18,
-              color: AppColors.textSecondary,
+              color:
+                  AppColors.textSecondary,
             ),
             SizedBox(width: 6),
             Text(
-              'Ordenar compras',
+              'Ordenar mantenimientos',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color:
+                    AppColors.textSecondary,
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight:
+                    FontWeight.w500,
               ),
             ),
           ],
@@ -647,21 +718,23 @@ class _OrderingMenu extends StatelessWidget {
   }
 }
 
-class _CompraCard extends StatelessWidget {
-  final Compra compra;
-  final String proveedorNombre;
-  final String productoNombre;
-  final String tipoProducto;
+class _MantenimientoCard
+    extends StatelessWidget {
+  final Mantenimiento mantenimiento;
+  final String motoNombre;
+  final String clienteNombre;
+  final String servicioNombre;
   final bool canDelete;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
-  final ValueChanged<String> onChangeState;
+  final ValueChanged<String>
+      onChangeState;
 
-  const _CompraCard({
-    required this.compra,
-    required this.proveedorNombre,
-    required this.productoNombre,
-    required this.tipoProducto,
+  const _MantenimientoCard({
+    required this.mantenimiento,
+    required this.motoNombre,
+    required this.clienteNombre,
+    required this.servicioNombre,
     required this.canDelete,
     required this.onEdit,
     required this.onDelete,
@@ -670,15 +743,15 @@ class _CompraCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _statusColor(
-      compra.estado,
-    );
+    final color =
+        _statusColor(mantenimiento.estado);
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+            BorderRadius.circular(14),
         border: Border.all(
           color: AppColors.border,
         ),
@@ -691,24 +764,28 @@ class _CompraCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Compra #${compra.idCompra}',
+                  'Mantenimiento #${mantenimiento.idMantenimiento}',
                   style: const TextStyle(
-                    color: AppColors.textPrimary,
+                    color:
+                        AppColors.textPrimary,
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontWeight:
+                        FontWeight.bold,
                   ),
                 ),
               ),
-              _CompraEstadoBadge(
-                estado: compra.estado,
+              _EstadoBadge(
+                estado:
+                    mantenimiento.estado,
               ),
               const SizedBox(width: 4),
               PopupMenuButton<String>(
-                tooltip: 'Cambiar estado',
+                tooltip: 'Acciones',
                 color: AppColors.surface2,
                 icon: const Icon(
                   Icons.more_vert,
-                  color: AppColors.textSecondary,
+                  color:
+                      AppColors.textSecondary,
                 ),
                 onSelected: (value) {
                   if (value == 'editar') {
@@ -716,7 +793,8 @@ class _CompraCard extends StatelessWidget {
                     return;
                   }
 
-                  if (value == 'eliminar') {
+                  if (value ==
+                      'eliminar') {
                     onDelete();
                     return;
                   }
@@ -731,15 +809,21 @@ class _CompraCard extends StatelessWidget {
                     ),
                   ),
                   const PopupMenuItem(
-                    value: 'Recibida',
+                    value: 'En proceso',
                     child: Text(
-                      'Marcar como recibida',
+                      'Marcar en proceso',
                     ),
                   ),
                   const PopupMenuItem(
-                    value: 'Cancelada',
+                    value: 'Finalizado',
                     child: Text(
-                      'Marcar como cancelada',
+                      'Marcar como finalizado',
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'Cancelado',
+                    child: Text(
+                      'Marcar como cancelado',
                     ),
                   ),
                   const PopupMenuDivider(),
@@ -753,7 +837,8 @@ class _CompraCard extends StatelessWidget {
                       child: Text(
                         'Eliminar',
                         style: TextStyle(
-                          color: AppColors.error,
+                          color:
+                              AppColors.error,
                         ),
                       ),
                     ),
@@ -764,33 +849,52 @@ class _CompraCard extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          _CompraInfoRow(
-            label: 'Proveedor',
-            value: proveedorNombre,
+          _InfoRow(
+            label: 'Moto',
+            value: motoNombre,
           ),
 
-          _CompraInfoRow(
-            label: tipoProducto,
-            value: productoNombre,
+          _InfoRow(
+            label: 'Cliente',
+            value: clienteNombre,
           ),
 
-          _CompraInfoRow(
-            label: 'Cantidad',
-            value: compra.cantidad.toString(),
+          _InfoRow(
+            label: 'Servicio',
+            value: servicioNombre,
           ),
 
-          _CompraInfoRow(
-            label: 'Precio unitario',
+          _InfoRow(
+            label: 'Kilometraje',
             value:
-                '\$ ${compra.precioUnitario.toStringAsFixed(2)}',
+                '${mantenimiento.kilometrajeActual} km',
           ),
 
-          _CompraInfoRow(
+          _InfoRow(
             label: 'Fecha',
-            value: _formatDateTime(
-              compra.fechaCompra,
+            value: _formatDate(
+              mantenimiento.fechaRegistro,
             ),
           ),
+
+          if (_tieneTexto(
+            mantenimiento
+                .diagnosticoInicial,
+          )) ...[
+            const SizedBox(height: 6),
+            Text(
+              mantenimiento
+                  .diagnosticoInicial!,
+              maxLines: 3,
+              overflow:
+                  TextOverflow.ellipsis,
+              style: const TextStyle(
+                color:
+                    AppColors.textSecondary,
+                fontSize: 12,
+              ),
+            ),
+          ],
 
           const Divider(
             height: 22,
@@ -801,19 +905,22 @@ class _CompraCard extends StatelessWidget {
             children: [
               const Expanded(
                 child: Text(
-                  'Subtotal',
+                  'Costo final',
                   style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w600,
+                    color:
+                        AppColors.textSecondary,
+                    fontWeight:
+                        FontWeight.w600,
                   ),
                 ),
               ),
               Text(
-                '\$ ${compra.subtotal.toStringAsFixed(2)}',
+                '\$ ${mantenimiento.costoFinal.toStringAsFixed(2)}',
                 style: TextStyle(
-                  color: statusColor,
+                  color: color,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontWeight:
+                      FontWeight.bold,
                 ),
               ),
             ],
@@ -823,18 +930,29 @@ class _CompraCard extends StatelessWidget {
     );
   }
 
-  static Color _statusColor(String estado) {
+  static bool _tieneTexto(
+    String? value,
+  ) {
+    return value != null &&
+        value.trim().isNotEmpty;
+  }
+
+  static Color _statusColor(
+    String estado,
+  ) {
     switch (estado) {
-      case 'Recibida':
+      case 'Finalizado':
         return AppColors.success;
-      case 'Cancelada':
+      case 'Cancelado':
         return AppColors.error;
+      case 'En proceso':
+        return AppColors.info;
       default:
         return AppColors.warning;
     }
   }
 
-  static String _formatDateTime(
+  static String _formatDate(
     DateTime? date,
   ) {
     if (date == null) {
@@ -843,26 +961,34 @@ class _CompraCard extends StatelessWidget {
 
     final local = date.toLocal();
 
-    final day =
-        local.day.toString().padLeft(2, '0');
-    final month =
-        local.month.toString().padLeft(2, '0');
-    final year = local.year.toString();
+    final day = local.day
+        .toString()
+        .padLeft(2, '0');
 
-    final hour =
-        local.hour.toString().padLeft(2, '0');
-    final minute =
-        local.minute.toString().padLeft(2, '0');
+    final month = local.month
+        .toString()
+        .padLeft(2, '0');
+
+    final year =
+        local.year.toString();
+
+    final hour = local.hour
+        .toString()
+        .padLeft(2, '0');
+
+    final minute = local.minute
+        .toString()
+        .padLeft(2, '0');
 
     return '$day/$month/$year $hour:$minute';
   }
 }
 
-class _CompraInfoRow extends StatelessWidget {
+class _InfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _CompraInfoRow({
+  const _InfoRow({
     required this.label,
     required this.value,
   });
@@ -870,7 +996,8 @@ class _CompraInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
+      padding:
+          const EdgeInsets.only(
         bottom: 6,
       ),
       child: Row(
@@ -882,7 +1009,8 @@ class _CompraInfoRow extends StatelessWidget {
             child: Text(
               label,
               style: const TextStyle(
-                color: AppColors.textFaint,
+                color:
+                    AppColors.textFaint,
                 fontSize: 12,
               ),
             ),
@@ -892,9 +1020,11 @@ class _CompraInfoRow extends StatelessWidget {
               value,
               textAlign: TextAlign.right,
               style: const TextStyle(
-                color: AppColors.textSecondary,
+                color:
+                    AppColors.textSecondary,
                 fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontWeight:
+                    FontWeight.w500,
               ),
             ),
           ),
@@ -904,44 +1034,54 @@ class _CompraInfoRow extends StatelessWidget {
   }
 }
 
-class _CompraEstadoBadge extends StatelessWidget {
+class _EstadoBadge
+    extends StatelessWidget {
   final String estado;
 
-  const _CompraEstadoBadge({
+  const _EstadoBadge({
     required this.estado,
   });
 
   @override
   Widget build(BuildContext context) {
     final color = switch (estado) {
-      'Recibida' => AppColors.success,
-      'Cancelada' => AppColors.error,
+      'Finalizado' =>
+        AppColors.success,
+      'Cancelado' =>
+        AppColors.error,
+      'En proceso' =>
+        AppColors.info,
       _ => AppColors.warning,
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding:
+          const EdgeInsets.symmetric(
         horizontal: 8,
         vertical: 3,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(7),
+        color: color.withValues(
+          alpha: 0.12,
+        ),
+        borderRadius:
+            BorderRadius.circular(7),
       ),
       child: Text(
         estado,
         style: TextStyle(
           color: color,
           fontSize: 10,
-          fontWeight: FontWeight.bold,
+          fontWeight:
+              FontWeight.bold,
         ),
       ),
     );
   }
 }
 
-
-class _PaginationControls extends StatelessWidget {
+class _PaginationControls
+    extends StatelessWidget {
   final int page;
   final int pageSize;
   final int total;
@@ -950,7 +1090,8 @@ class _PaginationControls extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPrevious;
   final VoidCallback onNext;
-  final ValueChanged<int> onPageSizeChanged;
+  final ValueChanged<int>
+      onPageSizeChanged;
 
   const _PaginationControls({
     required this.page,
@@ -967,13 +1108,17 @@ class _PaginationControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalPages =
-        total == 0 ? 1 : (total / pageSize).ceil();
+        total == 0
+            ? 1
+            : (total / pageSize).ceil();
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding:
+          const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+            BorderRadius.circular(14),
         border: Border.all(
           color: AppColors.border,
         ),
@@ -983,7 +1128,8 @@ class _PaginationControls extends StatelessWidget {
           Text(
             'Página $page de $totalPages',
             style: const TextStyle(
-              color: AppColors.textSecondary,
+              color:
+                  AppColors.textSecondary,
               fontSize: 12,
             ),
           ),
@@ -993,19 +1139,24 @@ class _PaginationControls extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed:
-                      isLoading || !hasPrevious
+                      isLoading ||
+                              !hasPrevious
                           ? null
                           : onPrevious,
-                  child: const Text('Anterior'),
+                  child:
+                      const Text('Anterior'),
                 ),
               ),
               const SizedBox(width: 10),
               DropdownButton<int>(
                 value: pageSize,
-                dropdownColor: AppColors.surface2,
-                underline: const SizedBox.shrink(),
+                dropdownColor:
+                    AppColors.surface2,
+                underline:
+                    const SizedBox.shrink(),
                 style: const TextStyle(
-                  color: AppColors.textPrimary,
+                  color:
+                      AppColors.textPrimary,
                 ),
                 items: const [
                   DropdownMenuItem(
@@ -1025,7 +1176,9 @@ class _PaginationControls extends StatelessWidget {
                     ? null
                     : (value) {
                         if (value != null) {
-                          onPageSizeChanged(value);
+                          onPageSizeChanged(
+                            value,
+                          );
                         }
                       },
               ),
@@ -1033,10 +1186,12 @@ class _PaginationControls extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed:
-                      isLoading || !hasNext
+                      isLoading ||
+                              !hasNext
                           ? null
                           : onNext,
-                  child: const Text('Siguiente'),
+                  child:
+                      const Text('Siguiente'),
                 ),
               ),
             ],
@@ -1047,8 +1202,8 @@ class _PaginationControls extends StatelessWidget {
   }
 }
 
-
-class _ErrorView extends StatelessWidget {
+class _ErrorView
+    extends StatelessWidget {
   final String message;
   final Future<void> Function() onRetry;
 
@@ -1061,7 +1216,8 @@ class _ErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding:
+            const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center,
@@ -1082,7 +1238,8 @@ class _ErrorView extends StatelessWidget {
             const SizedBox(height: 14),
             ElevatedButton(
               onPressed: onRetry,
-              child: const Text('Reintentar'),
+              child:
+                  const Text('Reintentar'),
             ),
           ],
         ),
@@ -1091,7 +1248,8 @@ class _ErrorView extends StatelessWidget {
   }
 }
 
-class _EmptyView extends StatelessWidget {
+class _EmptyView
+    extends StatelessWidget {
   final bool hasFilters;
 
   const _EmptyView({
@@ -1106,28 +1264,32 @@ class _EmptyView extends StatelessWidget {
             MainAxisAlignment.center,
         children: [
           const Icon(
-            Icons.shopping_cart_checkout_outlined,
+            Icons
+                .miscellaneous_services_outlined,
             color: AppColors.textFaint,
             size: 55,
           ),
           const SizedBox(height: 12),
           Text(
             hasFilters
-                ? 'No se encontraron compras'
-                : 'No existen compras registradas',
+                ? 'No se encontraron mantenimientos'
+                : 'No existen mantenimientos registrados',
             style: const TextStyle(
-              color: AppColors.textPrimary,
+              color:
+                  AppColors.textPrimary,
               fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontWeight:
+                  FontWeight.bold,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             hasFilters
                 ? 'Prueba con otros términos o estados.'
-                : 'Registra la primera compra para comenzar.',
+                : 'Registra el primer mantenimiento para comenzar.',
             style: const TextStyle(
-              color: AppColors.textSecondary,
+              color:
+                  AppColors.textSecondary,
               fontSize: 13,
             ),
           ),

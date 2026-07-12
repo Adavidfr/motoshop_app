@@ -1,28 +1,25 @@
-// lib/presentation/screens/admin/proveedores_admin_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:motoshop_app/presentation/providers/proveedor_admin_provider.dart';
-import '../../providers/auth_provider.dart';
 
-import '../../../domain/model/proveedor.dart';
+import '../../../domain/model/servicio.dart';
 import '../../../theme/app_colors.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/servicios_admin_provider.dart';
+import '../../widgets/servicio_form.dart';
 
-import '../../widgets/proveedor_form.dart';
-
-class ProveedoresAdminScreen extends ConsumerStatefulWidget {
-  const ProveedoresAdminScreen({
+class ServiciosAdminScreen extends ConsumerStatefulWidget {
+  const ServiciosAdminScreen({
     super.key,
   });
 
   @override
-  ConsumerState<ProveedoresAdminScreen> createState() {
-    return _ProveedoresAdminScreenState();
+  ConsumerState<ServiciosAdminScreen> createState() {
+    return _ServiciosAdminScreenState();
   }
 }
 
-class _ProveedoresAdminScreenState
-    extends ConsumerState<ProveedoresAdminScreen> {
+class _ServiciosAdminScreenState
+    extends ConsumerState<ServiciosAdminScreen> {
   final _searchController = TextEditingController();
 
   @override
@@ -33,7 +30,7 @@ class _ProveedoresAdminScreenState
 
   Future<void> _buscar() async {
     await ref
-        .read(proveedoresAdminProvider.notifier)
+        .read(serviciosAdminProvider.notifier)
         .setSearch(_searchController.text);
   }
 
@@ -41,17 +38,21 @@ class _ProveedoresAdminScreenState
     _searchController.clear();
 
     await ref
-        .read(proveedoresAdminProvider.notifier)
+        .read(serviciosAdminProvider.notifier)
         .setSearch('');
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authProvider).user;
     final isAdmin = user?.role == 'administrador';
-    final state = ref.watch(proveedoresAdminProvider);
+    final state = ref.watch(serviciosAdminProvider);
     final notifier = ref.read(
-      proveedoresAdminProvider.notifier,
+      serviciosAdminProvider.notifier,
     );
 
     return Column(
@@ -74,7 +75,7 @@ class _ProveedoresAdminScreenState
                           CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Proveedores',
+                          'Servicios',
                           style: TextStyle(
                             color: AppColors.textPrimary,
                             fontSize: 22,
@@ -82,10 +83,10 @@ class _ProveedoresAdminScreenState
                           ),
                         ),
                         Text(
-                          '${state.total} proveedor${state.total == 1 ? '' : 'es'} registrado${state.total == 1 ? '' : 's'}',
+                          '${state.total} servicio${state.total == 1 ? '' : 's'} '
+                          'registrado${state.total == 1 ? '' : 's'}',
                           style: const TextStyle(
-                            color:
-                                AppColors.textSecondary,
+                            color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
                         ),
@@ -94,7 +95,7 @@ class _ProveedoresAdminScreenState
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      showProveedorForm(
+                      showServicioForm(
                         context,
                         ref,
                       );
@@ -106,8 +107,7 @@ class _ProveedoresAdminScreenState
                     label: const Text('Nuevo'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 40),
-                      padding:
-                          const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16,
                       ),
                     ),
@@ -127,7 +127,7 @@ class _ProveedoresAdminScreenState
                       onSubmitted: (_) => _buscar(),
                       decoration: InputDecoration(
                         hintText:
-                            'Buscar por nombre, contacto, correo o teléfono...',
+                            'Buscar por nombre o descripción...',
                         prefixIcon: const Icon(
                           Icons.search_rounded,
                           color:
@@ -172,9 +172,10 @@ class _ProveedoresAdminScreenState
 
               const SizedBox(height: 12),
 
-              Row(
+              Column(
                 children: [
-                  Expanded(
+                  SizedBox(
+                    width: double.infinity,
                     child: _EstadoFilter(
                       selected: state.filtroEstado,
                       onChanged: state.isLoading
@@ -183,25 +184,43 @@ class _ProveedoresAdminScreenState
                     ),
                   ),
 
-                  if (state.search.isNotEmpty ||
-                      state.filtroEstado != null) ...[
-                    const SizedBox(width: 8),
-                    IconButton(
-                      onPressed: state.isLoading
-                          ? null
-                          : () async {
-                              _searchController.clear();
-                              await notifier
-                                  .limpiarFiltros();
-                              setState(() {});
-                            },
-                      icon: const Icon(
-                        Icons.filter_alt_off_outlined,
+                  const SizedBox(height: 10),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _OrderingMenu(
+                          selected: state.ordering,
+                          enabled: !state.isLoading,
+                          onChanged: notifier.setOrdering,
+                        ),
                       ),
-                      tooltip: 'Limpiar filtros',
-                      color: AppColors.textSecondary,
-                    ),
-                  ],
+
+                      if (state.search.isNotEmpty ||
+                          state.filtroEstado != null ||
+                          state.ordering != 'nombre') ...[
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: state.isLoading
+                              ? null
+                              : () async {
+                                  _searchController.clear();
+
+                                  await notifier.limpiarFiltros();
+
+                                  if (mounted) {
+                                    setState(() {});
+                                  }
+                                },
+                          icon: const Icon(
+                            Icons.filter_alt_off_outlined,
+                          ),
+                          tooltip: 'Limpiar filtros',
+                          color: AppColors.textSecondary,
+                        ),
+                      ],
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -212,7 +231,7 @@ class _ProveedoresAdminScreenState
           child: Builder(
             builder: (_) {
               if (state.isLoading &&
-                  state.proveedores.isEmpty) {
+                  state.servicios.isEmpty) {
                 return const Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
@@ -221,14 +240,14 @@ class _ProveedoresAdminScreenState
               }
 
               if (state.error != null &&
-                  state.proveedores.isEmpty) {
+                  state.servicios.isEmpty) {
                 return _ErrorView(
                   message: state.error!,
                   onRetry: notifier.load,
                 );
               }
 
-              if (state.proveedores.isEmpty) {
+              if (state.servicios.isEmpty) {
                 return _EmptyView(
                   hasFilters:
                       state.search.isNotEmpty ||
@@ -244,10 +263,10 @@ class _ProveedoresAdminScreenState
                       const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(16),
                   itemCount:
-                      state.proveedores.length + 1,
+                      state.servicios.length + 1,
                   separatorBuilder: (_, index) {
                     if (index ==
-                        state.proveedores.length - 1) {
+                        state.servicios.length - 1) {
                       return const SizedBox(height: 16);
                     }
 
@@ -255,7 +274,7 @@ class _ProveedoresAdminScreenState
                   },
                   itemBuilder: (_, index) {
                     if (index ==
-                        state.proveedores.length) {
+                        state.servicios.length) {
                       return _PaginationControls(
                         page: state.page,
                         pageSize: state.pageSize,
@@ -273,29 +292,29 @@ class _ProveedoresAdminScreenState
                       );
                     }
 
-                    final proveedor =
-                        state.proveedores[index];
+                    final servicio =
+                        state.servicios[index];
 
-                    return _ProveedorCard(
-                      proveedor: proveedor,
+                    return _ServicioCard(
+                      servicio: servicio,
                       canDelete: isAdmin,
                       onToggle: () {
                         notifier.toggleEstado(
-                          proveedor.id,
-                          !proveedor.estado,
+                          servicio.id,
+                          !servicio.estado,
                         );
                       },
                       onEdit: () {
-                        showProveedorForm(
+                        showServicioForm(
                           context,
                           ref,
-                          initial: proveedor,
+                          initial: servicio,
                         );
                       },
                       onDelete: () {
                         _confirmDelete(
                           context,
-                          proveedor,
+                          servicio,
                         );
                       },
                     );
@@ -311,7 +330,7 @@ class _ProveedoresAdminScreenState
 
   void _confirmDelete(
     BuildContext context,
-    Proveedor proveedor,
+    Servicio servicio,
   ) {
     showDialog<void>(
       context: context,
@@ -322,14 +341,15 @@ class _ProveedoresAdminScreenState
             borderRadius: BorderRadius.circular(16),
           ),
           title: const Text(
-            '¿Eliminar proveedor?',
+            '¿Eliminar servicio?',
             style: TextStyle(
               color: AppColors.textPrimary,
             ),
           ),
           content: Text(
-            '"${proveedor.nombre}" se eliminará permanentemente.\n\n'
-            'Si tiene compras relacionadas, el backend podría impedir la eliminación. En ese caso puedes desactivarlo.',
+            '"${servicio.nombre}" se eliminará permanentemente.\n\n'
+            'Si está asociado a mantenimientos, el servidor podría impedir '
+            'su eliminación. En ese caso puedes desactivarlo.',
             style: const TextStyle(
               color: AppColors.textSecondary,
             ),
@@ -347,16 +367,16 @@ class _ProveedoresAdminScreenState
 
                 await ref
                     .read(
-                      proveedoresAdminProvider.notifier,
+                      serviciosAdminProvider.notifier,
                     )
-                    .eliminarProveedor(proveedor.id);
+                    .eliminarServicio(servicio.id);
 
                 if (!mounted) {
                   return;
                 }
 
                 final error = ref
-                    .read(proveedoresAdminProvider)
+                    .read(serviciosAdminProvider)
                     .error;
 
                 if (error != null) {
@@ -400,18 +420,39 @@ class _EstadoFilter extends StatelessWidget {
       segments: const [
         ButtonSegment<bool?>(
           value: null,
-          label: Text('Todos'),
-          icon: Icon(Icons.list_alt_outlined),
+          label: Text(
+            'Todos',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          icon: Icon(
+            Icons.list_alt_outlined,
+            size: 18,
+          ),
         ),
         ButtonSegment<bool?>(
           value: true,
-          label: Text('Activos'),
-          icon: Icon(Icons.check_circle_outline),
+          label: Text(
+            'Activos',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          icon: Icon(
+            Icons.check_circle_outline,
+            size: 18,
+          ),
         ),
         ButtonSegment<bool?>(
           value: false,
-          label: Text('Inactivos'),
-          icon: Icon(Icons.block_outlined),
+          label: Text(
+            'Inactivos',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          icon: Icon(
+            Icons.block_outlined,
+            size: 18,
+          ),
         ),
       ],
       selected: <bool?>{selected},
@@ -421,7 +462,22 @@ class _EstadoFilter extends StatelessWidget {
               onChanged!(values.first);
             },
       showSelectedIcon: false,
+      expandedInsets: EdgeInsets.zero,
       style: ButtonStyle(
+        minimumSize: WidgetStateProperty.all(
+          const Size(0, 46),
+        ),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 8,
+          ),
+        ),
+        textStyle: WidgetStateProperty.all(
+          const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         visualDensity: VisualDensity.compact,
         backgroundColor:
             WidgetStateProperty.resolveWith(
@@ -459,15 +515,98 @@ class _EstadoFilter extends StatelessWidget {
   }
 }
 
-class _ProveedorCard extends StatelessWidget {
-  final Proveedor proveedor;
+class _OrderingMenu extends StatelessWidget {
+  final String selected;
+  final bool enabled;
+  final ValueChanged<String> onChanged;
+
+  const _OrderingMenu({
+    required this.selected,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      enabled: enabled,
+      initialValue: selected,
+      tooltip: 'Ordenar',
+      color: AppColors.surface2,
+      onSelected: onChanged,
+      itemBuilder: (_) => const [
+        PopupMenuItem(
+          value: 'nombre',
+          child: Text('Nombre A-Z'),
+        ),
+        PopupMenuItem(
+          value: '-nombre',
+          child: Text('Nombre Z-A'),
+        ),
+        PopupMenuItem(
+          value: 'precio_base',
+          child: Text('Menor precio'),
+        ),
+        PopupMenuItem(
+          value: '-precio_base',
+          child: Text('Mayor precio'),
+        ),
+        PopupMenuItem(
+          value: 'tiempo_estimado_minutos',
+          child: Text('Menor duración'),
+        ),
+        PopupMenuItem(
+          value: '-tiempo_estimado_minutos',
+          child: Text('Mayor duración'),
+        ),
+        PopupMenuItem(
+          value: '-fecha_creacion',
+          child: Text('Más recientes'),
+        ),
+      ],
+      child: Container(
+        height: 40,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.surface2,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: AppColors.border,
+          ),
+        ),
+        child: const Row(
+          children: [
+            Icon(
+              Icons.sort,
+              size: 18,
+              color: AppColors.textSecondary,
+            ),
+            SizedBox(width: 6),
+            Text(
+              'Ordenar',
+              style: TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ServicioCard extends StatelessWidget {
+  final Servicio servicio;
   final bool canDelete;
   final VoidCallback onToggle;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  const _ProveedorCard({
-    required this.proveedor,
+  const _ServicioCard({
+    required this.servicio,
     required this.canDelete,
     required this.onToggle,
     required this.onEdit,
@@ -477,7 +616,7 @@ class _ProveedorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: proveedor.estado ? 1 : 0.58,
+      opacity: servicio.estado ? 1 : 0.58,
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
@@ -494,7 +633,7 @@ class _ProveedorCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Switch(
-              value: proveedor.estado,
+              value: servicio.estado,
               onChanged: (_) => onToggle(),
               activeThumbColor: AppColors.accent,
               trackColor:
@@ -523,7 +662,7 @@ class _ProveedorCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          proveedor.nombre,
+                          servicio.nombre,
                           maxLines: 1,
                           overflow:
                               TextOverflow.ellipsis,
@@ -538,65 +677,34 @@ class _ProveedorCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       _EstadoBadge(
-                        activo: proveedor.estado,
+                        activo: servicio.estado,
                       ),
                     ],
                   ),
 
                   const SizedBox(height: 8),
 
-                  if (_tieneTexto(
-                    proveedor.contacto,
-                  ))
-                    _InfoRow(
-                      icon: Icons.person_outline,
-                      text: proveedor.contacto!,
-                    ),
+                  _InfoRow(
+                    icon: Icons.attach_money,
+                    text:
+                        '\$ ${servicio.precioBase.toStringAsFixed(2)}',
+                    highlight: true,
+                  ),
+
+                  _InfoRow(
+                    icon: Icons.schedule_outlined,
+                    text:
+                        '${servicio.tiempoEstimadoMinutos} minutos',
+                  ),
 
                   if (_tieneTexto(
-                    proveedor.telefono,
-                  ))
-                    _InfoRow(
-                      icon: Icons.phone_outlined,
-                      text: proveedor.telefono!,
-                    ),
-
-                  if (_tieneTexto(
-                    proveedor.correo,
-                  ))
-                    _InfoRow(
-                      icon: Icons.email_outlined,
-                      text: proveedor.correo!,
-                    ),
-
-                  if (_tieneTexto(
-                    proveedor.direccion,
+                    servicio.descripcion,
                   ))
                     _InfoRow(
                       icon:
-                          Icons.location_on_outlined,
-                      text: proveedor.direccion!,
-                      maxLines: 2,
-                    ),
-
-                  if (!_tieneTexto(
-                        proveedor.contacto,
-                      ) &&
-                      !_tieneTexto(
-                        proveedor.telefono,
-                      ) &&
-                      !_tieneTexto(
-                        proveedor.correo,
-                      ) &&
-                      !_tieneTexto(
-                        proveedor.direccion,
-                      ))
-                    const Text(
-                      'Sin información de contacto',
-                      style: TextStyle(
-                        color: AppColors.textFaint,
-                        fontSize: 12,
-                      ),
+                          Icons.description_outlined,
+                      text: servicio.descripcion!,
+                      maxLines: 3,
                     ),
                 ],
               ),
@@ -644,7 +752,8 @@ class _ProveedorCard extends StatelessWidget {
   }
 
   static bool _tieneTexto(String? value) {
-    return value != null && value.trim().isNotEmpty;
+    return value != null &&
+        value.trim().isNotEmpty;
   }
 }
 
@@ -652,18 +761,24 @@ class _InfoRow extends StatelessWidget {
   final IconData icon;
   final String text;
   final int maxLines;
+  final bool highlight;
 
   const _InfoRow({
     required this.icon,
     required this.text,
     this.maxLines = 1,
+    this.highlight = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final color = highlight
+        ? AppColors.accent
+        : AppColors.textSecondary;
+
     return Padding(
       padding: const EdgeInsets.only(
-        bottom: 4,
+        bottom: 5,
       ),
       child: Row(
         crossAxisAlignment:
@@ -672,7 +787,7 @@ class _InfoRow extends StatelessWidget {
           Icon(
             icon,
             size: 15,
-            color: AppColors.textSecondary,
+            color: color,
           ),
           const SizedBox(width: 6),
           Expanded(
@@ -680,9 +795,12 @@ class _InfoRow extends StatelessWidget {
               text,
               maxLines: maxLines,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
+              style: TextStyle(
+                color: color,
                 fontSize: 12,
+                fontWeight: highlight
+                    ? FontWeight.w600
+                    : FontWeight.normal,
               ),
             ),
           ),
@@ -779,10 +897,10 @@ class _PaginationControls extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: isLoading ||
-                          !hasPrevious
-                      ? null
-                      : onPrevious,
+                  onPressed:
+                      isLoading || !hasPrevious
+                          ? null
+                          : onPrevious,
                   icon: const Icon(
                     Icons.chevron_left,
                   ),
@@ -902,15 +1020,15 @@ class _EmptyView extends StatelessWidget {
             MainAxisAlignment.center,
         children: [
           const Icon(
-            Icons.local_shipping_outlined,
+            Icons.build_circle_outlined,
             color: AppColors.textFaint,
             size: 55,
           ),
           const SizedBox(height: 12),
           Text(
             hasFilters
-                ? 'No se encontraron proveedores'
-                : 'No existen proveedores registrados',
+                ? 'No se encontraron servicios'
+                : 'No existen servicios registrados',
             style: const TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
@@ -921,7 +1039,7 @@ class _EmptyView extends StatelessWidget {
           Text(
             hasFilters
                 ? 'Prueba con otros términos o filtros.'
-                : 'Registra el primer proveedor para comenzar.',
+                : 'Registra el primer servicio para comenzar.',
             style: const TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,

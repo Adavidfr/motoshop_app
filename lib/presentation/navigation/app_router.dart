@@ -1,29 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:motoshop_app/presentation/screens/admin/repuestos_mantenimiento_admin_screen.dart';
 import '../providers/auth_provider.dart';
-
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/profile_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/auth/reset_password_confirm_screen.dart';
-
-import '../screens/admin/compras_admin_screen.dart';
-import '../screens/admin/proveedores_admin_screen.dart';
-import '../screens/admin/users_admin_screen.dart';
-
 import '../screens/catalog/catalog_screen.dart';
 import '../screens/catalog/moto_detail_screen.dart';
 import '../screens/catalog/moto_form_screen.dart';
-
 import '../screens/inventory/inventory_dashboard_screen.dart';
 import '../screens/inventory/movimiento_form_screen.dart';
 import '../screens/inventory/repuesto_detail_screen.dart';
 import '../screens/inventory/repuesto_form_screen.dart';
-
+import '../screens/admin/compras_admin_screen.dart';
+import '../screens/admin/proveedores_admin_screen.dart';
+import '../screens/admin/servicios_admin_screen.dart';
+import '../screens/admin/users_admin_screen.dart';
 import '../widgets/admin_shell.dart';
-
+import '../screens/admin/mantenimientos_admin_screen.dart';
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
 
@@ -47,24 +43,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       final isAdminRoute = location.startsWith('/admin');
 
-      final isPrivateArea =
+      final isPrivateRoute =
           location == '/profile' ||
           location == '/moto-form' ||
           location == '/repuesto-form' ||
           location == '/movimiento-form' ||
           isAdminRoute;
 
-      
-      if (!isAuthenticated && isPrivateArea) {
+      if (!isAuthenticated && isPrivateRoute) {
         return '/login';
       }
 
-     
       if (isAuthenticated && isAuthRoute) {
         return isStaff ? '/admin' : '/';
       }
 
-      
+
       if (isAuthenticated && !isStaff && isAdminRoute) {
         return '/';
       }
@@ -179,8 +173,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/admin',
-        redirect: (context, state) =>
-            '/admin/proveedores',
+        redirect: (context, state) => '/admin/servicios',
+      ),
+
+      GoRoute(
+        path: '/admin/servicios',
+        builder: (context, state) => AdminShell(
+          title: 'Servicios',
+          currentRoute: state.matchedLocation,
+          child: const ServiciosAdminScreen(),
+        ),
       ),
 
       GoRoute(
@@ -200,7 +202,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           child: const ComprasAdminScreen(),
         ),
       ),
-
+      GoRoute(
+        path: '/admin/mantenimientos',
+        builder: (context, state) => AdminShell(
+          title: 'Mantenimientos',
+          currentRoute: state.matchedLocation,
+          child: const MantenimientosAdminScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/admin/repuestos-mantenimiento',
+        builder: (context, state) => AdminShell(
+          title: 'Repuestos de mantenimiento',
+          currentRoute: state.matchedLocation,
+          child: const RepuestosMantenimientoAdminScreen(),
+        ),
+      ),
       GoRoute(
         path: '/admin/users',
         builder: (context, state) => AdminShell(
