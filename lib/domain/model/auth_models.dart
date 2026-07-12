@@ -11,12 +11,14 @@ class LoggedUser {
   final String username;
   final String email;
   final bool   isStaff;
+  final String role;
 
   const LoggedUser({
     required this.id,
     required this.username,
     required this.email,
     required this.isStaff,
+    required this.role,
   });
 
   factory LoggedUser.fromMap(Map<String, dynamic> map) => LoggedUser(
@@ -24,5 +26,6 @@ class LoggedUser {
     username: map['username'] as String,
     email:    map['email']    as String,
     isStaff:  map['is_staff'] as bool,
+    role:     map['role'] as String? ?? 'usuario',
   );
 }

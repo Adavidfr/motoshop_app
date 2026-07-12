@@ -1,17 +1,17 @@
-// lib/presentation/screens/catalog/moto_detail_screen.dart
+// lib/presentation/screens/inventory/repuesto_detail_screen.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/catalog_providers.dart';
-import '../../../domain/model/moto.dart';
+import '../../providers/inventory_providers.dart';
+import '../../../domain/model/repuesto.dart';
 
-class MotoDetailScreen extends ConsumerWidget {
-  final int motoId;
+class RepuestoDetailScreen extends ConsumerWidget {
+  final int repuestoId;
 
-  const MotoDetailScreen({super.key, required this.motoId});
+  const RepuestoDetailScreen({super.key, required this.repuestoId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,35 +21,34 @@ class MotoDetailScreen extends ConsumerWidget {
     final canEdit = isAdmin || isVendedor || user?.isStaff == true;
     final canDelete = isAdmin;
 
-    // Retrieve moto from provider list
-    final motosState = ref.watch(motosProvider);
-    final motoIndex = motosState.motos.indexWhere((m) => m.idMoto == motoId);
+    final repuestosState = ref.watch(repuestosProvider);
+    final repIndex = repuestosState.repuestos.indexWhere((r) => r.idRepuesto == repuestoId);
 
-    if (motoIndex == -1) {
+    if (repIndex == -1) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Detalle de Moto')),
-        body: const Center(child: Text('Motocicleta no encontrada.')),
+        appBar: AppBar(title: const Text('Detalle de Repuesto')),
+        body: const Center(child: Text('Repuesto no encontrado.')),
       );
     }
 
-    final moto = motosState.motos[motoIndex];
+    final repuesto = repuestosState.repuestos[repIndex];
     final tt = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${moto.marca.nombre} ${moto.modelo}'),
+        title: Text(repuesto.nombre),
         actions: canEdit
             ? [
                 IconButton(
                   icon: const Icon(Icons.edit_outlined),
-                  onPressed: () => context.push('/moto-form?id=$motoId'),
-                  tooltip: 'Editar Motocicleta',
+                  onPressed: () => context.push('/repuesto-form?id=$repuestoId'),
+                  tooltip: 'Editar Repuesto',
                 ),
                 if (canDelete)
                   IconButton(
                     icon: const Icon(Icons.delete_outline, color: AppColors.error),
-                    onPressed: () => _confirmDelete(context, ref, moto),
-                    tooltip: 'Eliminar Motocicleta',
+                    onPressed: () => _confirmDelete(context, ref, repuesto),
+                    tooltip: 'Eliminar Repuesto',
                   ),
               ]
             : null,
@@ -58,21 +57,21 @@ class MotoDetailScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Big image header
+            // Image header
             Container(
               width: double.infinity,
               height: 250,
               color: AppColors.surface,
-              child: moto.imagen != null
+              child: repuesto.imagen != null
                   ? Image.network(
-                      moto.imagen!,
+                      repuesto.imagen!,
                       fit: BoxFit.cover,
                       errorBuilder: (c, o, s) => const Center(
                         child: Icon(Icons.image_not_supported, size: 80, color: AppColors.textSecondary),
                       ),
                     )
                   : const Center(
-                      child: Icon(Icons.motorcycle, size: 100, color: AppColors.textSecondary),
+                      child: Icon(Icons.settings_outlined, size: 100, color: AppColors.textSecondary),
                     ),
             ),
             Padding(
@@ -80,7 +79,6 @@ class MotoDetailScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title & Price Section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,19 +88,19 @@ class MotoDetailScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${moto.marca.nombre} ${moto.modelo}',
+                              repuesto.nombre,
                               style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              moto.categoria.nombre,
-                              style: tt.titleMedium?.copyWith(color: AppColors.accent),
+                              'SKU: ${repuesto.sku}',
+                              style: tt.titleMedium?.copyWith(color: AppColors.textSecondary),
                             ),
                           ],
                         ),
                       ),
                       Text(
-                        '\$${moto.precio.toStringAsFixed(2)}',
+                        '\$${repuesto.precioVenta.toStringAsFixed(2)}',
                         style: tt.headlineMedium?.copyWith(
                           color: AppColors.accent,
                           fontWeight: FontWeight.bold,
@@ -112,26 +110,39 @@ class MotoDetailScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  // Stock & Status pills
                   Row(
                     children: [
                       _buildPill(
-                        label: moto.stock > 0 ? 'Disponible (${moto.stock})' : 'Agotado',
-                        color: moto.stock > 0 ? Colors.green : Colors.red,
+                        label: repuesto.stock > 0 ? 'En Stock (${repuesto.stock})' : 'Sin Stock',
+                        color: repuesto.stock > 0 ? Colors.green : Colors.red,
                       ),
                       const SizedBox(width: 8),
                       _buildPill(
-                        label: moto.estado.toUpperCase(),
-                        color: moto.estado.toLowerCase() == 'activo' ||
-                                moto.estado.toLowerCase() == 'disponible'
-                            ? Colors.green
-                            : Colors.orange,
+                        label: repuesto.estado.toUpperCase(),
+                        color: repuesto.estado.toLowerCase() == 'activo' ? Colors.green : Colors.grey,
                       ),
                     ],
                   ),
                   const SizedBox(height: 24),
 
-                  // Detail specifications card
+                  if (repuesto.descripcion != null && repuesto.descripcion!.isNotEmpty) ...[
+                    Text(
+                      'DESCRIPCIÓN',
+                      style: tt.labelSmall?.copyWith(
+                        letterSpacing: 1.2,
+                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      repuesto.descripcion!,
+                      style: const TextStyle(fontSize: 15, height: 1.5),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+
+                  // Specs Card
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
@@ -144,7 +155,7 @@ class MotoDetailScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'ESPECIFICACIONES TÉCNICAS',
+                          'INFORMACIÓN GENERAL',
                           style: tt.labelSmall?.copyWith(
                             letterSpacing: 1.2,
                             color: AppColors.textSecondary,
@@ -153,16 +164,15 @@ class MotoDetailScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 16),
                         ...[
-                          ('Marca', moto.marca.nombre),
-                          ('Modelo', moto.modelo),
-                          ('Categoría', moto.categoria.nombre),
-                          ('Año de Fabricación', '${moto.anio}'),
-                          ('Cilindraje (Motor)', '${moto.cilindraje} cc'),
-                          ('Color', moto.color),
-                          ('Precio de Lista', '\$${moto.precio.toStringAsFixed(2)}'),
-                          ('Fecha de Registro', moto.fechaRegistro.split('T')[0]),
+                          ('Nombre', repuesto.nombre),
+                          ('SKU', repuesto.sku),
+                          ('Costo', '\$${repuesto.costo.toStringAsFixed(2)}'),
+                          ('Precio de Venta', '\$${repuesto.precioVenta.toStringAsFixed(2)}'),
+                          ('Stock Disponible', '${repuesto.stock} unidades'),
+                          ('Estado', repuesto.estado),
+                          ('Fecha de Creación', repuesto.fechaRegistro.split('T')[0]),
                         ].asMap().entries.map((entry) {
-                          final isLast = entry.key == 7;
+                          final isLast = entry.key == 6;
                           return Column(
                             children: [
                               Padding(
@@ -188,10 +198,10 @@ class MotoDetailScreen extends ConsumerWidget {
                         }),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -218,12 +228,12 @@ class MotoDetailScreen extends ConsumerWidget {
     );
   }
 
-  void _confirmDelete(BuildContext context, WidgetRef ref, Moto moto) {
+  void _confirmDelete(BuildContext context, WidgetRef ref, Repuesto repuesto) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Motocicleta'),
-        content: Text('¿Estás seguro de que deseas eliminar la motocicleta "${moto.marca.nombre} ${moto.modelo}"?'),
+        title: const Text('Eliminar Repuesto'),
+        content: Text('¿Estás seguro de que deseas eliminar el repuesto "${repuesto.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -232,9 +242,9 @@ class MotoDetailScreen extends ConsumerWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () {
-              ref.read(motosProvider.notifier).delete(moto.idMoto);
-              Navigator.of(context).pop(); // pop dialog
-              context.pop(); // pop details screen
+              ref.read(repuestosProvider.notifier).delete(repuesto.idRepuesto);
+              Navigator.of(context).pop();
+              context.pop();
             },
             child: const Text('Eliminar'),
           ),
