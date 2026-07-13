@@ -39,10 +39,10 @@ class Garantia {
   });
 
   factory Garantia.fromJson(Map<String, dynamic> j) => Garantia(
-        idGarantia: j['id_garantia'] as int,
-        idVenta: j['id_venta'] as int,
-        idMoto: j['id_moto'] as int,
-        mesesGarantia: j['meses_garantia'] as int,
+        idGarantia: j['id_garantia'] as int? ?? 0,
+        idVenta: j['id_venta'] as int? ?? 0,
+        idMoto: j['id_moto'] as int? ?? 0,
+        mesesGarantia: j['meses_garantia'] as int? ?? 0,
         fechaInicio: j['fecha_inicio'] != null
             ? DateTime.tryParse(j['fecha_inicio'].toString())
             : null,
@@ -94,7 +94,7 @@ class PaginatedGarantias {
 
   factory PaginatedGarantias.fromJson(Map<String, dynamic> j) =>
       PaginatedGarantias(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)

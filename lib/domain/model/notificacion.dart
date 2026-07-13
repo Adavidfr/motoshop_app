@@ -18,8 +18,8 @@ class Notificacion {
   });
 
   factory Notificacion.fromJson(Map<String, dynamic> j) => Notificacion(
-        idNotificacion: j['id_notificacion'] as int,
-        idUsuario: j['id_usuario'] as int,
+        idNotificacion: j['id_notificacion'] as int? ?? 0,
+        idUsuario: j['id_usuario'] as int? ?? 0,
         titulo: j['titulo']?.toString() ?? '',
         mensaje: j['mensaje']?.toString() ?? '',
         leido: j['leido'] == true,
@@ -62,7 +62,7 @@ class PaginatedNotificaciones {
 
   factory PaginatedNotificaciones.fromJson(Map<String, dynamic> j) =>
       PaginatedNotificaciones(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)

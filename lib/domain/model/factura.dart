@@ -20,15 +20,15 @@ class Factura {
   });
 
   factory Factura.fromJson(Map<String, dynamic> j) => Factura(
-        idFactura: j['id_factura'] as int,
-        idVenta: j['id_venta'] as int,
+        idFactura: j['id_factura'] as int? ?? 0,
+        idVenta: j['id_venta'] as int? ?? 0,
         numeroFactura: j['numero_factura']?.toString() ?? '',
         fechaEmision: j['fecha_emision'] != null
             ? DateTime.tryParse(j['fecha_emision'].toString())
             : null,
-        subtotal: double.parse(j['subtotal'].toString()),
-        iva: double.parse(j['iva'].toString()),
-        total: double.parse(j['total'].toString()),
+        subtotal: double.tryParse(j['subtotal']?.toString() ?? '') ?? 0.0,
+        iva: double.tryParse(j['iva']?.toString() ?? '') ?? 0.0,
+        total: double.tryParse(j['total']?.toString() ?? '') ?? 0.0,
       );
 
   Factura copyWith({
@@ -69,7 +69,7 @@ class PaginatedFacturas {
 
   factory PaginatedFacturas.fromJson(Map<String, dynamic> j) =>
       PaginatedFacturas(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)
