@@ -84,178 +84,181 @@ class _HistorialEstadoVentaAdminScreenState
     final notifier = ref.read(historialEstadoVentaProvider.notifier);
     debugPrint('HistorialEstadoVentaAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.historial.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Historial de Ventas',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Historial de Ventas',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} registro${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showHistorialForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} registro${state.total == 1 ? '' : 's'}',
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showHistorialForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Registrar'),
                       ),
-                      icon: Icon(Icons.add, size: 18),
-                      label: Text('Registrar'),
-                    ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por ID de venta...',
-                        hintStyle:
-                            TextStyle(color: AppColors.textFaint),
-                        prefixIcon: Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.accent),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              if (state.search.isNotEmpty) ...[
-                SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      _searchController.clear();
-                      notifier.limpiarFiltros();
-                      setState(() {});
-                    },
-                    style: TextButton.styleFrom(
-                        foregroundColor: AppColors.accent),
-                    child: Text('Limpiar'),
-                  ),
+                  ],
                 ),
-              ],
-            ],
-          ),
-        ),
-
-        if (state.error != null)
-          _ErrorBanner(
-            message: state.error!,
-            onClose: notifier.clearError,
-          ),
-
-        Expanded(
-          child: state.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.historial.isEmpty
-                  ? _EmptyState(tieneFiltos: state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.historial.length,
-                        separatorBuilder: (_, __) =>
-                            SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final h = state.historial[index];
-                          return _HistorialCard(
-                            historial: h,
-                            isAdmin: isAdmin,
-                            onDelete: () => _confirmarEliminar(context, h),
-                          );
-                        },
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por ID de venta...',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                        onSubmitted: (_) => _buscar(),
                       ),
                     ),
-        ),
-
-        if (!state.isLoading && state.historial.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    SizedBox(width: 8),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                        ),
+                        child: Text('Buscar'),
+                      ),
+                    ),
+                  ],
+                ),
+                if (state.search.isNotEmpty) ...[
+                  SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        _searchController.clear();
+                        notifier.limpiarFiltros();
+                        setState(() {});
+                      },
+                      style: TextButton.styleFrom(
+                          foregroundColor: AppColors.accent),
+                      child: Text('Limpiar'),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
-      ],
+  
+          if (state.error != null)
+            _ErrorBanner(
+              message: state.error!,
+              onClose: notifier.clearError,
+            ),
+  
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.historial.isEmpty
+                    ? _EmptyState(tieneFiltos: state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.historial.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final h = state.historial[index];
+                            return _HistorialCard(
+                              historial: h,
+                              isAdmin: isAdmin,
+                              onDelete: () => _confirmarEliminar(context, h),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          if (!state.isLoading && state.historial.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }

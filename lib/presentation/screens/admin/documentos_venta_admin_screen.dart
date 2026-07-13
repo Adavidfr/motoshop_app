@@ -84,197 +84,200 @@ class _DocumentosVentaAdminScreenState
     final notifier = ref.read(documentosVentaAdminProvider.notifier);
     debugPrint('DocumentosVentaAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.documentos.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Documentos de Venta',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Documentos de Venta',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} documento${state.total == 1 ? '' : 's'} '
+                            'registrado${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showDocumentoVentaForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} documento${state.total == 1 ? '' : 's'} '
-                          'registrado${state.total == 1 ? '' : 's'}',
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Nuevo'),
+                      ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por archivo...',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showDocumentoVentaForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        onSubmitted: (_) => _buscar(),
                       ),
-                      icon: Icon(Icons.add, size: 18),
-                      label: Text('Nuevo'),
                     ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por archivo...',
-                        hintStyle:
-                            TextStyle(color: AppColors.textFaint),
-                        prefixIcon: Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.accent),
-                        ),
-                      ),
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _FiltroDropdown(
-                      hint: 'Tipo',
-                      value: state.filtroTipo,
-                      items: TipoDocumento.values.map((e) => e.value).toList(),
-                      onChanged: (v) => notifier.setFiltroTipo(v),
-                    ),
-                  ),
-                  if (state.filtroTipo != null ||
-                      state.search.isNotEmpty) ...[
                     SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        notifier.limpiarFiltros();
-                        setState(() {});
-                      },
-                      style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accent),
-                      child: Text('Limpiar'),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                        ),
+                        child: Text('Buscar'),
+                      ),
                     ),
                   ],
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // ── Error ─────────────────────────────────────────────────────────────
-        if (state.error != null)
-          _ErrorBanner(
-            message: state.error!,
-            onClose: notifier.clearError,
-          ),
-
-        // ── Lista ─────────────────────────────────────────────────────────────
-        Expanded(
-          child: state.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.documentos.isEmpty
-                  ? _EmptyState(
-                      tieneFiltos: state.filtroTipo != null ||
-                          state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.documentos.length,
-                        separatorBuilder: (_, __) =>
-                            SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final doc = state.documentos[index];
-                          return _DocumentoCard(
-                            documento: doc,
-                            isAdmin: isAdmin,
-                            onEdit: () =>
-                                showDocumentoVentaForm(context, documento: doc),
-                            onDelete: () =>
-                                _confirmarEliminar(context, doc),
-                          );
-                        },
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _FiltroDropdown(
+                        hint: 'Tipo',
+                        value: state.filtroTipo,
+                        items: TipoDocumento.values.map((e) => e.value).toList(),
+                        onChanged: (v) => notifier.setFiltroTipo(v),
                       ),
                     ),
-        ),
-
-        // ── Paginación ────────────────────────────────────────────────────────
-        if (!state.isLoading && state.documentos.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    if (state.filtroTipo != null ||
+                        state.search.isNotEmpty) ...[
+                      SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          notifier.limpiarFiltros();
+                          setState(() {});
+                        },
+                        style: TextButton.styleFrom(
+                            foregroundColor: AppColors.accent),
+                        child: Text('Limpiar'),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
           ),
-      ],
+  
+          // ── Error ─────────────────────────────────────────────────────────────
+          if (state.error != null)
+            _ErrorBanner(
+              message: state.error!,
+              onClose: notifier.clearError,
+            ),
+  
+          // ── Lista ─────────────────────────────────────────────────────────────
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.documentos.isEmpty
+                    ? _EmptyState(
+                        tieneFiltos: state.filtroTipo != null ||
+                            state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.documentos.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final doc = state.documentos[index];
+                            return _DocumentoCard(
+                              documento: doc,
+                              isAdmin: isAdmin,
+                              onEdit: () =>
+                                  showDocumentoVentaForm(context, documento: doc),
+                              onDelete: () =>
+                                  _confirmarEliminar(context, doc),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          // ── Paginación ────────────────────────────────────────────────────────
+          if (!state.isLoading && state.documentos.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }

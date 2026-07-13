@@ -146,197 +146,200 @@ class _DevolucionesAdminScreenState
     final notifier = ref.read(devolucionesAdminProvider.notifier);
     debugPrint('DevolucionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.devoluciones.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Devoluciones',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Devoluciones',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} devolución${state.total == 1 ? '' : 'es'} '
+                            'registrada${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showDevolucionForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} devolución${state.total == 1 ? '' : 'es'} '
-                          'registrada${state.total == 1 ? '' : 's'}',
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Nueva'),
+                      ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por motivo...',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showDevolucionForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        onSubmitted: (_) => _buscar(),
                       ),
-                      icon: Icon(Icons.add, size: 18),
-                      label: Text('Nueva'),
                     ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por motivo...',
-                        hintStyle:
-                            TextStyle(color: AppColors.textFaint),
-                        prefixIcon: Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.accent),
-                        ),
-                      ),
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _FiltroDropdown(
-                      hint: 'Estado',
-                      value: state.filtroEstado,
-                      items:
-                          EstadoDevolucion.values.map((e) => e.value).toList(),
-                      onChanged: (v) => notifier.setFiltroEstado(v),
-                    ),
-                  ),
-                  if (state.filtroEstado != null ||
-                      state.search.isNotEmpty) ...[
                     SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        notifier.limpiarFiltros();
-                        setState(() {});
-                      },
-                      style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accent),
-                      child: Text('Limpiar'),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                        ),
+                        child: Text('Buscar'),
+                      ),
                     ),
                   ],
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // ── Error ─────────────────────────────────────────────────────────────
-        if (state.error != null)
-          _ErrorBanner(message: state.error!, onClose: notifier.clearError),
-
-        // ── Lista ─────────────────────────────────────────────────────────────
-        Expanded(
-          child: state.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.devoluciones.isEmpty
-                  ? _EmptyState(
-                      tieneFiltos: state.filtroEstado != null ||
-                          state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.devoluciones.length,
-                        separatorBuilder: (_, __) =>
-                            SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final dev = state.devoluciones[index];
-                          return _DevolucionCard(
-                            devolucion: dev,
-                            isAdmin: isAdmin,
-                            onEdit: () =>
-                                showDevolucionForm(context, devolucion: dev),
-                            onDelete: () =>
-                                _confirmarEliminar(context, dev),
-                            onChangeEstado: () =>
-                                _mostrarCambioEstado(context, dev),
-                          );
-                        },
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _FiltroDropdown(
+                        hint: 'Estado',
+                        value: state.filtroEstado,
+                        items:
+                            EstadoDevolucion.values.map((e) => e.value).toList(),
+                        onChanged: (v) => notifier.setFiltroEstado(v),
                       ),
                     ),
-        ),
-
-        // ── Paginación ────────────────────────────────────────────────────────
-        if (!state.isLoading && state.devoluciones.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    if (state.filtroEstado != null ||
+                        state.search.isNotEmpty) ...[
+                      SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          notifier.limpiarFiltros();
+                          setState(() {});
+                        },
+                        style: TextButton.styleFrom(
+                            foregroundColor: AppColors.accent),
+                        child: Text('Limpiar'),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
           ),
-      ],
+  
+          // ── Error ─────────────────────────────────────────────────────────────
+          if (state.error != null)
+            _ErrorBanner(message: state.error!, onClose: notifier.clearError),
+  
+          // ── Lista ─────────────────────────────────────────────────────────────
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.devoluciones.isEmpty
+                    ? _EmptyState(
+                        tieneFiltos: state.filtroEstado != null ||
+                            state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.devoluciones.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final dev = state.devoluciones[index];
+                            return _DevolucionCard(
+                              devolucion: dev,
+                              isAdmin: isAdmin,
+                              onEdit: () =>
+                                  showDevolucionForm(context, devolucion: dev),
+                              onDelete: () =>
+                                  _confirmarEliminar(context, dev),
+                              onChangeEstado: () =>
+                                  _mostrarCambioEstado(context, dev),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          // ── Paginación ────────────────────────────────────────────────────────
+          if (!state.isLoading && state.devoluciones.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }

@@ -82,184 +82,187 @@ class _FacturasAdminScreenState extends ConsumerState<FacturasAdminScreen> {
     final notifier = ref.read(facturasAdminProvider.notifier);
     debugPrint('FacturasAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.facturas.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Facturas',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Facturas',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} factura${state.total == 1 ? '' : 's'} '
+                            'registrada${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showFacturaForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} factura${state.total == 1 ? '' : 's'} '
-                          'registrada${state.total == 1 ? '' : 's'}',
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showFacturaForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Nueva'),
                       ),
-                      icon: Icon(Icons.add, size: 18),
-                      label: Text('Nueva'),
-                    ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por número de factura…',
-                        hintStyle:
-                            TextStyle(color: AppColors.textFaint),
-                        prefixIcon: Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: AppColors.accent),
-                        ),
-                      ),
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              if (state.search.isNotEmpty) ...[
-                SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      _searchController.clear();
-                      notifier.limpiarFiltros();
-                      setState(() {});
-                    },
-                    style: TextButton.styleFrom(
-                        foregroundColor: AppColors.accent),
-                    child: Text('Limpiar'),
-                  ),
+                  ],
                 ),
-              ],
-            ],
-          ),
-        ),
-
-        // ── Error ─────────────────────────────────────────────────────────────
-        if (state.error != null)
-          _ErrorBanner(
-            message: state.error!,
-            onClose: notifier.clearError,
-          ),
-
-        // ── Lista ─────────────────────────────────────────────────────────────
-        Expanded(
-          child: state.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.facturas.isEmpty
-                  ? _EmptyState(tieneFiltos: state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.facturas.length,
-                        separatorBuilder: (_, __) =>
-                            SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final factura = state.facturas[index];
-                          return _FacturaCard(
-                            factura: factura,
-                            isAdmin: isAdmin,
-                            onEdit: () =>
-                                showFacturaForm(context, factura: factura),
-                            onDelete: () =>
-                                _confirmarEliminar(context, factura),
-                          );
-                        },
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por número de factura…',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
+                          ),
+                        ),
+                        onSubmitted: (_) => _buscar(),
                       ),
                     ),
-        ),
-
-        // ── Paginación ────────────────────────────────────────────────────────
-        if (!state.isLoading && state.facturas.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    SizedBox(width: 8),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                        ),
+                        child: Text('Buscar'),
+                      ),
+                    ),
+                  ],
+                ),
+                if (state.search.isNotEmpty) ...[
+                  SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        _searchController.clear();
+                        notifier.limpiarFiltros();
+                        setState(() {});
+                      },
+                      style: TextButton.styleFrom(
+                          foregroundColor: AppColors.accent),
+                      child: Text('Limpiar'),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
-      ],
+  
+          // ── Error ─────────────────────────────────────────────────────────────
+          if (state.error != null)
+            _ErrorBanner(
+              message: state.error!,
+              onClose: notifier.clearError,
+            ),
+  
+          // ── Lista ─────────────────────────────────────────────────────────────
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.facturas.isEmpty
+                    ? _EmptyState(tieneFiltos: state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.facturas.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final factura = state.facturas[index];
+                            return _FacturaCard(
+                              factura: factura,
+                              isAdmin: isAdmin,
+                              onEdit: () =>
+                                  showFacturaForm(context, factura: factura),
+                              onDelete: () =>
+                                  _confirmarEliminar(context, factura),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          // ── Paginación ────────────────────────────────────────────────────────
+          if (!state.isLoading && state.facturas.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }
