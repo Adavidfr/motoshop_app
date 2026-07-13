@@ -65,10 +65,13 @@ class HomeScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      Image.asset(
-                        'assets/images/logo_circular.jpg',
-                        height: 38,
-                        width: 38,
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/logo_circular.jpg',
+                          height: 38,
+                          width: 38,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ],
                   ),

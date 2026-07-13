@@ -77,21 +77,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   const SizedBox(height: 24),
 
-                  // Logo Card
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    width: 140,
+                    height: 140,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.black.withOpacity(0.2),
                       border: Border.all(
                         color: AppColors.accent.withOpacity(0.25),
                         width: 1.5,
                       ),
-                    ),
-                    child: Image.asset(
-                      'assets/images/logo_transparente.png',
-                      height: 140,
-                      fit: BoxFit.contain,
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/logo_circular.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
