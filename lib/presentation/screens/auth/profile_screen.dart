@@ -7,6 +7,7 @@ import 'package:motoshop_app/domain/model/user_profile.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/user_avatar.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -102,6 +103,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Mi Perfil'),
         actions: [
+          IconButton(
+            icon: Icon(
+              ref.watch(themeProvider)
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+            ),
+            onPressed: () {
+              ref.read(themeProvider.notifier).toggleTheme();
+            },
+            tooltip: 'Cambiar Tema',
+          ),
           if (!_isEditing && profile != null)
             IconButton(
               icon: const Icon(Icons.edit_outlined),

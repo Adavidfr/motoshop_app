@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../providers/auth_provider.dart';
+import '../providers/theme_provider.dart';
 
 class AdminNavItem {
   final String label;
@@ -141,6 +142,19 @@ class AdminShell extends ConsumerWidget {
       appBar: AppBar(
         title: Text(title),
         actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(themeProvider.notifier).toggleTheme();
+            },
+            icon: Icon(
+              ref.watch(themeProvider)
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+              color: AppColors.accent,
+            ),
+            tooltip: 'Cambiar tema',
+          ),
+          const SizedBox(width: 8),
           TextButton(
             onPressed: () => context.go('/'),
             child: const Text(
