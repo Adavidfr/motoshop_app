@@ -148,12 +148,14 @@ class _ProductBody extends ConsumerWidget {
           AspectRatio(
             aspectRatio: 16 / 9,
             child: product.imageUrl != null
-                ? CachedNetworkImage(
-                    imageUrl:    product.imageUrl!,
+                ? Image.network(
+                    product.imageUrl!,
                     fit:         BoxFit.cover,
-                    placeholder: (_, __) =>
-                        Container(color: AppColors.surface2),
-                    errorWidget: (_, __, ___) => _NoImage(product),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(color: AppColors.surface2);
+                    },
+                    errorBuilder: (context, error, stackTrace) => _NoImage(product),
                   )
                 : _NoImage(product),
           ),

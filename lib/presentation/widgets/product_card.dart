@@ -45,12 +45,15 @@ class ProductCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
                       child: product.imageUrl != null
-                          ? CachedNetworkImage(
-                              imageUrl:    product.imageUrl!,
+                          ? Image.network(
+                              product.imageUrl!,
                               fit:         BoxFit.cover,
-                              placeholder: (_, __) =>
-                                  Container(color: AppColors.surface2),
-                              errorWidget: (_, __, ___) => const _ImagePlaceholder(),
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Container(color: AppColors.surface2);
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const _ImagePlaceholder(),
                             )
                           : const _ImagePlaceholder(),
                     ),

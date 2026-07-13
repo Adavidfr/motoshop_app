@@ -225,12 +225,15 @@ class _CartItemTile extends StatelessWidget {
               width:  90,
               height: 90,
               child: product.imageUrl != null
-                  ? CachedNetworkImage(
-                      imageUrl:    product.imageUrl!,
+                  ? Image.network(
+                      product.imageUrl!,
                       fit:         BoxFit.cover,
-                      placeholder: (_, __) =>
-                          Container(color: AppColors.surface2),
-                      errorWidget: (_, __, ___) => _TileNoImage(product),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(color: AppColors.surface2);
+                      },
+                      errorBuilder: (context, error, stackTrace) =>
+                          _TileNoImage(product),
                     )
                   : _TileNoImage(product),
             ),
