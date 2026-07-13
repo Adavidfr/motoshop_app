@@ -52,7 +52,11 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
     _precioVentaCtrl = TextEditingController(text: editingRepuesto?.precioVenta.toString() ?? '');
     _stockCtrl = TextEditingController(text: editingRepuesto?.stock.toString() ?? '');
 
-    _selectedEstado = editingRepuesto?.estado ?? 'activo';
+    final rawEstado = editingRepuesto?.estado.toLowerCase() ?? 'activo';
+    _selectedEstado = ['activo', 'inactivo'].contains(rawEstado)
+        ? rawEstado
+        : 'activo';
+        
     _existingImageUrl = editingRepuesto?.imagen;
   }
 

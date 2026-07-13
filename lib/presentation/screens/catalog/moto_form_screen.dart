@@ -56,7 +56,12 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
 
     _selectedMarcaId = editingMoto?.marca.idMarca;
     _selectedCategoriaId = editingMoto?.categoria.idCategoria;
-    _selectedEstado = editingMoto?.estado ?? 'activo';
+    
+    final rawEstado = editingMoto?.estado.toLowerCase() ?? 'activo';
+    _selectedEstado = ['activo', 'inactivo', 'disponible', 'no disponible'].contains(rawEstado)
+        ? rawEstado
+        : 'activo';
+        
     _existingImageUrl = editingMoto?.imagen;
   }
 
