@@ -103,7 +103,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
       lastDate: DateTime(2100),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.dark(
+          colorScheme: ColorScheme.dark(
             primary: AppColors.accent,
             surface: AppColors.surface2,
           ),
@@ -180,10 +180,10 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               if (formError != null) ...[
                 _ErrorBanner(message: formError),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
               Row(
                 children: [
@@ -207,7 +207,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: _FieldGroup(
                       label: 'ID Moto *',
@@ -230,7 +230,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Meses de garantía *',
                 child: TextFormField(
@@ -247,7 +247,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Estado *',
                 child: DropdownButtonFormField<String>(
@@ -266,7 +266,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -280,7 +280,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: _FieldGroup(
                       label: 'Fecha fin',
@@ -294,7 +294,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Descripción (opcional)',
                 child: TextFormField(
@@ -304,7 +304,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   decoration: _inputDec('Descripción de la garantía…'),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -317,7 +317,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(
@@ -413,7 +413,7 @@ class _FieldGroup extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6),
         child,
       ],
     );
@@ -449,7 +449,7 @@ class _DateBtn extends StatelessWidget {
           children: [
             Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 16),
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
             Expanded(
               child: Text(
                 label,

@@ -47,7 +47,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text(
+        title: Text(
           'Eliminar pago',
           style: TextStyle(color: AppColors.textPrimary),
         ),
@@ -58,7 +58,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text(
+            child: Text(
               'Cancelar',
               style: TextStyle(color: AppColors.textSecondary),
             ),
@@ -69,7 +69,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -99,7 +99,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 'Cambiar estado',
@@ -171,7 +171,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Pagos',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -201,11 +201,11 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                         ),
                       ),
                       icon: Icon(Icons.add, size: 18),
-                      label: const Text('Nuevo'),
+                      label: Text('Nuevo'),
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               // ── Barra de búsqueda ────────────────────────────────────────
               Row(
@@ -256,11 +256,11 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                       onSubmitted: (_) => _buscar(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _BotonBuscar(onPressed: _buscar),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               // ── Filtros ──────────────────────────────────────────────────
               Row(
@@ -275,7 +275,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                       onChanged: (v) => notifier.setFiltroEstado(v),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Expanded(
                     child: _FiltroDropdown(
                       hint: 'Método',
@@ -289,7 +289,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                   if (state.filtroEstado != null ||
                       state.filtroMetodo != null ||
                       state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         _searchController.clear();
@@ -299,7 +299,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.accent,
                       ),
-                      child: const Text('Limpiar'),
+                      child: Text('Limpiar'),
                     ),
                   ],
                 ],
@@ -325,7 +325,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
               children: [
                 Icon(Icons.error_outline,
                     color: AppColors.error, size: 18),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     state.error!,
@@ -347,7 +347,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
         // ── Lista ───────────────────────────────────────────────────────────
         Expanded(
           child: state.isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
@@ -365,7 +365,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                         padding: const EdgeInsets.all(12),
                         itemCount: state.pagos.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final pago = state.pagos[index];
                           return _PagoCard(
@@ -421,7 +421,7 @@ class _BotonBuscar extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 14),
         ),
-        child: const Text('Buscar'),
+        child: Text('Buscar'),
       ),
     );
   }
@@ -457,7 +457,7 @@ class _FiltroDropdown extends StatelessWidget {
           dropdownColor: AppColors.surface2,
           style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
           items: [
-            const DropdownMenuItem<String>(
+            DropdownMenuItem<String>(
               value: null,
               child: Text(
                 'Todos',
@@ -525,7 +525,7 @@ class _PagoCard extends StatelessWidget {
                   ),
                   child: Icon(iconoEstado, color: colorEstado, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -559,9 +559,9 @@ class _PagoCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             // ── Chips de info ──────────────────────────────────────────────
             Wrap(
@@ -589,7 +589,7 @@ class _PagoCard extends StatelessWidget {
 
             // ── Referencia ─────────────────────────────────────────────────
             if (pago.referencia != null && pago.referencia!.isNotEmpty) ...[
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Row(
                 children: [
                   Icon(
@@ -597,7 +597,7 @@ class _PagoCard extends StatelessWidget {
                     color: AppColors.textSecondary,
                     size: 14,
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Text(
                     pago.referencia!,
                     style: TextStyle(
@@ -611,9 +611,9 @@ class _PagoCard extends StatelessWidget {
 
             // ── Acciones (solo admin) ──────────────────────────────────────
             if (isAdmin) ...[
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -624,7 +624,7 @@ class _PagoCard extends StatelessWidget {
                     color: AppColors.info,
                     onPressed: onChangeEstado,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   // Editar
                   _AccionBoton(
                     label: 'Editar',
@@ -633,7 +633,7 @@ class _PagoCard extends StatelessWidget {
                     onPressed: onEdit,
                   ),
                   if (isAdmin) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     _AccionBoton(
                       label: 'Eliminar',
                       icon: Icons.delete_outline,
@@ -675,7 +675,7 @@ class _Chip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color, size: 12),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           Text(
             label,
             style: TextStyle(
@@ -829,7 +829,7 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
@@ -840,8 +840,8 @@ class _EmptyState extends StatelessWidget {
             ),
           ),
           if (tieneFiltos) ...[
-            const SizedBox(height: 8),
-            const Text(
+            SizedBox(height: 8),
+            Text(
               'Prueba con otros filtros o limpia la búsqueda',
               style: TextStyle(
                 color: AppColors.textFaint,

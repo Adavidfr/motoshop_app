@@ -136,10 +136,10 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               if (formError != null) ...[
                 _ErrorBanner(message: formError),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
               Row(
                 children: [
@@ -160,13 +160,13 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Expanded(
                     flex: 3,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Estado',
                           style: TextStyle(
                             color: AppColors.textSecondary,
@@ -174,7 +174,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         SwitchListTile(
                           value: _leido,
                           onChanged: (v) => setState(() => _leido = v),
@@ -195,7 +195,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Título *',
                 child: TextFormField(
@@ -207,7 +207,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                       v == null || v.trim().isEmpty ? 'Requerido' : null,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Mensaje *',
                 child: TextFormField(
@@ -219,7 +219,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                       v == null || v.trim().isEmpty ? 'Requerido' : null,
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -232,7 +232,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(
@@ -327,7 +327,7 @@ class _FieldGroup extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6),
         child,
       ],
     );

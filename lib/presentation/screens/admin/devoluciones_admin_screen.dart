@@ -45,7 +45,7 @@ class _DevolucionesAdminScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar devolución',
+        title: Text('Eliminar devolución',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar la devolución (ID: ${dev.idDevolucion})?',
@@ -54,7 +54,7 @@ class _DevolucionesAdminScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -63,7 +63,7 @@ class _DevolucionesAdminScreenState
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -89,7 +89,7 @@ class _DevolucionesAdminScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 'Cambiar estado',
@@ -159,7 +159,7 @@ class _DevolucionesAdminScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Devoluciones',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -189,11 +189,11 @@ class _DevolucionesAdminScreenState
                         ),
                       ),
                       icon: Icon(Icons.add, size: 18),
-                      label: const Text('Nueva'),
+                      label: Text('Nueva'),
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -236,7 +236,7 @@ class _DevolucionesAdminScreenState
                       onSubmitted: (_) => _buscar(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   SizedBox(
                     height: 44,
                     child: ElevatedButton(
@@ -249,12 +249,12 @@ class _DevolucionesAdminScreenState
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 14),
                       ),
-                      child: const Text('Buscar'),
+                      child: Text('Buscar'),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -268,7 +268,7 @@ class _DevolucionesAdminScreenState
                   ),
                   if (state.filtroEstado != null ||
                       state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         _searchController.clear();
@@ -277,7 +277,7 @@ class _DevolucionesAdminScreenState
                       },
                       style: TextButton.styleFrom(
                           foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
+                      child: Text('Limpiar'),
                     ),
                   ],
                 ],
@@ -293,7 +293,7 @@ class _DevolucionesAdminScreenState
         // ── Lista ─────────────────────────────────────────────────────────────
         Expanded(
           child: state.isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(color: AppColors.accent))
               : state.devoluciones.isEmpty
                   ? _EmptyState(
@@ -306,7 +306,7 @@ class _DevolucionesAdminScreenState
                         padding: const EdgeInsets.all(12),
                         itemCount: state.devoluciones.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final dev = state.devoluciones[index];
                           return _DevolucionCard(
@@ -384,7 +384,7 @@ class _DevolucionCard extends StatelessWidget {
                   ),
                   child: Icon(iconoEstado, color: colorEstado, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -417,9 +417,9 @@ class _DevolucionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -427,10 +427,10 @@ class _DevolucionCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Motivo',
+                      Text('Motivo',
                           style: TextStyle(
                               color: AppColors.textFaint, fontSize: 11)),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         devolucion.motivo,
                         style: TextStyle(
@@ -441,7 +441,7 @@ class _DevolucionCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -464,7 +464,7 @@ class _DevolucionCard extends StatelessWidget {
             ),
             if (devolucion.fechaSolicitud != null ||
                 devolucion.fechaResolucion != null) ...[
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Row(
                 children: [
                   if (devolucion.fechaSolicitud != null)
@@ -474,7 +474,7 @@ class _DevolucionCard extends StatelessWidget {
                     ),
                   if (devolucion.fechaSolicitud != null &&
                       devolucion.fechaResolucion != null)
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
                   if (devolucion.fechaResolucion != null)
                     _InfoItem(
                       label: 'Resolución',
@@ -484,9 +484,9 @@ class _DevolucionCard extends StatelessWidget {
               ),
             ],
             if (isAdmin) ...[
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -496,7 +496,7 @@ class _DevolucionCard extends StatelessWidget {
                     color: AppColors.info,
                     onPressed: onChangeEstado,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Editar',
                     icon: Icons.edit_outlined,
@@ -504,7 +504,7 @@ class _DevolucionCard extends StatelessWidget {
                     onPressed: onEdit,
                   ),
                   if (isAdmin) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     _AccionBtn(
                       label: 'Eliminar',
                       icon: Icons.delete_outline,
@@ -683,7 +683,7 @@ class _ErrorBanner extends StatelessWidget {
       child: Row(
         children: [
           Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style:
@@ -717,7 +717,7 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'

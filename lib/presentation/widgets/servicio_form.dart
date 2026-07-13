@@ -277,7 +277,7 @@ class _ServicioFormSheetState
             ),
 
             if (isEdit) ...[
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 widget.initial!.nombre,
                 style: TextStyle(
@@ -287,7 +287,7 @@ class _ServicioFormSheetState
               ),
             ],
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (formState is ServicioFormError) ...[
               Container(
@@ -312,7 +312,7 @@ class _ServicioFormSheetState
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
@@ -325,7 +325,7 @@ class _ServicioFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -353,7 +353,7 @@ class _ServicioFormSheetState
                     validator: _validarNombre,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _descripcionController,
@@ -364,7 +364,7 @@ class _ServicioFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Descripción',
                       alignLabelWithHint: true,
-                      prefixIcon: const Padding(
+                      prefixIcon: Padding(
                         padding: EdgeInsets.only(
                           bottom: 45,
                         ),
@@ -382,7 +382,7 @@ class _ServicioFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _precioController,
@@ -413,7 +413,7 @@ class _ServicioFormSheetState
                     validator: _validarPrecio,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _tiempoController,
@@ -440,7 +440,7 @@ class _ServicioFormSheetState
                     validator: _validarTiempo,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -462,7 +462,7 @@ class _ServicioFormSheetState
                             crossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Servicio activo',
                                 style: TextStyle(
                                   color:
@@ -471,7 +471,7 @@ class _ServicioFormSheetState
                                       FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              SizedBox(height: 2),
                               Text(
                                 _estado
                                     ? 'Disponible para nuevos mantenimientos'
@@ -514,7 +514,7 @@ class _ServicioFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -524,16 +524,16 @@ class _ServicioFormSheetState
                               ? null
                               : () =>
                                   Navigator.pop(context),
-                          child: const Text('Cancelar'),
+                          child: Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed:
                               isSaving ? null : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

@@ -124,7 +124,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                 color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (formSt is UserFormError) ...[
               Container(
@@ -137,7 +137,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                 child: Text(formSt.message,
                     style: TextStyle(color: AppColors.error, fontSize: 13)),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -155,7 +155,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                           validator:  validateUsername,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller:  _emailCtrl, enabled: !isSaving,
@@ -167,7 +167,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Nombre y Apellido
                   Row(
@@ -179,7 +179,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                           style:      TextStyle(color: AppColors.textPrimary),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller: _lnCtrl, enabled: !isSaving,
@@ -189,7 +189,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Contraseña
                   TextFormField(
@@ -215,7 +215,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                             ? 'Contraseña obligatoria'
                             : (v.length < 8 ? 'Mínimo 8 caracteres' : null),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Toggles Staff y Activo en fila
                   Row(
@@ -226,7 +226,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         value:       _isStaff,
                         onChanged:   isSaving ? null : (v) => setState(() => _isStaff = v),
                       )),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(child: _ToggleCard(
                         label:       'Activo',
                         description: 'Puede iniciar sesión',
@@ -235,22 +235,22 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                       )),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           onPressed: isSaving ? null : () => Navigator.pop(context),
-                          child:     const Text('Cancelar'),
+                          child:     Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: isSaving ? null : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18, height: 18,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2.5, color: AppColors.onAccent,

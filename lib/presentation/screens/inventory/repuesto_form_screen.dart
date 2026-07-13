@@ -137,7 +137,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                                 borderRadius: BorderRadius.circular(16),
                                 child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
                               )
-                            : const Column(
+                            : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
@@ -148,7 +148,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Nombre Input
               TextFormField(
@@ -156,7 +156,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Nombre del Repuesto', hintText: 'Ej. Kit de arrastre'),
                 validator: (val) => val == null || val.trim().isEmpty ? 'El nombre es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // SKU Input
               TextFormField(
@@ -164,7 +164,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                 decoration: const InputDecoration(labelText: 'SKU (Código único)', hintText: 'Ej. HON-CBR-250-KIT'),
                 validator: (val) => val == null || val.trim().isEmpty ? 'El SKU es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Descripcion Input
               TextFormField(
@@ -172,7 +172,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Descripción'),
                 maxLines: 3,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Row(
                 children: [
@@ -190,7 +190,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   // Precio Venta Input
                   Expanded(
                     child: TextFormField(
@@ -207,7 +207,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Stock Input (Only available on create; on edit, inventory movements must be used to adjust stock)
               TextFormField(
@@ -222,7 +222,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Estado Dropdown
               DropdownButtonFormField<String>(
@@ -236,7 +236,7 @@ class _RepuestoFormScreenState extends ConsumerState<RepuestoFormScreen> {
                   if (val != null) setState(() => _selectedEstado = val);
                 },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Submit Button
               SizedBox(

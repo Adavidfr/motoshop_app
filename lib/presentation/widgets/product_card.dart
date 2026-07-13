@@ -65,7 +65,7 @@ class ProductCard extends StatelessWidget {
                           color: AppColors.error.withOpacity(0.85),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text(
+                        child: Text(
                           'AGOTADO',
                           style: TextStyle(
                             color: Colors.white,
@@ -99,7 +99,7 @@ class ProductCard extends StatelessWidget {
                               product.tipo == ProductType.moto ? '🏍️' : '🔧',
                               style: TextStyle(fontSize: 10),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4),
                             Expanded(
                               child: Text(
                                 (product.category?.name ??
@@ -119,7 +119,7 @@ class ProductCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4),
 
                         // Nombre
                         Text(

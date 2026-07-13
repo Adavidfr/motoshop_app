@@ -110,17 +110,17 @@ class _FiltersSheetState extends State<_FiltersSheet> {
           ),
 
           Text('Filtros', style: tt.titleLarge?.copyWith(color: AppColors.textPrimary)),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // ── Categoría ─────────────────────────────────────
           Text('Categoría', style: tt.titleSmall?.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Wrap(
             spacing:  8,
             runSpacing: 8,
             children: [
               ChoiceChip(
-                label:     const Text('Todas'),
+                label:     Text('Todas'),
                 selected:  _categoryId == null,
                 onSelected: (_) => setState(() => _categoryId = null),
               ),
@@ -132,11 +132,11 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                 ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
 
           // ── Rango de precio ───────────────────────────────
           Text('Rango de precio', style: tt.titleSmall?.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Row(
             children: [
               Expanded(
@@ -148,7 +148,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                   onChanged:    (v) => _minPrice = double.tryParse(v),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: TextField(
                   controller:  _maxCtrl,
@@ -160,11 +160,11 @@ class _FiltersSheetState extends State<_FiltersSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
 
           // ── Ordenamiento ──────────────────────────────────
           Text('Ordenar por', style: tt.titleSmall?.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Wrap(
             spacing:  8,
             runSpacing: 8,
@@ -177,7 +177,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                 ),
             ],
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // ── Botones ───────────────────────────────────────
           Row(
@@ -201,10 +201,10 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('Limpiar'),
+                  child: Text('Limpiar'),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: FilledButton(
                   onPressed: () => Navigator.of(context).pop(
@@ -222,7 +222,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('Aplicar'),
+                  child: Text('Aplicar'),
                 ),
               ),
             ],

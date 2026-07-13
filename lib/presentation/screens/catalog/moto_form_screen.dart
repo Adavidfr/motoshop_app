@@ -143,7 +143,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                                 borderRadius: BorderRadius.circular(16),
                                 child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
                               )
-                            : const Column(
+                            : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
@@ -154,7 +154,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Marca Dropdown
               DropdownButtonFormField<int>(
@@ -166,7 +166,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 onChanged: (val) => setState(() => _selectedMarcaId = val),
                 validator: (val) => val == null ? 'Selecciona una marca' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Categoria Dropdown
               DropdownButtonFormField<int>(
@@ -178,7 +178,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 onChanged: (val) => setState(() => _selectedCategoriaId = val),
                 validator: (val) => val == null ? 'Selecciona una categoría' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Modelo Input
               TextFormField(
@@ -186,7 +186,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Modelo', hintText: 'Ej. CBR 250R'),
                 validator: (val) => val == null || val.trim().isEmpty ? 'El modelo es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Row(
                 children: [
@@ -204,7 +204,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   // Cilindraje Input
                   Expanded(
                     child: TextFormField(
@@ -221,7 +221,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Color Input
               TextFormField(
@@ -229,7 +229,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Color', hintText: 'Ej. Negro, Rojo metálico'),
                 validator: (val) => val == null || val.trim().isEmpty ? 'El color es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Row(
                 children: [
@@ -247,7 +247,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   // Stock Input
                   Expanded(
                     child: TextFormField(
@@ -264,7 +264,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Estado Dropdown
               DropdownButtonFormField<String>(
@@ -280,7 +280,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   if (val != null) setState(() => _selectedEstado = val);
                 },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Submit Button
               SizedBox(

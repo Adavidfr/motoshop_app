@@ -16,21 +16,21 @@ class DashboardScreen extends ConsumerWidget {
     final state = ref.watch(dashboardProvider);
 
     return switch (state) {
-      DashboardLoading() => const Center(
+      DashboardLoading() => Center(
           child: CircularProgressIndicator(color: AppColors.accent),
         ),
       DashboardError(message: final msg) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('⚠️', style: TextStyle(fontSize: 48)),
-              const SizedBox(height: 12),
+              Text('⚠️', style: TextStyle(fontSize: 48)),
+              SizedBox(height: 12),
               Text(msg, style: TextStyle(color: AppColors.error),
                   textAlign: TextAlign.center),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => ref.read(dashboardProvider.notifier).load(),
-                child:     const Text('Reintentar'),
+                child:     Text('Reintentar'),
               ),
             ],
           ),
@@ -78,7 +78,7 @@ class _DashboardContent extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // ── KPIs fila 1 ───────────────────────────────────
           Row(
@@ -92,7 +92,7 @@ class _DashboardContent extends ConsumerWidget {
                   onTap:    () => context.go('/admin/catalog'),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: KpiCard(
                   title:    'Usuarios registrados',
@@ -105,7 +105,7 @@ class _DashboardContent extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
 
           // ── KPIs fila 2 ───────────────────────────────────
           Row(
@@ -122,7 +122,7 @@ class _DashboardContent extends ConsumerWidget {
                   onTap:    () => context.go('/admin/ventas'),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: KpiCard(
                   title:  'Ingresos totales',
@@ -133,7 +133,7 @@ class _DashboardContent extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // ── Pedidos por estado — barras ───────────────────
           if (data.ordersByStatus.isNotEmpty) ...[
@@ -173,7 +173,7 @@ class _DashboardContent extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(3),
                           child: LinearProgressIndicator(
@@ -189,7 +189,7 @@ class _DashboardContent extends ConsumerWidget {
                 }).toList(),
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
           ],
 
           // ── Acciones rápidas ──────────────────────────────
@@ -223,7 +223,7 @@ class _DashboardContent extends ConsumerWidget {
               )).toList(),
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
         ],
       ),
     );
@@ -265,7 +265,7 @@ class _SectionCard extends StatelessWidget {
               children: [
                 if (titleIcon != null) ...[
                   Icon(titleIcon, color: titleColor ?? AppColors.textPrimary, size: 18),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6),
                 ],
                 Text(
                   title,
@@ -289,7 +289,7 @@ class _SectionCard extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         child,
       ],
     ),

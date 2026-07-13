@@ -77,7 +77,7 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 SizedBox(
                   height: 34,
                   child:  ListView(
@@ -93,7 +93,7 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                     )).toList(),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
               ],
             ),
           ),
@@ -102,7 +102,7 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
           Expanded(
             child: Builder(builder: (_) {
               if (state.isLoading && state.orders.isEmpty) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(color: AppColors.accent),
                 );
               }
@@ -112,17 +112,17 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(state.error!, style: TextStyle(color: AppColors.error)),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: ref.read(ordersAdminProvider.notifier).refresh,
-                        child:     const Text('Reintentar'),
+                        child:     Text('Reintentar'),
                       ),
                     ],
                   ),
                 );
               }
               if (state.orders.isEmpty) {
-                return const Center(
+                return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -141,10 +141,10 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                 controller:      _scrollCtrl,
                 padding:         const EdgeInsets.all(16),
                 itemCount:       state.orders.length + (state.isLoadingMore ? 1 : 0),
-                separatorBuilder:(_, __) => const SizedBox(height: 10),
+                separatorBuilder:(_, __) => SizedBox(height: 10),
                 itemBuilder: (_, i) {
                   if (i >= state.orders.length) {
-                    return const Center(
+                    return Center(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child:   CircularProgressIndicator(
@@ -222,7 +222,7 @@ class _OrderAdminCard extends StatelessWidget {
                 StatusDropdown(current: order.status, onChange: onStatus),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             // Preview ítems
             Wrap(
@@ -245,9 +245,9 @@ class _OrderAdminCard extends StatelessWidget {
                       style: TextStyle(color: AppColors.textFaint, fontSize: 11)),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Divider(height: 1),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
 
             // Footer
             Row(
@@ -265,7 +265,7 @@ class _OrderAdminCard extends StatelessWidget {
                         color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 15,
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Icon(Icons.chevron_right, color: AppColors.textFaint, size: 18),
                   ],
                 ),

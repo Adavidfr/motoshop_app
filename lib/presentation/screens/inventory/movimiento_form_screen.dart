@@ -68,7 +68,7 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
     final isSaving = movimientosState.formState is InventoryFormSaving;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Registrar Movimiento')),
+      appBar: AppBar(title: Text('Registrar Movimiento')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -77,8 +77,8 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Tipo de Movimiento Segmented Button
-              const Text('Tipo de Movimiento', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
+              Text('Tipo de Movimiento', style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
               SegmentedButton<String>(
                 segments: const [
                   ButtonSegment(
@@ -97,11 +97,11 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
                   setState(() => _tipoMovimiento = val.first);
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Tipo de Item Segmented Button
-              const Text('Tipo de Artículo Afectado', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
+              Text('Tipo de Artículo Afectado', style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
               SegmentedButton<String>(
                 segments: const [
                   ButtonSegment(
@@ -124,7 +124,7 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Selection Dropdowns
               if (_tipoItem == 'moto') ...[
@@ -154,7 +154,7 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
                   validator: (val) => val == null ? 'Selecciona un repuesto' : null,
                 ),
               ],
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Cantidad Input
               TextFormField(
@@ -168,7 +168,7 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Descripcion Input
               TextFormField(
@@ -177,7 +177,7 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
                     labelText: 'Detalle o Motivo', hintText: 'Ej. Compra de inventario local, venta...'),
                 maxLines: 3,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Submit Button
               SizedBox(
@@ -187,7 +187,7 @@ class _MovimientoFormScreenState extends ConsumerState<MovimientoFormScreen> {
                   onPressed: isSaving ? null : _onSubmit,
                   child: isSaving
                       ? const CircularProgressIndicator()
-                      : const Text('Registrar Movimiento'),
+                      : Text('Registrar Movimiento'),
                 ),
               ),
             ],

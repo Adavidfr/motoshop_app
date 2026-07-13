@@ -52,7 +52,7 @@ class AuthButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           child: Center(
             child: isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(

@@ -445,10 +445,10 @@ class _CompraFormSheetState
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (state.isLoadingCatalogos) ...[
-              const Center(
+              Center(
                 child: Column(
                   children: [
                     CircularProgressIndicator(
@@ -466,7 +466,7 @@ class _CompraFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
             ],
 
             if (state.catalogosError != null) ...[
@@ -489,7 +489,7 @@ class _CompraFormSheetState
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextButton(
                       onPressed: () {
                         ref
@@ -500,12 +500,12 @@ class _CompraFormSheetState
                             .cargarCatalogos();
                       },
                       child:
-                          const Text('Reintentar'),
+                          Text('Reintentar'),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             if (formState is CompraFormError) ...[
@@ -533,7 +533,7 @@ class _CompraFormSheetState
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
@@ -546,7 +546,7 @@ class _CompraFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -603,7 +603,7 @@ class _CompraFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   Align(
                     alignment: Alignment.centerLeft,
@@ -619,7 +619,7 @@ class _CompraFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   SizedBox(
                     width: double.infinity,
@@ -656,7 +656,7 @@ class _CompraFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   if (_tipoCompra ==
                       TipoCompra.moto)
@@ -769,7 +769,7 @@ class _CompraFormSheetState
                       },
                     ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -797,7 +797,7 @@ class _CompraFormSheetState
                     validator: _validarCantidad,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -834,7 +834,7 @@ class _CompraFormSheetState
                     validator: _validarPrecio,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Container(
                     width: double.infinity,
@@ -850,7 +850,7 @@ class _CompraFormSheetState
                     ),
                     child: Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
                             'Subtotal',
                             style: TextStyle(
@@ -874,7 +874,7 @@ class _CompraFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<String>(
                     value: estadosCompra
@@ -912,7 +912,7 @@ class _CompraFormSheetState
                           },
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -923,10 +923,10 @@ class _CompraFormSheetState
                               : () =>
                                   Navigator.pop(context),
                           child:
-                              const Text('Cancelar'),
+                              Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: isSaving ||
@@ -935,7 +935,7 @@ class _CompraFormSheetState
                               ? null
                               : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

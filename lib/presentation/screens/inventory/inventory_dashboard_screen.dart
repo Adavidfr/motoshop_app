@@ -73,7 +73,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Repuestos e Inventario'),
+        title: Text('Repuestos e Inventario'),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: AppColors.accent,
@@ -127,7 +127,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           _buildErrorWidget(state.error!, () => ref.read(repuestosProvider.notifier).loadFirstPage()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.repuestos.isEmpty
                   ? _buildEmptyState('No se encontraron repuestos')
                   : RefreshIndicator(
@@ -138,7 +138,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                         itemCount: state.repuestos.length + (state.isMoreLoading ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index == state.repuestos.length) {
-                            return const Center(
+                            return Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 child: CircularProgressIndicator(),
@@ -210,13 +210,13 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 4),
+                                          SizedBox(height: 4),
                                           Text(
                                             'SKU: ${repuesto.sku}',
                                             style: TextStyle(
                                                 fontSize: 12, color: AppColors.textSecondary),
                                           ),
-                                          const SizedBox(height: 8),
+                                          SizedBox(height: 8),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
@@ -270,7 +270,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           _buildErrorWidget(state.error!, () => ref.read(movimientosProvider.notifier).loadFirstPage()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.movimientos.isEmpty
                   ? _buildEmptyState('No hay movimientos registrados')
                   : RefreshIndicator(
@@ -281,7 +281,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                         itemCount: state.movimientos.length + (state.isMoreLoading ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index == state.movimientos.length) {
-                            return const Center(
+                            return Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 child: CircularProgressIndicator(),
@@ -331,13 +331,13 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 12),
+                                  SizedBox(height: 12),
                                   Text(
                                     affectedItem,
                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                   ),
                                   if (mov.descripcion != null && mov.descripcion!.isNotEmpty) ...[
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6),
                                     Text(
                                       mov.descripcion!,
                                       style: TextStyle(
@@ -352,7 +352,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                         children: [
                                           Icon(Icons.person_outline,
                                               size: 14, color: AppColors.textSecondary),
-                                          const SizedBox(width: 4),
+                                          SizedBox(width: 4),
                                           Text(
                                             mov.usuario.username,
                                             style: TextStyle(
@@ -430,7 +430,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
             ),
           ),
           if (showSort && sortOptions != null) ...[
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -464,7 +464,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(msg, style: TextStyle(color: AppColors.textSecondary, fontSize: 16)),
         ],
       ),
@@ -483,7 +483,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
       child: Row(
         children: [
           Icon(Icons.error_outline, color: AppColors.error),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               error,
@@ -492,7 +492,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           ),
           TextButton(
             onPressed: onRetry,
-            child: const Text('Reintentar', style: TextStyle(color: AppColors.accent)),
+            child: Text('Reintentar', style: TextStyle(color: AppColors.accent)),
           ),
         ],
       ),

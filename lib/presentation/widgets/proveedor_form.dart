@@ -262,7 +262,7 @@ class _ProveedorFormSheetState
             ),
 
             if (isEdit) ...[
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 widget.initial!.nombre,
                 style: TextStyle(
@@ -272,7 +272,7 @@ class _ProveedorFormSheetState
               ),
             ],
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (formState is ProveedorFormError) ...[
               Container(
@@ -297,7 +297,7 @@ class _ProveedorFormSheetState
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
@@ -310,7 +310,7 @@ class _ProveedorFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -338,7 +338,7 @@ class _ProveedorFormSheetState
                     validator: _validarNombre,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _contactoController,
@@ -361,7 +361,7 @@ class _ProveedorFormSheetState
                     validator: _validarContacto,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _telefonoController,
@@ -383,7 +383,7 @@ class _ProveedorFormSheetState
                     validator: _validarTelefono,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _correoController,
@@ -409,7 +409,7 @@ class _ProveedorFormSheetState
                     validator: _validarCorreo,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _direccionController,
@@ -420,7 +420,7 @@ class _ProveedorFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Dirección',
                       alignLabelWithHint: true,
-                      prefixIcon: const Padding(
+                      prefixIcon: Padding(
                         padding: EdgeInsets.only(
                           bottom: 45,
                         ),
@@ -438,7 +438,7 @@ class _ProveedorFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -460,7 +460,7 @@ class _ProveedorFormSheetState
                             crossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Proveedor activo',
                                 style: TextStyle(
                                   color:
@@ -469,7 +469,7 @@ class _ProveedorFormSheetState
                                       FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              SizedBox(height: 2),
                               Text(
                                 _estado
                                     ? 'Disponible para compras y abastecimiento'
@@ -512,7 +512,7 @@ class _ProveedorFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -522,16 +522,16 @@ class _ProveedorFormSheetState
                               ? null
                               : () =>
                                   Navigator.pop(context),
-                          child: const Text('Cancelar'),
+                          child: Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed:
                               isSaving ? null : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

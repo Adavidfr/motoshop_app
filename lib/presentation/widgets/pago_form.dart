@@ -110,7 +110,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
+            colorScheme: ColorScheme.dark(
               primary: AppColors.accent,
               surface: AppColors.surface2,
             ),
@@ -195,7 +195,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // ── Error global ─────────────────────────────────────────────
               if (formError != null) ...[
@@ -216,12 +216,12 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
 
               // ── ID Venta ─────────────────────────────────────────────────
               _buildLabel('ID Venta *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _idVentaCtrl,
                 style: TextStyle(color: AppColors.textPrimary),
@@ -236,11 +236,11 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // ── Monto ────────────────────────────────────────────────────
               _buildLabel('Monto *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _montoCtrl,
                 style: TextStyle(color: AppColors.textPrimary),
@@ -255,11 +255,11 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // ── Método de pago ───────────────────────────────────────────
               _buildLabel('Método de pago *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: _metodoPago,
                 dropdownColor: AppColors.surface2,
@@ -277,11 +277,11 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   if (v != null) setState(() => _metodoPago = v);
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // ── Estado ───────────────────────────────────────────────────
               _buildLabel('Estado *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: _estado,
                 dropdownColor: AppColors.surface2,
@@ -299,11 +299,11 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   if (v != null) setState(() => _estado = v);
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // ── Fecha de pago ────────────────────────────────────────────
               _buildLabel('Fecha de pago (opcional)'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               InkWell(
                 onTap: _seleccionarFecha,
                 borderRadius: BorderRadius.circular(8),
@@ -324,7 +324,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                         color: AppColors.textSecondary,
                         size: 18,
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10),
                       Text(
                         _formatFecha(_fechaPago),
                         style: TextStyle(
@@ -348,18 +348,18 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // ── Referencia ───────────────────────────────────────────────
               _buildLabel('Referencia (opcional)'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _referenciaCtrl,
                 style: TextStyle(color: AppColors.textPrimary),
                 maxLength: 150,
                 decoration: _inputDec('Ej: TXN-00123'),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // ── Botón guardar ────────────────────────────────────────────
               SizedBox(
@@ -374,7 +374,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(

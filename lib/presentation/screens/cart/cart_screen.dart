@@ -40,7 +40,7 @@ class CartScreen extends ConsumerWidget {
                   await notifier.clearCart();
                 }
               },
-              child: const Text(
+              child: Text(
                 'Vaciar',
                 style: TextStyle(color: AppColors.error),
               ),
@@ -48,7 +48,7 @@ class CartScreen extends ConsumerWidget {
         ],
       ),
       body: cartState.isLoading && cartState.items.isEmpty
-          ? const Center(
+          ? Center(
               child: CircularProgressIndicator(color: AppColors.accent),
             )
           : cartState.items.isEmpty
@@ -64,7 +64,7 @@ class CartScreen extends ConsumerWidget {
                           padding:         const EdgeInsets.all(16),
                           itemCount:       cartState.items.length,
                           separatorBuilder:(_, __) =>
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12),
                           itemBuilder: (_, i) {
                             final item = cartState.items[i];
                             return _CartItemTile(
@@ -105,14 +105,14 @@ class CartScreen extends ConsumerWidget {
     context: context,
     builder: (_) => AlertDialog(
       backgroundColor: AppColors.surface,
-      title: const Text('Vaciar carrito',
+      title: Text('Vaciar carrito',
           style: TextStyle(color: AppColors.textPrimary)),
-      content: const Text('¿Seguro que deseas eliminar todos los ítems?',
+      content: Text('¿Seguro que deseas eliminar todos los ítems?',
           style: TextStyle(color: AppColors.textSecondary)),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Cancelar',
+          child: Text('Cancelar',
               style: TextStyle(color: AppColors.textSecondary)),
         ),
         FilledButton(
@@ -121,7 +121,7 @@ class CartScreen extends ConsumerWidget {
             backgroundColor: AppColors.error,
             foregroundColor: Colors.white,
           ),
-          child: const Text('Vaciar'),
+          child: Text('Vaciar'),
         ),
       ],
     ),
@@ -252,7 +252,7 @@ class _CartItemTile extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     formatPrice(product.price),
                     style: TextStyle(
@@ -260,7 +260,7 @@ class _CartItemTile extends StatelessWidget {
                       fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   // Controles de cantidad
                   Row(
@@ -393,7 +393,7 @@ class _OrderSummary extends StatelessWidget {
                   style: TextStyle(color: AppColors.textPrimary)),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -413,13 +413,13 @@ class _OrderSummary extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
               onPressed: cartState.isLoading ? null : onCheckout,
               icon:      Icon(Icons.check_circle_outline),
-              label:     const Text('Confirmar pedido'),
+              label:     Text('Confirmar pedido'),
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.accent,
                 foregroundColor: AppColors.onAccent,
@@ -446,9 +446,9 @@ class _EmptyCart extends StatelessWidget {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('🛒', style: TextStyle(fontSize: 64)),
-        const SizedBox(height: 16),
-        const Text(
+        Text('🛒', style: TextStyle(fontSize: 64)),
+        SizedBox(height: 16),
+        Text(
           'Tu carrito está vacío',
           style: TextStyle(
             color:      AppColors.textPrimary,
@@ -456,16 +456,16 @@ class _EmptyCart extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
-        const Text(
+        SizedBox(height: 8),
+        Text(
           'Agrega motos o repuestos al carrito',
           style: TextStyle(color: AppColors.textSecondary),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         FilledButton.icon(
           onPressed: onShop,
           icon:      Icon(Icons.grid_view_rounded),
-          label:     const Text('Ir al catálogo'),
+          label:     Text('Ir al catálogo'),
           style: FilledButton.styleFrom(
             backgroundColor: AppColors.accent,
             foregroundColor: AppColors.onAccent,

@@ -66,7 +66,7 @@ class _ResetPasswordConfirmScreenState
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title:           const Text('Nueva contraseña'),
+        title:           Text('Nueva contraseña'),
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
         elevation:       0,
@@ -77,15 +77,15 @@ class _ResetPasswordConfirmScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
               Icon(Icons.lock_outline, size: 48, color: AppColors.accent),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Text(
                 'Pega el uid y el token del enlace que recibiste por correo y elige una nueva contraseña.',
                 textAlign: TextAlign.center,
                 style: tt.bodyMedium?.copyWith(color: AppColors.textSecondary),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class _ResetPasswordConfirmScreenState
                                 color: AppColors.error, fontSize: 13),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                       ],
                       AuthTextField(
                         label:      'UID',
@@ -124,7 +124,7 @@ class _ResetPasswordConfirmScreenState
                         onChanged: (_) =>
                             ref.read(resetPasswordProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       AuthTextField(
                         label:      'Token',
                         hint:       'ej. abc-defg-hij',
@@ -133,7 +133,7 @@ class _ResetPasswordConfirmScreenState
                         onChanged: (_) =>
                             ref.read(resetPasswordProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       AuthTextField(
                         label:      'Nueva contraseña',
                         hint:       '••••••••',
@@ -141,7 +141,7 @@ class _ResetPasswordConfirmScreenState
                         isPassword: !_showPass,
                         enabled:    !isLoading,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       AuthTextField(
                         label:      'Confirmar contraseña',
                         hint:       '••••••••',
@@ -152,7 +152,7 @@ class _ResetPasswordConfirmScreenState
                             ? 'Las contraseñas no coinciden'
                             : null,
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       Row(
                         children: [
                           Checkbox(
@@ -168,7 +168,7 @@ class _ResetPasswordConfirmScreenState
                                 ? null
                                 : () =>
                                     setState(() => _showPass = !_showPass),
-                            child: const Text(
+                            child: Text(
                               'Mostrar contraseñas',
                               style: TextStyle(
                                   color:    AppColors.textSecondary,
@@ -177,7 +177,7 @@ class _ResetPasswordConfirmScreenState
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       AuthButton(
                         label:     'Restablecer contraseña',
                         onPressed: _isFormValid
@@ -196,7 +196,7 @@ class _ResetPasswordConfirmScreenState
                   ),
                 ),
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
             ],
           ),
         ),

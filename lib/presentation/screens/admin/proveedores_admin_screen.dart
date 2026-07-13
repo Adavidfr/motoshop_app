@@ -73,7 +73,7 @@ class _ProveedoresAdminScreenState
                       crossAxisAlignment:
                           CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Proveedores',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -103,7 +103,7 @@ class _ProveedoresAdminScreenState
                       Icons.add,
                       size: 18,
                     ),
-                    label: const Text('Nuevo'),
+                    label: Text('Nuevo'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 40),
                       padding:
@@ -115,7 +115,7 @@ class _ProveedoresAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -157,7 +157,7 @@ class _ProveedoresAdminScreenState
                     ),
                   ),
 
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
 
                   IconButton.filled(
                     onPressed:
@@ -170,7 +170,7 @@ class _ProveedoresAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -185,7 +185,7 @@ class _ProveedoresAdminScreenState
 
                   if (state.search.isNotEmpty ||
                       state.filtroEstado != null) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     IconButton(
                       onPressed: state.isLoading
                           ? null
@@ -213,7 +213,7 @@ class _ProveedoresAdminScreenState
             builder: (_) {
               if (state.isLoading &&
                   state.proveedores.isEmpty) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
@@ -248,10 +248,10 @@ class _ProveedoresAdminScreenState
                   separatorBuilder: (_, index) {
                     if (index ==
                         state.proveedores.length - 1) {
-                      return const SizedBox(height: 16);
+                      return SizedBox(height: 16);
                     }
 
-                    return const SizedBox(height: 10);
+                    return SizedBox(height: 10);
                   },
                   itemBuilder: (_, index) {
                     if (index ==
@@ -321,7 +321,7 @@ class _ProveedoresAdminScreenState
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text(
+          title: Text(
             '¿Eliminar proveedor?',
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -339,7 +339,7 @@ class _ProveedoresAdminScreenState
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
@@ -370,7 +370,7 @@ class _ProveedoresAdminScreenState
                   );
                 }
               },
-              child: const Text(
+              child: Text(
                 'Eliminar',
                 style: TextStyle(
                   color: AppColors.error,
@@ -512,7 +512,7 @@ class _ProveedorCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 4),
+            SizedBox(width: 4),
 
             Expanded(
               child: Column(
@@ -536,14 +536,14 @@ class _ProveedorCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       _EstadoBadge(
                         activo: proveedor.estado,
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   if (_tieneTexto(
                     proveedor.contacto,
@@ -591,7 +591,7 @@ class _ProveedorCard extends StatelessWidget {
                       !_tieneTexto(
                         proveedor.direccion,
                       ))
-                    const Text(
+                    Text(
                       'Sin información de contacto',
                       style: TextStyle(
                         color: AppColors.textFaint,
@@ -602,7 +602,7 @@ class _ProveedorCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
 
             Column(
               children: [
@@ -674,7 +674,7 @@ class _InfoRow extends StatelessWidget {
             size: 15,
             color: AppColors.textSecondary,
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: 6),
           Expanded(
             child: Text(
               text,
@@ -773,7 +773,7 @@ class _PaginationControls extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           Row(
             children: [
@@ -786,11 +786,11 @@ class _PaginationControls extends StatelessWidget {
                   icon: Icon(
                     Icons.chevron_left,
                   ),
-                  label: const Text('Anterior'),
+                  label: Text('Anterior'),
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               DropdownButton<int>(
                 value: pageSize,
@@ -798,7 +798,7 @@ class _PaginationControls extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
-                underline: const SizedBox.shrink(),
+                underline: SizedBox.shrink(),
                 items: const [
                   DropdownMenuItem(
                     value: 10,
@@ -822,7 +822,7 @@ class _PaginationControls extends StatelessWidget {
                       },
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               Expanded(
                 child: ElevatedButton.icon(
@@ -833,7 +833,7 @@ class _PaginationControls extends StatelessWidget {
                   icon: Icon(
                     Icons.chevron_right,
                   ),
-                  label: const Text('Siguiente'),
+                  label: Text('Siguiente'),
                 ),
               ),
             ],
@@ -867,7 +867,7 @@ class _ErrorView extends StatelessWidget {
               color: AppColors.error,
               size: 48,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
@@ -875,10 +875,10 @@ class _ErrorView extends StatelessWidget {
                 color: AppColors.error,
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             ElevatedButton(
               onPressed: onRetry,
-              child: const Text('Reintentar'),
+              child: Text('Reintentar'),
             ),
           ],
         ),
@@ -906,7 +906,7 @@ class _EmptyView extends StatelessWidget {
             color: AppColors.textFaint,
             size: 55,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             hasFilters
                 ? 'No se encontraron proveedores'
@@ -917,7 +917,7 @@ class _EmptyView extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             hasFilters
                 ? 'Prueba con otros términos o filtros.'

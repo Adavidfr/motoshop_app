@@ -28,7 +28,7 @@ class StatusDropdown extends StatelessWidget {
       child: DropdownButton<OrderStatus>(
         value:        current,
         isDense:      true,
-        underline:    const SizedBox.shrink(),
+        underline:    SizedBox.shrink(),
         dropdownColor:const Color(0xFF111118),
         borderRadius: BorderRadius.circular(12),
         icon:         Icon(Icons.arrow_drop_down, color: color, size: 18),
@@ -62,7 +62,7 @@ class StatusDropdown extends StatelessWidget {
                   width:  8, height: 8,
                   decoration: BoxDecoration(color: c, shape: BoxShape.circle),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   s.label,
                   style: TextStyle(
@@ -72,7 +72,7 @@ class StatusDropdown extends StatelessWidget {
                   ),
                 ),
                 if (isCur) ...[
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Icon(Icons.check, size: 14, color: c),
                 ],
               ],

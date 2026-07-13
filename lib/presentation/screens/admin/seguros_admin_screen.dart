@@ -44,7 +44,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar seguro',
+        title: Text('Eliminar seguro',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar el seguro ${seguro.numeroPoliza}?',
@@ -53,7 +53,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -62,7 +62,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -88,7 +88,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 'Cambiar estado',
@@ -158,7 +158,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Seguros',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -188,11 +188,11 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                         ),
                       ),
                       icon: Icon(Icons.add, size: 18),
-                      label: const Text('Nuevo'),
+                      label: Text('Nuevo'),
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -235,7 +235,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                       onSubmitted: (_) => _buscar(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   SizedBox(
                     height: 44,
                     child: ElevatedButton(
@@ -248,12 +248,12 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 14),
                       ),
-                      child: const Text('Buscar'),
+                      child: Text('Buscar'),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -264,7 +264,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                       onChanged: (v) => notifier.setFiltroEstado(v),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Expanded(
                     child: _FiltroDropdown(
                       hint: 'Cobertura',
@@ -277,7 +277,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                   if (state.filtroEstado != null ||
                       state.filtroCobertura != null ||
                       state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         _searchController.clear();
@@ -286,7 +286,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                       },
                       style: TextButton.styleFrom(
                           foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
+                      child: Text('Limpiar'),
                     ),
                   ],
                 ],
@@ -300,7 +300,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
 
         Expanded(
           child: state.isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(color: AppColors.accent))
               : state.seguros.isEmpty
                   ? _EmptyState(
@@ -314,7 +314,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                         padding: const EdgeInsets.all(12),
                         itemCount: state.seguros.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final seguro = state.seguros[index];
                           return _SeguroCard(
@@ -392,7 +392,7 @@ class _SeguroCard extends StatelessWidget {
                   ),
                   child: Icon(iconoEstado, color: colorEstado, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,9 +425,9 @@ class _SeguroCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Wrap(
               spacing: 8,
               runSpacing: 6,
@@ -456,16 +456,16 @@ class _SeguroCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             Text(
               'Venta #${seguro.idVenta}',
               style: TextStyle(
                   color: AppColors.textFaint, fontSize: 11),
             ),
             if (isAdmin) ...[
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -475,14 +475,14 @@ class _SeguroCard extends StatelessWidget {
                     color: AppColors.info,
                     onPressed: onChangeEstado,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Editar',
                     icon: Icons.edit_outlined,
                     color: AppColors.accent,
                     onPressed: onEdit,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Eliminar',
                     icon: Icons.delete_outline,
@@ -578,7 +578,7 @@ class _Chip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color, size: 12),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           Text(label,
               style: TextStyle(
                   color: color,
@@ -688,7 +688,7 @@ class _ErrorBanner extends StatelessWidget {
       child: Row(
         children: [
           Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style:
@@ -722,7 +722,7 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'

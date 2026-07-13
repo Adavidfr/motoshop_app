@@ -25,7 +25,7 @@ class OrderAdminDetailScreen extends ConsumerWidget {
         title: Text('Pedido #$orderId'),
       ),
       body: orderAsync.when(
-        loading: () => const Center(
+        loading: () => Center(
           child: CircularProgressIndicator(color: AppColors.accent),
         ),
         error: (err, _) => Center(
@@ -33,10 +33,10 @@ class OrderAdminDetailScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(err.toString(), style: TextStyle(color: AppColors.error)),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () => context.pop(),
-                child:     const Text('Volver'),
+                child:     Text('Volver'),
               ),
             ],
           ),
@@ -78,20 +78,20 @@ class _DetailContent extends StatelessWidget {
                 _InfoRow('Fecha',       dateStr),
                 _InfoRow('Actualizado', updatedStr),
                 _InfoRow('Ítems',       '${order.numItems}'),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Estado actual',
+                    Text('Estado actual',
                         style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     StatusBadge(status: order.status),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Cambiar estado',
+                    Text('Cambiar estado',
                         style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     StatusDropdown(
                       current:  order.status,
@@ -109,7 +109,7 @@ class _DetailContent extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           // Action Card for Sales Integration (Ventas)
           if (canRegisterSale) ...[
@@ -118,11 +118,11 @@ class _DetailContent extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Este pedido está confirmado. Puedes registrar una venta formal para este pedido en el sistema de ventas.',
                     style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton.icon(
@@ -149,7 +149,7 @@ class _DetailContent extends StatelessWidget {
                         }
                       },
                       icon: Icon(Icons.receipt_long),
-                      label: const Text('Registrar Venta'),
+                      label: Text('Registrar Venta'),
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         foregroundColor: AppColors.onAccent,
@@ -159,7 +159,7 @@ class _DetailContent extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
           ],
 
           // Ítems
@@ -176,9 +176,9 @@ class _DetailContent extends StatelessWidget {
                         color:        AppColors.surface2,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Center(child: Text('📦', style: TextStyle(fontSize: 20))),
+                      child: Center(child: Text('📦', style: TextStyle(fontSize: 20))),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,7 +201,7 @@ class _DetailContent extends StatelessWidget {
               )).toList(),
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           // Resumen financiero
           _Card(
@@ -209,16 +209,16 @@ class _DetailContent extends StatelessWidget {
             child: Column(
               children: [
                 _TotalRow('Subtotal (sin IVA)', subtotal,    false),
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
                 _TotalRow('IVA (15%)',          taxAmount,   false),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Divider(),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 _TotalRow('Total',              order.total, true),
               ],
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           // Cambio rápido de estado
           _Card(
@@ -252,7 +252,7 @@ class _DetailContent extends StatelessWidget {
                               width:  8, height: 8,
                               decoration: BoxDecoration(color: color, shape: BoxShape.circle),
                             ),
-                            const SizedBox(width: 6),
+                            SizedBox(width: 6),
                             Text(
                               s.label,
                               style: TextStyle(
@@ -266,7 +266,7 @@ class _DetailContent extends StatelessWidget {
                   }).toList(),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
         ],
       ),
     );
@@ -298,7 +298,7 @@ class _Card extends StatelessWidget {
             fontWeight: FontWeight.bold, letterSpacing: 0.8,
           ),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14),
         child,
       ],
     ),

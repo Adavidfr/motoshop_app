@@ -455,10 +455,10 @@ class _MantenimientoFormSheetState
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (state.isLoadingCatalogos) ...[
-              const Center(
+              Center(
                 child: Column(
                   children: [
                     CircularProgressIndicator(
@@ -476,7 +476,7 @@ class _MantenimientoFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
             ],
 
             if (state.catalogosError != null) ...[
@@ -504,7 +504,7 @@ class _MantenimientoFormSheetState
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextButton(
                       onPressed: () {
                         ref
@@ -514,14 +514,14 @@ class _MantenimientoFormSheetState
                             )
                             .cargarCatalogos();
                       },
-                      child: const Text(
+                      child: Text(
                         'Reintentar',
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             if (formState
@@ -548,7 +548,7 @@ class _MantenimientoFormSheetState
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
@@ -561,7 +561,7 @@ class _MantenimientoFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -616,7 +616,7 @@ class _MantenimientoFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<int>(
                     value:
@@ -666,7 +666,7 @@ class _MantenimientoFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<int>(
                     value:
@@ -719,7 +719,7 @@ class _MantenimientoFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -750,7 +750,7 @@ class _MantenimientoFormSheetState
                         _validarKilometraje,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -764,7 +764,7 @@ class _MantenimientoFormSheetState
                       labelText:
                           'Diagnóstico inicial',
                       alignLabelWithHint: true,
-                      prefixIcon: const Padding(
+                      prefixIcon: Padding(
                         padding: EdgeInsets.only(
                           bottom: 68,
                         ),
@@ -782,7 +782,7 @@ class _MantenimientoFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -818,7 +818,7 @@ class _MantenimientoFormSheetState
                     validator: _validarCosto,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<String>(
                     value:
@@ -859,7 +859,7 @@ class _MantenimientoFormSheetState
                           },
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -872,13 +872,13 @@ class _MantenimientoFormSheetState
                                     context,
                                   );
                                 },
-                          child: const Text(
+                          child: Text(
                             'Cancelar',
                           ),
                         ),
                       ),
 
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
 
                       Expanded(
                         child: ElevatedButton(
@@ -888,7 +888,7 @@ class _MantenimientoFormSheetState
                               ? null
                               : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

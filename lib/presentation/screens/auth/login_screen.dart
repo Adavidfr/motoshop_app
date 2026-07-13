@@ -75,7 +75,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   Container(
                     width: 140,
@@ -92,7 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     'AuraRider',
                     style: tt.headlineMedium?.copyWith(
@@ -101,7 +101,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       letterSpacing: 1.2,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     'Diseño, potencia y control en tus manos',
                     style: TextStyle(
@@ -109,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 36),
+                  SizedBox(height: 36),
 
                   // Card del formulario
                   Container(
@@ -151,7 +151,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     color: AppColors.error, fontSize: 13),
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                           ],
 
                           // Campo usuario
@@ -164,7 +164,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onChanged: (_) =>
                                 ref.read(authProvider.notifier).clearError(),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 16),
 
                           // Campo contraseña
                           AuthTextField(
@@ -183,7 +183,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onChanged: (_) =>
                                 ref.read(authProvider.notifier).clearError(),
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24),
 
                           // Botón
                           AuthButton(
@@ -192,11 +192,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             isLoading: isLoading,
                           ),
 
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Center(
                             child: TextButton(
                               onPressed: () => context.push('/forgot-password'),
-                              child: const Text('¿Olvidaste tu contraseña?'),
+                              child: Text('¿Olvidaste tu contraseña?'),
                             ),
                           ),
                         ],
@@ -204,7 +204,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Link al registro
                   Row(
@@ -213,11 +213,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       Text('¿No tienes cuenta? ', style: tt.bodyMedium),
                       TextButton(
                         onPressed: () => context.push('/register'),
-                        child: const Text('Regístrate'),
+                        child: Text('Regístrate'),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                 ],
               ),
             ),

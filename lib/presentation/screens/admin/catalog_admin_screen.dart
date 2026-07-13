@@ -73,7 +73,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
         title: Row(
           children: [
             Icon(Icons.motorcycle, color: AppColors.accent, size: 28),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               'MotoShop',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -94,7 +94,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
             onPressed: () => context.push('/profile'),
             tooltip: 'Ver perfil',
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
         ],
         bottom: TabBar(
           controller: _tabController,
@@ -151,7 +151,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _buildErrorWidget(state.error!, () => ref.read(motosProvider.notifier).loadFirstPage()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.motos.isEmpty
                   ? _buildEmptyState('No se encontraron motocicletas')
                   : RefreshIndicator(
@@ -162,7 +162,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                         itemCount: state.motos.length + (state.isMoreLoading ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index == state.motos.length) {
-                            return const Center(
+                            return Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 child: CircularProgressIndicator(),
@@ -239,7 +239,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 4),
+                                          SizedBox(height: 4),
                                           Text(
                                             'Categoría: ${moto.categoria.nombre}',
                                             style: TextStyle(
@@ -247,7 +247,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                               fontSize: 13,
                                             ),
                                           ),
-                                          const SizedBox(height: 4),
+                                          SizedBox(height: 4),
                                           Text(
                                             'Año: ${moto.anio}  ·  Cilindraje: ${moto.cilindraje} cc',
                                             style: TextStyle(
@@ -255,7 +255,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                               fontSize: 13,
                                             ),
                                           ),
-                                          const SizedBox(height: 12),
+                                          SizedBox(height: 12),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
@@ -310,7 +310,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _buildErrorWidget(state.error!, () => ref.read(marcasProvider.notifier).load()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.marcas.isEmpty
                   ? _buildEmptyState('No se encontraron marcas')
                   : ListView.builder(
@@ -394,7 +394,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _buildErrorWidget(state.error!, () => ref.read(categoriasProvider.notifier).load()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.categorias.isEmpty
                   ? _buildEmptyState('No se encontraron categorías')
                   : ListView.builder(
@@ -515,7 +515,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
             ),
           ),
           if (showSort && sortOptions != null) ...[
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -549,7 +549,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(msg, style: TextStyle(color: AppColors.textSecondary, fontSize: 16)),
         ],
       ),
@@ -568,7 +568,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       child: Row(
         children: [
           Icon(Icons.error_outline, color: AppColors.error),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               error,
@@ -577,7 +577,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           ),
           TextButton(
             onPressed: onRetry,
-            child: const Text('Reintentar', style: TextStyle(color: AppColors.accent)),
+            child: Text('Reintentar', style: TextStyle(color: AppColors.accent)),
           ),
         ],
       ),
@@ -613,12 +613,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Marca'),
+        title: Text('Eliminar Marca'),
         content: Text('¿Estás seguro de que deseas eliminar la marca "${marca.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
@@ -626,7 +626,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               ref.read(marcasProvider.notifier).delete(marca.idMarca);
               Navigator.of(context).pop();
             },
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -637,12 +637,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Categoría'),
+        title: Text('Eliminar Categoría'),
         content: Text('¿Estás seguro de que deseas eliminar la categoría "${cat.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
@@ -650,7 +650,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               ref.read(categoriasProvider.notifier).delete(cat.idCategoria);
               Navigator.of(context).pop();
             },
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),

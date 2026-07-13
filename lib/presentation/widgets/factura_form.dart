@@ -111,7 +111,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
       lastDate: DateTime(2100),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.dark(
+          colorScheme: ColorScheme.dark(
             primary: AppColors.accent,
             surface: AppColors.surface2,
           ),
@@ -184,13 +184,13 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               if (formError != null) ...[
                 _ErrorBanner(message: formError),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
               _buildLabel('ID Venta *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _idVentaCtrl,
                 style: TextStyle(color: AppColors.textPrimary),
@@ -204,9 +204,9 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                       : null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildLabel('Número de factura *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _numeroFacturaCtrl,
                 style: TextStyle(color: AppColors.textPrimary),
@@ -215,7 +215,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? 'Campo requerido' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -223,7 +223,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildLabel('Subtotal *'),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         TextFormField(
                           controller: _subtotalCtrl,
                           style:
@@ -242,13 +242,13 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildLabel('IVA *'),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         TextFormField(
                           controller: _ivaCtrl,
                           style:
@@ -269,9 +269,9 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildLabel('Total *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _totalCtrl,
                 style: TextStyle(
@@ -284,16 +284,16 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   return val == null || val < 0 ? 'Valor inválido' : null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildLabel('Fecha de emisión (opcional)'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               _DateSelector(
                 fecha: _fechaEmision,
                 onTap: _seleccionarFecha,
                 onClear: () => setState(() => _fechaEmision = null),
                 label: _formatFecha(_fechaEmision),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -306,7 +306,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(
@@ -423,7 +423,7 @@ class _DateSelector extends StatelessWidget {
           children: [
             Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 18),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               label,
               style: TextStyle(

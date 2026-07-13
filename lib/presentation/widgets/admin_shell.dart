@@ -154,10 +154,10 @@ class AdminShell extends ConsumerWidget {
             ),
             tooltip: 'Cambiar tema',
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           TextButton(
             onPressed: () => context.go('/'),
-            child: const Text(
+            child: Text(
               '← Perfil',
               style: TextStyle(
                 color: AppColors.accent,
@@ -201,7 +201,7 @@ class AdminShell extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment:
@@ -216,7 +216,7 @@ class AdminShell extends ConsumerWidget {
                               fontSize: 16,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
@@ -230,7 +230,7 @@ class AdminShell extends ConsumerWidget {
                                 999,
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Administrador',
                               style: TextStyle(
                                 color: AppColors.accent,
@@ -244,8 +244,8 @@ class AdminShell extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                const Text(
+                SizedBox(height: 12),
+                Text(
                   'Panel de administración',
                   style: TextStyle(
                     color: AppColors.textSecondary,
@@ -256,7 +256,7 @@ class AdminShell extends ConsumerWidget {
             ),
           ),
           Divider(height: 1),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           ...adminNavItems.map(
             (item) => NavigationDrawerDestination(
               icon: Icon(item.icon),
@@ -273,7 +273,7 @@ class AdminShell extends ConsumerWidget {
               Icons.person_outline,
               color: AppColors.textSecondary,
             ),
-            title: const Text(
+            title: Text(
               'Mi perfil',
               style: TextStyle(
                 color: AppColors.textPrimary,
@@ -289,7 +289,7 @@ class AdminShell extends ConsumerWidget {
               Icons.logout,
               color: AppColors.error,
             ),
-            title: const Text(
+            title: Text(
               'Cerrar sesión',
               style: TextStyle(
                 color: AppColors.error,

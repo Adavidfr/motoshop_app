@@ -49,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: AppColors.accent.withOpacity(0.2)),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(Icons.flash_on_rounded, color: AppColors.accent, size: 12),
                             SizedBox(width: 4),
@@ -75,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   Text(
                     'Descubre tu',
                     style: tt.headlineLarge?.copyWith(
@@ -91,12 +91,12 @@ class HomeScreen extends ConsumerWidget {
                       letterSpacing: 1.0,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     'Motos exclusivas e inventario de repuestos de alto rendimiento.',
                     style: tt.bodyMedium?.copyWith(color: AppColors.textSecondary),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -111,7 +111,7 @@ class HomeScreen extends ConsumerWidget {
                     child: FilledButton.icon(
                       onPressed: () => context.go('/catalog'),
                       icon:      Icon(Icons.two_wheeler_rounded, size: 18),
-                      label:     const Text('Explorar Catálogo'),
+                      label:     Text('Explorar Catálogo'),
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         foregroundColor: Colors.white,
@@ -130,11 +130,11 @@ class HomeScreen extends ConsumerWidget {
           // ── Categorías ────────────────────────────────────
           SliverToBoxAdapter(
             child: categoriesAsync.when(
-              loading: () => const SizedBox.shrink(),
-              error:   (_, __) => const SizedBox.shrink(),
+              loading: () => SizedBox.shrink(),
+              error:   (_, __) => SizedBox.shrink(),
               data: (cats) {
                 final active = cats.where((c) => c.isActive).take(6).toList();
-                if (active.isEmpty) return const SizedBox.shrink();
+                if (active.isEmpty) return SizedBox.shrink();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -148,7 +148,7 @@ class HomeScreen extends ConsumerWidget {
                                   color: AppColors.textPrimary)),
                           TextButton(
                             onPressed: () => context.go('/catalog'),
-                            child: const Text('Ver todas',
+                            child: Text('Ver todas',
                                 style: TextStyle(color: AppColors.accent)),
                           ),
                         ],
@@ -160,7 +160,7 @@ class HomeScreen extends ConsumerWidget {
                         padding:         const EdgeInsets.symmetric(horizontal: 24),
                         scrollDirection: Axis.horizontal,
                         itemCount:       active.length,
-                        separatorBuilder:(_, __) => const SizedBox(width: 10),
+                        separatorBuilder:(_, __) => SizedBox(width: 10),
                         itemBuilder: (_, i) {
                           final cat = active[i];
                           return GestureDetector(
@@ -181,9 +181,9 @@ class HomeScreen extends ConsumerWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text('🏷️',
+                                  Text('🏷️',
                                       style: TextStyle(fontSize: 22)),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4),
                                   Text(
                                     cat.name,
                                     style: TextStyle(
@@ -202,7 +202,7 @@ class HomeScreen extends ConsumerWidget {
                         },
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
                 );
               },
@@ -222,7 +222,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   TextButton(
                     onPressed: () => context.go('/catalog'),
-                    child: const Text('Ver todos',
+                    child: Text('Ver todos',
                         style: TextStyle(color: AppColors.accent)),
                   ),
                 ],

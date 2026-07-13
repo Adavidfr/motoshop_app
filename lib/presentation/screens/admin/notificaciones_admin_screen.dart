@@ -45,7 +45,7 @@ class _NotificacionesAdminScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar notificación',
+        title: Text('Eliminar notificación',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar la notificación "${notif.titulo}"?',
@@ -54,7 +54,7 @@ class _NotificacionesAdminScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -63,7 +63,7 @@ class _NotificacionesAdminScreenState
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -97,7 +97,7 @@ class _NotificacionesAdminScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Notificaciones',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -127,11 +127,11 @@ class _NotificacionesAdminScreenState
                         ),
                       ),
                       icon: Icon(Icons.add, size: 18),
-                      label: const Text('Nueva'),
+                      label: Text('Nueva'),
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -174,7 +174,7 @@ class _NotificacionesAdminScreenState
                       onSubmitted: (_) => _buscar(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   SizedBox(
                     height: 44,
                     child: ElevatedButton(
@@ -187,12 +187,12 @@ class _NotificacionesAdminScreenState
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 14),
                       ),
-                      child: const Text('Buscar'),
+                      child: Text('Buscar'),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -203,7 +203,7 @@ class _NotificacionesAdminScreenState
                   ),
                   if (state.filtroLeido != null ||
                       state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         _searchController.clear();
@@ -212,7 +212,7 @@ class _NotificacionesAdminScreenState
                       },
                       style: TextButton.styleFrom(
                           foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
+                      child: Text('Limpiar'),
                     ),
                   ],
                 ],
@@ -228,7 +228,7 @@ class _NotificacionesAdminScreenState
         // ── Lista ─────────────────────────────────────────────────────────────
         Expanded(
           child: state.isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(color: AppColors.accent))
               : state.notificaciones.isEmpty
                   ? _EmptyState(
@@ -241,7 +241,7 @@ class _NotificacionesAdminScreenState
                         padding: const EdgeInsets.all(12),
                         itemCount: state.notificaciones.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final notif = state.notificaciones[index];
                           return _NotificacionCard(
@@ -326,7 +326,7 @@ class _NotificacionCard extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -367,9 +367,9 @@ class _NotificacionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               notificacion.mensaje,
               style: TextStyle(
@@ -380,7 +380,7 @@ class _NotificacionCard extends StatelessWidget {
               ),
             ),
             if (notificacion.fechaCreacion != null) ...[
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text(
                 'Enviada: ${_formatDate(notificacion.fechaCreacion!)}',
                 style: TextStyle(
@@ -390,9 +390,9 @@ class _NotificacionCard extends StatelessWidget {
               ),
             ],
             if (isAdmin) ...[
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -402,7 +402,7 @@ class _NotificacionCard extends StatelessWidget {
                     color: AppColors.accent,
                     onPressed: onEdit,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Eliminar',
                     icon: Icons.delete_outline,
@@ -473,7 +473,7 @@ class _FiltroLeidoDropdown extends StatelessWidget {
     return DropdownButtonFormField<bool>(
       isExpanded: true,
       value: value,
-      hint: const Text('Estado lectura',
+      hint: Text('Estado lectura',
           style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
       style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
@@ -530,7 +530,7 @@ class _ErrorBanner extends StatelessWidget {
       child: Row(
         children: [
           Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style:
@@ -564,7 +564,7 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'

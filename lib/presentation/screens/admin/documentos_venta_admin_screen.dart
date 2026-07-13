@@ -45,7 +45,7 @@ class _DocumentosVentaAdminScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar documento',
+        title: Text('Eliminar documento',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar el documento de tipo ${doc.tipoDocumento.label} (ID: ${doc.idDocumento})?',
@@ -54,7 +54,7 @@ class _DocumentosVentaAdminScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -63,7 +63,7 @@ class _DocumentosVentaAdminScreenState
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -97,7 +97,7 @@ class _DocumentosVentaAdminScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Documentos de Venta',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -127,11 +127,11 @@ class _DocumentosVentaAdminScreenState
                         ),
                       ),
                       icon: Icon(Icons.add, size: 18),
-                      label: const Text('Nuevo'),
+                      label: Text('Nuevo'),
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -174,7 +174,7 @@ class _DocumentosVentaAdminScreenState
                       onSubmitted: (_) => _buscar(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   SizedBox(
                     height: 44,
                     child: ElevatedButton(
@@ -187,12 +187,12 @@ class _DocumentosVentaAdminScreenState
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 14),
                       ),
-                      child: const Text('Buscar'),
+                      child: Text('Buscar'),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -205,7 +205,7 @@ class _DocumentosVentaAdminScreenState
                   ),
                   if (state.filtroTipo != null ||
                       state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         _searchController.clear();
@@ -214,7 +214,7 @@ class _DocumentosVentaAdminScreenState
                       },
                       style: TextButton.styleFrom(
                           foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
+                      child: Text('Limpiar'),
                     ),
                   ],
                 ],
@@ -233,7 +233,7 @@ class _DocumentosVentaAdminScreenState
         // ── Lista ─────────────────────────────────────────────────────────────
         Expanded(
           child: state.isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(color: AppColors.accent))
               : state.documentos.isEmpty
                   ? _EmptyState(
@@ -246,7 +246,7 @@ class _DocumentosVentaAdminScreenState
                         padding: const EdgeInsets.all(12),
                         itemCount: state.documentos.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final doc = state.documentos[index];
                           return _DocumentoCard(
@@ -318,7 +318,7 @@ class _DocumentoCard extends StatelessWidget {
                   child: Icon(Icons.description_outlined,
                       color: AppColors.accent, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,9 +343,9 @@ class _DocumentoCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Row(
               children: [
                 if (documento.fechaSubida != null) ...[
@@ -353,7 +353,7 @@ class _DocumentoCard extends StatelessWidget {
                     label: 'Fecha Subida',
                     value: _formatDate(documento.fechaSubida!),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                 ],
                 Expanded(
                   child: _InfoItem(
@@ -364,9 +364,9 @@ class _DocumentoCard extends StatelessWidget {
               ],
             ),
             if (isAdmin) ...[
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -377,7 +377,7 @@ class _DocumentoCard extends StatelessWidget {
                     onPressed: onEdit,
                   ),
                   if (isAdmin) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     _AccionBtn(
                       label: 'Eliminar',
                       icon: Icons.delete_outline,
@@ -519,7 +519,7 @@ class _ErrorBanner extends StatelessWidget {
       child: Row(
         children: [
           Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style: TextStyle(color: AppColors.error, fontSize: 13)),
@@ -551,7 +551,7 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'

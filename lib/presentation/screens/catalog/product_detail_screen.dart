@@ -84,19 +84,19 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         ],
       ),
       body: productAsync.when(
-        loading: () => const Center(
+        loading: () => Center(
           child: CircularProgressIndicator(color: AppColors.accent),
         ),
         error: (err, _) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('❌', style: TextStyle(fontSize: 48)),
-              const SizedBox(height: 12),
+              Text('❌', style: TextStyle(fontSize: 48)),
+              SizedBox(height: 12),
               Text(err.toString(),
                   style: TextStyle(color: AppColors.error),
                   textAlign: TextAlign.center),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               FilledButton(
                 onPressed: () => ref.refresh(
                   productDetailProvider(
@@ -106,7 +106,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   backgroundColor: AppColors.accent,
                   foregroundColor: AppColors.onAccent,
                 ),
-                child: const Text('Reintentar'),
+                child: Text('Reintentar'),
               ),
             ],
           ),
@@ -184,7 +184,7 @@ class _ProductBody extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Nombre
                 Text(
@@ -194,7 +194,7 @@ class _ProductBody extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
 
                 // Categoría
                 if (product.category != null)
@@ -208,25 +208,25 @@ class _ProductBody extends ConsumerWidget {
 
                 // Campos extra según tipo
                 if (product.tipo == ProductType.moto) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   _InfoRow('Marca',      product.marca     ?? '—'),
                   _InfoRow('Año',        product.anio?.toString() ?? '—'),
                   _InfoRow('Cilindraje', '${product.cilindraje} cc'),
                   _InfoRow('Color',      product.color     ?? '—'),
                 ] else if (product.sku != null) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   _InfoRow('SKU', product.sku!),
                 ],
 
                 if (product.description != null &&
                     product.description!.isNotEmpty) ...[
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     'Descripción',
                     style: tt.titleSmall?.copyWith(
                         color: AppColors.textSecondary),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     product.description!,
                     style: TextStyle(
@@ -236,9 +236,9 @@ class _ProductBody extends ConsumerWidget {
                   ),
                 ],
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Divider(color: AppColors.border),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // ── Precio ──────────────────────────────────
                 Row(
@@ -251,7 +251,7 @@ class _ProductBody extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
@@ -264,7 +264,7 @@ class _ProductBody extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
 
                 // Stock
                 Row(
@@ -278,7 +278,7 @@ class _ProductBody extends ConsumerWidget {
                           : AppColors.error,
                       size: 16,
                     ),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       product.inStock
                           ? '${product.stock} en stock'
@@ -292,7 +292,7 @@ class _ProductBody extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 // ── Selector de cantidad ──────────────────────
                 if (product.inStock) ...[
@@ -301,7 +301,7 @@ class _ProductBody extends ConsumerWidget {
                     style: tt.titleSmall
                         ?.copyWith(color: AppColors.textSecondary),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Row(
                     children: [
                       _QtyButton(
@@ -338,7 +338,7 @@ class _ProductBody extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
                 ],
 
                 // ── Botón Agregar al carrito ──────────────────
@@ -372,7 +372,7 @@ class _ProductBody extends ConsumerWidget {
                           }
                         : null,
                     icon: cartState.isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width:  16,
                             height: 16,
                             child:  CircularProgressIndicator(
@@ -402,7 +402,7 @@ class _ProductBody extends ConsumerWidget {
                 ),
 
                 if (cartState.error != null) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Text(
                     cartState.error!,
                     style: TextStyle(
@@ -411,7 +411,7 @@ class _ProductBody extends ConsumerWidget {
                   ),
                 ],
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
               ],
             ),
           ),

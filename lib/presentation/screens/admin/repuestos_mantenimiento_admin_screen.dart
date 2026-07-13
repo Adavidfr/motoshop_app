@@ -84,7 +84,7 @@ class _RepuestosMantenimientoAdminScreenState
                       crossAxisAlignment:
                           CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Repuestos de mantenimiento',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -116,7 +116,7 @@ class _RepuestosMantenimientoAdminScreenState
                       Icons.add,
                       size: 18,
                     ),
-                    label: const Text('Nuevo'),
+                    label: Text('Nuevo'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 40),
                       padding: const EdgeInsets.symmetric(
@@ -127,7 +127,7 @@ class _RepuestosMantenimientoAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -168,7 +168,7 @@ class _RepuestosMantenimientoAdminScreenState
                       },
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   IconButton.filled(
                     onPressed:
                         state.isLoading ? null : _buscar,
@@ -180,7 +180,7 @@ class _RepuestosMantenimientoAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               Row(
                 children: [
@@ -195,7 +195,7 @@ class _RepuestosMantenimientoAdminScreenState
                   if (state.search.isNotEmpty ||
                       state.ordering !=
                           'id_repuesto_mantenimiento') ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     IconButton(
                       onPressed: state.isLoading
                           ? null
@@ -229,7 +229,7 @@ class _RepuestosMantenimientoAdminScreenState
             builder: (_) {
               if (state.isLoading &&
                   state.registros.isEmpty) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
@@ -266,10 +266,10 @@ class _RepuestosMantenimientoAdminScreenState
                   separatorBuilder: (_, index) {
                     if (index ==
                         state.registros.length - 1) {
-                      return const SizedBox(height: 16);
+                      return SizedBox(height: 16);
                     }
 
-                    return const SizedBox(height: 10);
+                    return SizedBox(height: 10);
                   },
                   itemBuilder: (_, index) {
                     if (index ==
@@ -351,7 +351,7 @@ class _RepuestosMantenimientoAdminScreenState
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text(
+          title: Text(
             '¿Eliminar registro?',
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -369,7 +369,7 @@ class _RepuestosMantenimientoAdminScreenState
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
@@ -406,7 +406,7 @@ class _RepuestosMantenimientoAdminScreenState
                   );
                 }
               },
-              child: const Text(
+              child: Text(
                 'Eliminar',
                 style: TextStyle(
                   color: AppColors.error,
@@ -487,7 +487,7 @@ class _OrderingMenu extends StatelessWidget {
             color: AppColors.border,
           ),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
@@ -579,7 +579,7 @@ class _RepuestoMantenimientoCard
             ],
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
 
           _InfoRow(
             label: 'Mantenimiento',
@@ -609,7 +609,7 @@ class _RepuestoMantenimientoCard
 
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Subtotal',
                   style: TextStyle(
@@ -727,7 +727,7 @@ class _PaginationControls extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           Row(
             children: [
@@ -737,16 +737,16 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasPrevious
                           ? null
                           : onPrevious,
-                  child: const Text('Anterior'),
+                  child: Text('Anterior'),
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               DropdownButton<int>(
                 value: pageSize,
                 dropdownColor: AppColors.surface2,
-                underline: const SizedBox.shrink(),
+                underline: SizedBox.shrink(),
                 style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
@@ -773,7 +773,7 @@ class _PaginationControls extends StatelessWidget {
                       },
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               Expanded(
                 child: ElevatedButton(
@@ -781,7 +781,7 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasNext
                           ? null
                           : onNext,
-                  child: const Text('Siguiente'),
+                  child: Text('Siguiente'),
                 ),
               ),
             ],
@@ -815,7 +815,7 @@ class _ErrorView extends StatelessWidget {
               color: AppColors.error,
               size: 48,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
@@ -823,10 +823,10 @@ class _ErrorView extends StatelessWidget {
                 color: AppColors.error,
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             ElevatedButton(
               onPressed: onRetry,
-              child: const Text('Reintentar'),
+              child: Text('Reintentar'),
             ),
           ],
         ),
@@ -854,7 +854,7 @@ class _EmptyView extends StatelessWidget {
             color: AppColors.textFaint,
             size: 55,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             hasFilters
                 ? 'No se encontraron registros'
@@ -865,7 +865,7 @@ class _EmptyView extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             hasFilters
                 ? 'Prueba con otro término de búsqueda.'
