@@ -8,10 +8,21 @@ class AppConfig {
 
   static String? resolveImageUrl(String? raw) {
     if (raw == null || raw.trim().isEmpty) return null;
-    if (raw.startsWith('http://') || raw.startsWith('https://')) return raw;
-    final base = baseUrl.replaceAll('/api', '');
-    final path = raw.startsWith('/') ? raw : '/$raw';
-    return '$base$path';
+    String clean = raw.trim();
+    final baseDomain = baseUrl.replaceAll('/api', '');
+    
+    if (clean.contains('localhost') || clean.contains('127.0.0.1') || clean.contains('10.0.2.2')) {
+      final mediaIndex = clean.indexOf('/media/');
+      if (mediaIndex != -1) {
+        clean = clean.substring(mediaIndex);
+      }
+    }
+    
+    if (clean.startsWith('http://') || clean.startsWith('https://')) {
+      return clean;
+    }
+    final path = clean.startsWith('/') ? clean : '/$clean';
+    return '$baseDomain$path';
   }
 
   static const String appName = 'Flutter Shop App';
