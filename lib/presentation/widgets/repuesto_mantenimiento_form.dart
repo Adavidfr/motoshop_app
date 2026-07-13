@@ -182,7 +182,7 @@ class _RepuestoMantenimientoFormSheetState
                 widget.initial == null
                     ? 'Agregar repuesto'
                     : 'Editar repuesto',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -313,7 +313,7 @@ class _RepuestoMantenimientoFormSheetState
                 child: Text(
                   'Subtotal: \$${_subtotal.toStringAsFixed(2)}',
                   textAlign: TextAlign.right,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

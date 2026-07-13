@@ -35,18 +35,18 @@ class UsersAdminScreen extends ConsumerWidget {
                     children: [
                       Text('Usuarios', style: tt.headlineMedium),
                       Text('${state.total} usuarios',
-                          style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                          style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     ],
                   ),
                   Row(
                     children: [
                       IconButton(
                         onPressed: () => ref.read(usersAdminProvider.notifier).load(),
-                        icon: const Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
+                        icon: Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
                       ),
                       ElevatedButton.icon(
                         onPressed: () => showUserForm(context, ref),
-                        icon:      const Icon(Icons.person_add_outlined, size: 18),
+                        icon:      Icon(Icons.person_add_outlined, size: 18),
                         label:     const Text('Nuevo'),
                         style:     ElevatedButton.styleFrom(
                           minimumSize: const Size(0, 40),
@@ -67,7 +67,7 @@ class UsersAdminScreen extends ConsumerWidget {
                   prefixIcon: Icon(Icons.search_rounded, color: AppColors.textSecondary),
                   contentPadding: EdgeInsets.symmetric(vertical: 10),
                 ),
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
               const SizedBox(height: 10),
 
@@ -105,7 +105,7 @@ class UsersAdminScreen extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(state.error!, style: const TextStyle(color: AppColors.error)),
+                    Text(state.error!, style: TextStyle(color: AppColors.error)),
                     const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: () => ref.read(usersAdminProvider.notifier).load(),
@@ -162,7 +162,7 @@ class UsersAdminScreen extends ConsumerWidget {
             style: TextStyle(color: AppColors.textPrimary)),
         content:         Text(
           '"${user.username}" se eliminará permanentemente.',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
@@ -245,7 +245,7 @@ class _UserCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         user.username,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary, fontWeight: FontWeight.w600,
                         ),
                         overflow: TextOverflow.ellipsis,
@@ -281,11 +281,11 @@ class _UserCard extends StatelessWidget {
                   ],
                 ),
                 Text(user.email,
-                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     overflow: TextOverflow.ellipsis),
                 Text(
                   '${user.numOrders} pedido${user.numOrders != 1 ? "s" : ""}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.w600,
                   ),
                 ),

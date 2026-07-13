@@ -43,19 +43,19 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         foregroundColor:  AppColors.textPrimary,
         elevation:        0,
         leading:          IconButton(
-          icon:      const Icon(Icons.arrow_back_ios_new_rounded),
+          icon:      Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () => context.pop(),
         ),
         title: Text(
           widget.tipo == ProductType.moto ? 'Moto' : 'Repuesto',
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: AppColors.textPrimary),
         ),
         actions: [
           Stack(
             alignment: Alignment.topRight,
             children: [
               IconButton(
-                icon:      const Icon(Icons.shopping_cart_outlined),
+                icon:      Icon(Icons.shopping_cart_outlined),
                 color:     AppColors.textPrimary,
                 onPressed: () => context.push('/cart'),
               ),
@@ -65,13 +65,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   top:   6,
                   child: Container(
                     padding:    const EdgeInsets.all(3),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppColors.error,
                       shape: BoxShape.circle,
                     ),
                     child: Text(
                       cartState.totalItems.toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color:      Colors.white,
                         fontSize:   9,
                         fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               const Text('❌', style: TextStyle(fontSize: 48)),
               const SizedBox(height: 12),
               Text(err.toString(),
-                  style: const TextStyle(color: AppColors.error),
+                  style: TextStyle(color: AppColors.error),
                   textAlign: TextAlign.center),
               const SizedBox(height: 16),
               FilledButton(
@@ -177,7 +177,7 @@ class _ProductBody extends ConsumerWidget {
                     product.tipo == ProductType.moto
                         ? '🏍️ Moto'
                         : '🔧 Repuesto',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:      AppColors.accent,
                       fontSize:   12,
                       fontWeight: FontWeight.bold,
@@ -200,7 +200,7 @@ class _ProductBody extends ConsumerWidget {
                 if (product.category != null)
                   Text(
                     product.category!.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:   AppColors.accent,
                       fontSize: 13,
                     ),
@@ -229,7 +229,7 @@ class _ProductBody extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(
                     product.description!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:  AppColors.textSecondary,
                       height: 1.5,
                     ),
@@ -237,7 +237,7 @@ class _ProductBody extends ConsumerWidget {
                 ],
 
                 const SizedBox(height: 24),
-                const Divider(color: AppColors.border),
+                Divider(color: AppColors.border),
                 const SizedBox(height: 16),
 
                 // ── Precio ──────────────────────────────────
@@ -256,7 +256,7 @@ class _ProductBody extends ConsumerWidget {
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
                         '${formatPrice(product.priceWithTax)} c/IVA',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color:   AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -323,7 +323,7 @@ class _ProductBody extends ConsumerWidget {
                         ),
                         child: Text(
                           quantity.toString(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      AppColors.textPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize:   16,
@@ -380,7 +380,7 @@ class _ProductBody extends ConsumerWidget {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Icon(Icons.shopping_cart_outlined),
+                        : Icon(Icons.shopping_cart_outlined),
                     label: Text(
                       product.inStock
                           ? 'Agregar al carrito'
@@ -405,7 +405,7 @@ class _ProductBody extends ConsumerWidget {
                   const SizedBox(height: 12),
                   Text(
                     cartState.error!,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.error, fontSize: 13),
                     textAlign: TextAlign.center,
                   ),
@@ -435,7 +435,7 @@ class _InfoRow extends StatelessWidget {
           width: 90,
           child: Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color:   AppColors.textSecondary,
               fontSize: 13,
             ),
@@ -443,7 +443,7 @@ class _InfoRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             color:      AppColors.textPrimary,
             fontSize:   13,
             fontWeight: FontWeight.w500,
@@ -464,7 +464,7 @@ class _QtyButton extends StatelessWidget {
     color:  AppColors.surface2,
     shape:  RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(0),
-      side:         const BorderSide(color: AppColors.border),
+      side:         BorderSide(color: AppColors.border),
     ),
     child: InkWell(
       onTap: onPressed,
@@ -493,7 +493,7 @@ class _NoImage extends StatelessWidget {
     alignment: Alignment.center,
     child: Text(
       product.tipo == ProductType.moto ? '🏍️' : '🔧',
-      style: const TextStyle(fontSize: 64),
+      style: TextStyle(fontSize: 64),
     ),
   );
 }

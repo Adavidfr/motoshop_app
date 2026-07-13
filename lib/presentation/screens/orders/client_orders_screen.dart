@@ -23,7 +23,7 @@ class ClientOrdersScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () => ref.read(ordersClientProvider.notifier).load(),
-            icon: const Icon(Icons.refresh),
+            icon: Icon(Icons.refresh),
           ),
         ],
       ),
@@ -37,7 +37,7 @@ class ClientOrdersScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(state.error!, style: const TextStyle(color: AppColors.error)),
+                  Text(state.error!, style: TextStyle(color: AppColors.error)),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () => ref.read(ordersClientProvider.notifier).load(),
@@ -94,13 +94,13 @@ class ClientOrdersScreen extends ConsumerWidget {
                           children: [
                             Text(
                               'Pedido #${order.id}',
-                              style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             StatusBadge(status: order.status),
                           ],
                         ),
                         const SizedBox(height: 4),
-                        Text(dateStr, style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                        Text(dateStr, style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                         const SizedBox(height: 12),
                         Wrap(
                           spacing: 8,
@@ -113,27 +113,27 @@ class ClientOrdersScreen extends ConsumerWidget {
                             ),
                             child: Text(
                               '${item.quantity}x ${item.productName}',
-                              style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                              style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                             ),
                           )).toList(),
                         ),
                         if (order.items.length > 2) ...[
                           const SizedBox(height: 4),
-                          Text('+${order.items.length - 2} productos más', style: const TextStyle(color: AppColors.textFaint, fontSize: 11)),
+                          Text('+${order.items.length - 2} productos más', style: TextStyle(color: AppColors.textFaint, fontSize: 11)),
                         ],
                         const SizedBox(height: 12),
-                        const Divider(height: 1, color: AppColors.border),
+                        Divider(height: 1, color: AppColors.border),
                         const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               '${order.numItems} producto${order.numItems != 1 ? "s" : ""}',
-                              style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                              style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
                             ),
                             Text(
                               formatPrice(order.total),
-                              style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ],
                         ),

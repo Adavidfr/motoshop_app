@@ -17,7 +17,7 @@ Future<void> showProveedorForm(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),
       ),
@@ -254,7 +254,7 @@ class _ProveedorFormSheetState
               isEdit
                   ? 'Editar proveedor'
                   : 'Nuevo proveedor',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -265,7 +265,7 @@ class _ProveedorFormSheetState
               const SizedBox(height: 4),
               Text(
                 widget.initial!.nombre,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                 ),
@@ -292,7 +292,7 @@ class _ProveedorFormSheetState
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
                       color: AppColors.error,
                       size: 20,
@@ -301,7 +301,7 @@ class _ProveedorFormSheetState
                     Expanded(
                       child: Text(
                         formState.message,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.error,
                           fontSize: 13,
                         ),
@@ -324,7 +324,7 @@ class _ProveedorFormSheetState
                         TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Nombre *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.business_outlined,
                       ),
                       errorText: _errorBackend(
@@ -332,7 +332,7 @@ class _ProveedorFormSheetState
                         'nombre',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarNombre,
@@ -347,7 +347,7 @@ class _ProveedorFormSheetState
                         TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Persona de contacto',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.person_outline,
                       ),
                       errorText: _errorBackend(
@@ -355,7 +355,7 @@ class _ProveedorFormSheetState
                         'contacto',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarContacto,
@@ -369,7 +369,7 @@ class _ProveedorFormSheetState
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       labelText: 'Teléfono',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.phone_outlined,
                       ),
                       errorText: _errorBackend(
@@ -377,7 +377,7 @@ class _ProveedorFormSheetState
                         'telefono',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarTelefono,
@@ -395,7 +395,7 @@ class _ProveedorFormSheetState
                     autocorrect: false,
                     decoration: InputDecoration(
                       labelText: 'Correo electrónico',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.email_outlined,
                       ),
                       errorText: _errorBackend(
@@ -403,7 +403,7 @@ class _ProveedorFormSheetState
                         'correo',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarCorreo,
@@ -433,7 +433,7 @@ class _ProveedorFormSheetState
                         'direccion',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                   ),
@@ -474,7 +474,7 @@ class _ProveedorFormSheetState
                                 _estado
                                     ? 'Disponible para compras y abastecimiento'
                                     : 'No estará disponible para nuevas operaciones',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color:
                                       AppColors.textSecondary,
                                   fontSize: 12,

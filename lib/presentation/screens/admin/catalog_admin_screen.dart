@@ -72,7 +72,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       appBar: AppBar(
         title: Row(
           children: [
-            const Icon(Icons.motorcycle, color: AppColors.accent, size: 28),
+            Icon(Icons.motorcycle, color: AppColors.accent, size: 28),
             const SizedBox(width: 10),
             Text(
               'MotoShop',
@@ -85,12 +85,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.inventory_2_outlined),
+            icon: Icon(Icons.inventory_2_outlined),
             onPressed: () => context.push('/inventory'),
             tooltip: 'Repuestos e Inventario',
           ),
           IconButton(
-            icon: const Icon(Icons.person_outline),
+            icon: Icon(Icons.person_outline),
             onPressed: () => context.push('/profile'),
             tooltip: 'Ver perfil',
           ),
@@ -192,9 +192,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                             moto.imagen!,
                                             fit: BoxFit.cover,
                                             errorBuilder: (c, o, s) =>
-                                                const Icon(Icons.image_not_supported, size: 40),
+                                                Icon(Icons.image_not_supported, size: 40),
                                           )
-                                        : const Icon(Icons.motorcycle_outlined, size: 50),
+                                        : Icon(Icons.motorcycle_outlined, size: 50),
                                   ),
                                   // Details
                                   Expanded(
@@ -209,7 +209,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                               Expanded(
                                                 child: Text(
                                                   '${moto.marca.nombre} ${moto.modelo}',
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
                                                   ),
@@ -242,7 +242,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                           const SizedBox(height: 4),
                                           Text(
                                             'Categoría: ${moto.categoria.nombre}',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: AppColors.textSecondary,
                                               fontSize: 13,
                                             ),
@@ -250,7 +250,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                           const SizedBox(height: 4),
                                           Text(
                                             'Año: ${moto.anio}  ·  Cilindraje: ${moto.cilindraje} cc',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: AppColors.textSecondary,
                                               fontSize: 13,
                                             ),
@@ -261,7 +261,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                             children: [
                                               Text(
                                                 '\$${moto.precio.toStringAsFixed(2)}',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.accent,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 17,
@@ -328,7 +328,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                               backgroundColor: AppColors.surface,
                               child: Text(
                                 marca.nombre[0].toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.accent,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -336,7 +336,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                             ),
                             title: Text(
                               marca.nombre,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(marca.descripcion ?? 'Sin descripción'),
                             trailing: canEdit
@@ -344,12 +344,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.edit_outlined, color: Colors.blue),
+                                        icon: Icon(Icons.edit_outlined, color: Colors.blue),
                                         onPressed: () => _showMarcaDialog(marca),
                                       ),
                                       if (canDelete)
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                          icon: Icon(Icons.delete_outline, color: Colors.red),
                                           onPressed: () => _confirmDeleteMarca(marca),
                                         ),
                                     ],
@@ -412,7 +412,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                               backgroundColor: AppColors.surface,
                               child: Text(
                                 categoria.nombre[0].toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.accent,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -420,7 +420,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                             ),
                             title: Text(
                               categoria.nombre,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(categoria.descripcion ?? 'Sin descripción'),
                             trailing: canEdit
@@ -428,12 +428,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.edit_outlined, color: Colors.blue),
+                                        icon: Icon(Icons.edit_outlined, color: Colors.blue),
                                         onPressed: () => _showCategoriaDialog(categoria),
                                       ),
                                       if (canDelete)
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                          icon: Icon(Icons.delete_outline, color: Colors.red),
                                           onPressed: () => _confirmDeleteCategoria(categoria),
                                         ),
                                     ],
@@ -480,7 +480,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _showCategoriaDialog();
         }
       },
-      child: const Icon(Icons.add),
+      child: Icon(Icons.add),
     );
   }
 
@@ -502,9 +502,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: hint,
-                prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear),
                   onPressed: () {
                     _searchController.clear();
                     onSearch('');
@@ -526,7 +526,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: currentSort,
-                  icon: const Icon(Icons.sort, color: AppColors.accent),
+                  icon: Icon(Icons.sort, color: AppColors.accent),
                   onChanged: onSortChanged,
                   items: sortOptions.entries
                       .map((e) => DropdownMenuItem(
@@ -548,9 +548,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
+          Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
           const SizedBox(height: 16),
-          Text(msg, style: const TextStyle(color: AppColors.textSecondary, fontSize: 16)),
+          Text(msg, style: TextStyle(color: AppColors.textSecondary, fontSize: 16)),
         ],
       ),
     );
@@ -567,12 +567,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error),
+          Icon(Icons.error_outline, color: AppColors.error),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               error,
-              style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
+              style: TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(

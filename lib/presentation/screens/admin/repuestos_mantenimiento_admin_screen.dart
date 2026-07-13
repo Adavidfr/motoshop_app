@@ -95,7 +95,7 @@ class _RepuestosMantenimientoAdminScreenState
                         Text(
                           '${state.total} registro'
                           '${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -112,7 +112,7 @@ class _RepuestosMantenimientoAdminScreenState
                               ref,
                             );
                           },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
@@ -140,7 +140,7 @@ class _RepuestosMantenimientoAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por nombre de repuesto...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -151,7 +151,7 @@ class _RepuestosMantenimientoAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -160,7 +160,7 @@ class _RepuestosMantenimientoAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                       ),
                       onChanged: (_) {
@@ -172,7 +172,7 @@ class _RepuestosMantenimientoAdminScreenState
                   IconButton.filled(
                     onPressed:
                         state.isLoading ? null : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -211,7 +211,7 @@ class _RepuestosMantenimientoAdminScreenState
                                 setState(() {});
                               }
                             },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.filter_alt_off_outlined,
                       ),
                       tooltip: 'Limpiar filtros',
@@ -360,7 +360,7 @@ class _RepuestosMantenimientoAdminScreenState
           content: Text(
             'El repuesto asociado al mantenimiento '
             '#${registro.mantenimientoId} se eliminará permanentemente.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -550,7 +550,7 @@ class _RepuestoMantenimientoCard
               Expanded(
                 child: Text(
                   'Registro #${registro.idRepuestoMantenimiento}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -559,7 +559,7 @@ class _RepuestoMantenimientoCard
               ),
               IconButton(
                 onPressed: onEdit,
-                icon: const Icon(
+                icon: Icon(
                   Icons.edit_outlined,
                   size: 20,
                 ),
@@ -569,7 +569,7 @@ class _RepuestoMantenimientoCard
               if (canDelete)
                 IconButton(
                   onPressed: onDelete,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.delete_outline,
                     size: 20,
                   ),
@@ -602,7 +602,7 @@ class _RepuestoMantenimientoCard
                 '\$ ${registro.precioUnitario.toStringAsFixed(2)}',
           ),
 
-          const Divider(
+          Divider(
             height: 22,
             color: AppColors.border,
           ),
@@ -620,7 +620,7 @@ class _RepuestoMantenimientoCard
               ),
               Text(
                 '\$ ${registro.subtotal.toStringAsFixed(2)}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.accent,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -657,7 +657,7 @@ class _InfoRow extends StatelessWidget {
             width: 110,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textFaint,
                 fontSize: 12,
               ),
@@ -667,7 +667,7 @@ class _InfoRow extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -721,7 +721,7 @@ class _PaginationControls extends StatelessWidget {
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,
             ),
@@ -747,7 +747,7 @@ class _PaginationControls extends StatelessWidget {
                 value: pageSize,
                 dropdownColor: AppColors.surface2,
                 underline: const SizedBox.shrink(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
                 items: const [
@@ -810,7 +810,7 @@ class _ErrorView extends StatelessWidget {
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
@@ -819,7 +819,7 @@ class _ErrorView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
@@ -849,7 +849,7 @@ class _EmptyView extends StatelessWidget {
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.settings_suggest_outlined,
             color: AppColors.textFaint,
             size: 55,
@@ -859,7 +859,7 @@ class _EmptyView extends StatelessWidget {
             hasFilters
                 ? 'No se encontraron registros'
                 : 'No existen repuestos asociados',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -870,7 +870,7 @@ class _EmptyView extends StatelessWidget {
             hasFilters
                 ? 'Prueba con otro término de búsqueda.'
                 : 'Agrega un repuesto a un mantenimiento.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),

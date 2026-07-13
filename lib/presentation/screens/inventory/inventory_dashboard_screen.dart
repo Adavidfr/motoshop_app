@@ -165,9 +165,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                             repuesto.imagen!,
                                             fit: BoxFit.cover,
                                             errorBuilder: (c, o, s) =>
-                                                const Icon(Icons.broken_image_outlined, size: 30),
+                                                Icon(Icons.broken_image_outlined, size: 30),
                                           )
-                                        : const Icon(Icons.settings_outlined, size: 40),
+                                        : Icon(Icons.settings_outlined, size: 40),
                                   ),
                                   // Detail
                                   Expanded(
@@ -182,7 +182,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                               Expanded(
                                                 child: Text(
                                                   repuesto.nombre,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                       fontWeight: FontWeight.bold, fontSize: 15),
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
@@ -213,7 +213,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                           const SizedBox(height: 4),
                                           Text(
                                             'SKU: ${repuesto.sku}',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 12, color: AppColors.textSecondary),
                                           ),
                                           const SizedBox(height: 8),
@@ -222,7 +222,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                             children: [
                                               Text(
                                                 '\$${repuesto.precioVenta.toStringAsFixed(2)}',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.accent,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 15,
@@ -326,7 +326,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                       ),
                                       Text(
                                         'Cant: ${mov.cantidad}',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.bold, fontSize: 14),
                                       ),
                                     ],
@@ -334,35 +334,35 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                   const SizedBox(height: 12),
                                   Text(
                                     affectedItem,
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                   ),
                                   if (mov.descripcion != null && mov.descripcion!.isNotEmpty) ...[
                                     const SizedBox(height: 6),
                                     Text(
                                       mov.descripcion!,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           color: AppColors.textSecondary, fontSize: 13),
                                     ),
                                   ],
-                                  const Divider(height: 24),
+                                  Divider(height: 24),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
-                                          const Icon(Icons.person_outline,
+                                          Icon(Icons.person_outline,
                                               size: 14, color: AppColors.textSecondary),
                                           const SizedBox(width: 4),
                                           Text(
                                             mov.usuario.username,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 11, color: AppColors.textSecondary),
                                           ),
                                         ],
                                       ),
                                       Text(
                                         mov.fechaMovimiento.split('T')[0],
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 11, color: AppColors.textSecondary),
                                       ),
                                     ],
@@ -417,9 +417,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: hint,
-                prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear),
                   onPressed: () {
                     _searchController.clear();
                     onSearch('');
@@ -441,7 +441,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: currentSort,
-                  icon: const Icon(Icons.sort, color: AppColors.accent),
+                  icon: Icon(Icons.sort, color: AppColors.accent),
                   onChanged: onSortChanged,
                   items: sortOptions.entries
                       .map((e) => DropdownMenuItem(
@@ -463,9 +463,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
+          Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
           const SizedBox(height: 16),
-          Text(msg, style: const TextStyle(color: AppColors.textSecondary, fontSize: 16)),
+          Text(msg, style: TextStyle(color: AppColors.textSecondary, fontSize: 16)),
         ],
       ),
     );
@@ -482,12 +482,12 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error),
+          Icon(Icons.error_outline, color: AppColors.error),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               error,
-              style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
+              style: TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(

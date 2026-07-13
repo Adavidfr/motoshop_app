@@ -151,7 +151,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
         formState is SeguroFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -170,7 +170,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                   Expanded(
                     child: Text(
                       _isEditing ? 'Editar Seguro' : 'Nuevo Seguro',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -179,7 +179,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close,
+                    icon: Icon(Icons.close,
                         color: AppColors.textSecondary),
                   ),
                 ],
@@ -193,7 +193,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                 label: 'ID Venta *',
                 child: TextFormField(
                   controller: _idVentaCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: _inputDec('Ej: 1'),
@@ -208,7 +208,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                 label: 'Aseguradora *',
                 child: TextFormField(
                   controller: _aseguradoraCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   maxLength: 100,
                   decoration: _inputDec('Ej: Seguros Bolívar'),
                   validator: (v) =>
@@ -220,7 +220,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                 label: 'Número de póliza *',
                 child: TextFormField(
                   controller: _polizaCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   maxLength: 100,
                   decoration: _inputDec('Ej: POL-2024-0001'),
                   validator: (v) =>
@@ -236,7 +236,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                       child: DropdownButtonFormField<String>(
                         value: _tipoCobertura,
                         dropdownColor: AppColors.surface2,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: AppColors.textPrimary, fontSize: 13),
                         isExpanded: true,
                         decoration: _inputDec(null),
@@ -244,7 +244,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                             .map((t) => DropdownMenuItem(
                                   value: t.value,
                                   child: Text(t.label,
-                                      style: const TextStyle(fontSize: 13)),
+                                      style: TextStyle(fontSize: 13)),
                                 ))
                             .toList(),
                         onChanged: (v) {
@@ -260,7 +260,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                       child: DropdownButtonFormField<String>(
                         value: _estado,
                         dropdownColor: AppColors.surface2,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: AppColors.textPrimary, fontSize: 13),
                         isExpanded: true,
                         decoration: _inputDec(null),
@@ -268,7 +268,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                             .map((e) => DropdownMenuItem(
                                   value: e.value,
                                   child: Text(e.label,
-                                      style: const TextStyle(fontSize: 13)),
+                                      style: TextStyle(fontSize: 13)),
                                 ))
                             .toList(),
                         onChanged: (v) {
@@ -284,7 +284,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                 label: 'Costo anual *',
                 child: TextFormField(
                   controller: _costoCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   decoration: _inputDec('Ej: 850.00'),
@@ -345,7 +345,7 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
                         )
                       : Text(
                           _isEditing ? 'Actualizar seguro' : 'Registrar seguro',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -361,33 +361,33 @@ class _SeguroFormState extends ConsumerState<_SeguroForm> {
 
   InputDecoration _inputDec(String? hint) => InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: AppColors.textFaint),
+        hintStyle: TextStyle(color: AppColors.textFaint),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
-        errorStyle: const TextStyle(color: AppColors.error),
-        counterStyle: const TextStyle(color: AppColors.textFaint),
+        errorStyle: TextStyle(color: AppColors.error),
+        counterStyle: TextStyle(color: AppColors.textFaint),
       );
 }
 
@@ -407,7 +407,7 @@ class _ErrorBanner extends StatelessWidget {
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Text(message,
-          style: const TextStyle(color: AppColors.error, fontSize: 13)),
+          style: TextStyle(color: AppColors.error, fontSize: 13)),
     );
   }
 }
@@ -424,7 +424,7 @@ class _FieldGroup extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w500,
@@ -464,7 +464,7 @@ class _DateBtn extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today_outlined,
+            Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 16),
             const SizedBox(width: 6),
             Expanded(
@@ -481,7 +481,7 @@ class _DateBtn extends StatelessWidget {
             if (hasValue)
               GestureDetector(
                 onTap: onClear,
-                child: const Icon(Icons.close,
+                child: Icon(Icons.close,
                     color: AppColors.textSecondary, size: 14),
               ),
           ],

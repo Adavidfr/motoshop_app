@@ -116,13 +116,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
           if (!_isEditing && profile != null)
             IconButton(
-              icon: const Icon(Icons.edit_outlined),
+              icon: Icon(Icons.edit_outlined),
               onPressed: () => setState(() => _isEditing = true),
               tooltip: 'Editar Perfil',
             ),
           if (_isEditing)
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: Icon(Icons.close),
               onPressed: () => setState(() {
                 _isEditing = false;
                 _selectedImageFile = null;
@@ -162,16 +162,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                             profile!.fotoPerfil!,
                                             fit: BoxFit.cover,
                                             errorBuilder: (c, o, s) =>
-                                                const Icon(Icons.person, size: 60),
+                                                Icon(Icons.person, size: 60),
                                           )
-                                        : const Icon(Icons.person, size: 60)),
+                                        : Icon(Icons.person, size: 60)),
                               ),
                             ),
                             if (_isEditing)
                               CircleAvatar(
                                 radius: 18,
                                 backgroundColor: AppColors.accent,
-                                child: const Icon(Icons.camera_alt, size: 18, color: Colors.white),
+                                child: Icon(Icons.camera_alt, size: 18, color: Colors.white),
                               )
                           ],
                         ),
@@ -287,7 +287,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 52,
                         child: ElevatedButton.icon(
                           onPressed: () => context.go('/admin'),
-                          icon: const Icon(Icons.admin_panel_settings_outlined),
+                          icon: Icon(Icons.admin_panel_settings_outlined),
                           label: const Text('Panel de Usuarios (Admin)'),
                         ),
                       ),
@@ -301,12 +301,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 52,
                         child: ElevatedButton.icon(
                           onPressed: () => context.push('/financiamientos'),
-                          icon: const Icon(Icons.credit_card_outlined),
+                          icon: Icon(Icons.credit_card_outlined),
                           label: const Text('Mis Planes de Financiamiento'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.surface,
                             foregroundColor: AppColors.accent,
-                            side: const BorderSide(color: AppColors.border),
+                            side: BorderSide(color: AppColors.border),
                           ),
                         ),
                       ),
@@ -378,7 +378,7 @@ class _LogoutButton extends StatelessWidget {
               ],
             ),
           ),
-          icon: const Icon(Icons.logout, color: AppColors.error),
+          icon: Icon(Icons.logout, color: AppColors.error),
           label: const Text('Cerrar sesión'),
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.error,

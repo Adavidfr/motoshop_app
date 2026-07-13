@@ -64,12 +64,12 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                       children: [
                         Text('Ventas y Facturación', style: tt.headlineMedium),
                         Text('Registro formal de transacciones',
-                            style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                            style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                       ],
                     ),
                     IconButton(
                       onPressed: () => ref.read(ventasAdminProvider.notifier).refresh(),
-                      icon: const Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
+                      icon: Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
                     ),
                   ],
                 ),
@@ -127,7 +127,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(state.error!, style: const TextStyle(color: AppColors.error)),
+                      Text(state.error!, style: TextStyle(color: AppColors.error)),
                       const SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: () => ref.read(ventasAdminProvider.notifier).refresh(),
@@ -190,7 +190,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surface,
         title: Text('Detalle de Venta #${venta.idVenta}',
-            style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+            style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
         content: SizedBox(
           width: double.maxFinite,
           child: ListView(
@@ -202,7 +202,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
               _DialogRow('Total Venta:', formatPrice(venta.totalVenta)),
               _DialogRow('Estado:', venta.estado.toUpperCase()),
               _DialogRow('Fecha:', formatDate(venta.fechaVenta.toIso8601String())),
-              const Divider(height: 24, color: AppColors.border),
+              Divider(height: 24, color: AppColors.border),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -213,7 +213,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                       Navigator.pop(context);
                       _showAddFinancingDialog(context, venta);
                     },
-                    icon: const Icon(Icons.add, size: 16),
+                    icon: Icon(Icons.add, size: 16),
                     label: const Text('Agregar'),
                   ),
                 ],
@@ -241,7 +241,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(f.entidadFinanciera,
-                              style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
+                              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
@@ -257,15 +257,15 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Monto: ${formatPrice(f.montoFinanciado)}', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
-                          Text('Plazo: ${f.plazoMeses} meses', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                          Text('Monto: ${formatPrice(f.montoFinanciado)}', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                          Text('Plazo: ${f.plazoMeses} meses', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Tasa: ${f.tasaInteres}%', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
-                          Text('Cuota: ${formatPrice(f.cuotaMensual)}', style: const TextStyle(color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.bold)),
+                          Text('Tasa: ${f.tasaInteres}%', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                          Text('Cuota: ${formatPrice(f.cuotaMensual)}', style: TextStyle(color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
@@ -311,7 +311,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surface,
         title: Text('Nuevo Financiamiento (Venta #${venta.idVenta})',
-            style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+            style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -319,14 +319,14 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
               TextField(
                 controller: entidadCtrl,
                 decoration: const InputDecoration(labelText: 'Entidad Financiera', hintText: 'Ej. Banco Pichincha'),
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: montoCtrl,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(labelText: 'Monto a Financiar'),
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 onChanged: (_) => calculateCuota(),
               ),
               const SizedBox(height: 8),
@@ -337,7 +337,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                       controller: tasaCtrl,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       decoration: const InputDecoration(labelText: 'Tasa Interés (%)'),
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(color: AppColors.textPrimary),
                       onChanged: (_) => calculateCuota(),
                     ),
                   ),
@@ -347,7 +347,7 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                       controller: plazoCtrl,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(labelText: 'Plazo (Meses)'),
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(color: AppColors.textPrimary),
                       onChanged: (_) => calculateCuota(),
                     ),
                   ),
@@ -358,14 +358,14 @@ class _VentasAdminScreenState extends ConsumerState<VentasAdminScreen> {
                 controller: cuotaCtrl,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(labelText: 'Cuota Mensual Est. (\$)'),
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 value: estadoVal,
                 dropdownColor: AppColors.surface,
                 decoration: const InputDecoration(labelText: 'Estado'),
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 items: const [
                   DropdownMenuItem(value: 'activo', child: Text('Activo')),
                   DropdownMenuItem(value: 'pagado', child: Text('Pagado')),
@@ -459,10 +459,10 @@ class _VentaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Venta #${venta.idVenta}',
-                        style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+                        style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
                     const SizedBox(height: 2),
                     Text('Pedido #${venta.idPedido} · ${venta.usernameCliente}',
-                        style: const TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+                        style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
                   ],
                 ),
                 Container(
@@ -483,22 +483,22 @@ class _VentaCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            const Divider(height: 1, color: AppColors.border),
+            Divider(height: 1, color: AppColors.border),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.account_balance_wallet_outlined, size: 14, color: AppColors.textSecondary),
+                    Icon(Icons.account_balance_wallet_outlined, size: 14, color: AppColors.textSecondary),
                     const SizedBox(width: 4),
                     Text('${venta.numFinanciamientos} plan${venta.numFinanciamientos != 1 ? "es" : ""} fin.',
-                        style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                        style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                   ],
                 ),
                 Text(
                   formatPrice(venta.totalVenta),
-                  style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 15),
                 ),
               ],
             ),
@@ -543,7 +543,7 @@ class _StatCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+                Text(title, style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
                 const SizedBox(height: 4),
                 Text(value,
                     style: TextStyle(
@@ -574,8 +574,8 @@ class _DialogRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-          Text(value, style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13)),
+          Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+          Text(value, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13)),
         ],
       ),
     );

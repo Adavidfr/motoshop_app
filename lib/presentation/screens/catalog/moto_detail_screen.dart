@@ -41,13 +41,13 @@ class MotoDetailScreen extends ConsumerWidget {
         actions: canEdit
             ? [
                 IconButton(
-                  icon: const Icon(Icons.edit_outlined),
+                  icon: Icon(Icons.edit_outlined),
                   onPressed: () => context.push('/moto-form?id=$motoId'),
                   tooltip: 'Editar Motocicleta',
                 ),
                 if (canDelete)
                   IconButton(
-                    icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                    icon: Icon(Icons.delete_outline, color: AppColors.error),
                     onPressed: () => _confirmDelete(context, ref, moto),
                     tooltip: 'Eliminar Motocicleta',
                   ),
@@ -171,10 +171,10 @@ class MotoDetailScreen extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(entry.value.$1,
-                                        style: const TextStyle(color: AppColors.textSecondary)),
+                                        style: TextStyle(color: AppColors.textSecondary)),
                                     Text(
                                       entry.value.$2,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: AppColors.textPrimary,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -182,7 +182,7 @@ class MotoDetailScreen extends ConsumerWidget {
                                   ],
                                 ),
                               ),
-                              if (!isLast) const Divider(height: 1),
+                              if (!isLast) Divider(height: 1),
                             ],
                           );
                         }),

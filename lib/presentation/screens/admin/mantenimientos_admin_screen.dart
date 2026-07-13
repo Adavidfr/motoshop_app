@@ -97,7 +97,7 @@ class _MantenimientosAdminScreenState
                         Text(
                           '${state.total} mantenimiento${state.total == 1 ? '' : 's'} '
                           'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:
                                 AppColors.textSecondary,
                             fontSize: 13,
@@ -116,7 +116,7 @@ class _MantenimientosAdminScreenState
                                   ref,
                                 );
                               },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
@@ -147,7 +147,7 @@ class _MantenimientosAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por moto, cliente, servicio o diagnóstico...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -160,7 +160,7 @@ class _MantenimientosAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -169,7 +169,7 @@ class _MantenimientosAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color:
                             AppColors.textPrimary,
                       ),
@@ -184,7 +184,7 @@ class _MantenimientosAdminScreenState
                         state.isLoading
                             ? null
                             : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -243,7 +243,7 @@ class _MantenimientosAdminScreenState
                                     setState(() {});
                                   }
                                 },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons
                             .filter_alt_off_outlined,
                       ),
@@ -438,7 +438,7 @@ class _MantenimientosAdminScreenState
           content: Text(
             'El mantenimiento #${mantenimiento.idMantenimiento} '
             'se eliminará permanentemente.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -578,7 +578,7 @@ class _EstadoMantenimientoFilter
           ),
           textStyle:
               WidgetStateProperty.all(
-            const TextStyle(
+            TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),
@@ -614,7 +614,7 @@ class _EstadoMantenimientoFilter
             },
           ),
           side: WidgetStateProperty.all(
-            const BorderSide(
+            BorderSide(
               color: AppColors.border,
             ),
           ),
@@ -765,7 +765,7 @@ class _MantenimientoCard
               Expanded(
                 child: Text(
                   'Mantenimiento #${mantenimiento.idMantenimiento}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color:
                         AppColors.textPrimary,
                     fontSize: 15,
@@ -782,7 +782,7 @@ class _MantenimientoCard
               PopupMenuButton<String>(
                 tooltip: 'Acciones',
                 color: AppColors.surface2,
-                icon: const Icon(
+                icon: Icon(
                   Icons.more_vert,
                   color:
                       AppColors.textSecondary,
@@ -888,7 +888,7 @@ class _MantenimientoCard
               maxLines: 3,
               overflow:
                   TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color:
                     AppColors.textSecondary,
                 fontSize: 12,
@@ -896,7 +896,7 @@ class _MantenimientoCard
             ),
           ],
 
-          const Divider(
+          Divider(
             height: 22,
             color: AppColors.border,
           ),
@@ -1008,7 +1008,7 @@ class _InfoRow extends StatelessWidget {
             width: 105,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color:
                     AppColors.textFaint,
                 fontSize: 12,
@@ -1019,7 +1019,7 @@ class _InfoRow extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: const TextStyle(
+              style: TextStyle(
                 color:
                     AppColors.textSecondary,
                 fontSize: 12,
@@ -1127,7 +1127,7 @@ class _PaginationControls
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color:
                   AppColors.textSecondary,
               fontSize: 12,
@@ -1154,7 +1154,7 @@ class _PaginationControls
                     AppColors.surface2,
                 underline:
                     const SizedBox.shrink(),
-                style: const TextStyle(
+                style: TextStyle(
                   color:
                       AppColors.textPrimary,
                 ),
@@ -1222,7 +1222,7 @@ class _ErrorView
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
@@ -1231,7 +1231,7 @@ class _ErrorView
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
@@ -1263,7 +1263,7 @@ class _EmptyView
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons
                 .miscellaneous_services_outlined,
             color: AppColors.textFaint,
@@ -1274,7 +1274,7 @@ class _EmptyView
             hasFilters
                 ? 'No se encontraron mantenimientos'
                 : 'No existen mantenimientos registrados',
-            style: const TextStyle(
+            style: TextStyle(
               color:
                   AppColors.textPrimary,
               fontSize: 18,
@@ -1287,7 +1287,7 @@ class _EmptyView
             hasFilters
                 ? 'Prueba con otros términos o estados.'
                 : 'Registra el primer mantenimiento para comenzar.',
-            style: const TextStyle(
+            style: TextStyle(
               color:
                   AppColors.textSecondary,
               fontSize: 13,

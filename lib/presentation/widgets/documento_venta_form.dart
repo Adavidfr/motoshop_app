@@ -128,7 +128,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
         formState is DocumentoVentaFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -147,7 +147,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                   Expanded(
                     child: Text(
                       _isEditing ? 'Editar Documento' : 'Nuevo Documento',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -156,7 +156,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close,
+                    icon: Icon(Icons.close,
                         color: AppColors.textSecondary),
                   ),
                 ],
@@ -173,7 +173,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                       label: 'ID Venta *',
                       child: TextFormField(
                         controller: _idVentaCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         decoration: _inputDec('Ej: 1'),
@@ -191,7 +191,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                       child: DropdownButtonFormField<String>(
                         value: _tipoDocumento,
                         dropdownColor: AppColors.surface2,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: AppColors.textPrimary, fontSize: 13),
                         isExpanded: true,
                         decoration: _inputDec(null),
@@ -199,7 +199,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                             .map((t) => DropdownMenuItem(
                                   value: t.value,
                                   child: Text(t.label,
-                                      style: const TextStyle(fontSize: 13)),
+                                      style: TextStyle(fontSize: 13)),
                                 ))
                             .toList(),
                         onChanged: (v) {
@@ -215,7 +215,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                 label: 'URL del Archivo *',
                 child: TextFormField(
                   controller: _urlCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   decoration: _inputDec('Ej: https://...'),
                   validator: (v) =>
                       v == null || v.trim().isEmpty ? 'Campo requerido' : null,
@@ -254,7 +254,7 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
                         )
                       : Text(
                           _isEditing ? 'Actualizar' : 'Registrar',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -270,33 +270,33 @@ class _DocumentoVentaFormState extends ConsumerState<_DocumentoVentaForm> {
 
   InputDecoration _inputDec(String? hint) => InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: AppColors.textFaint),
+        hintStyle: TextStyle(color: AppColors.textFaint),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
-        errorStyle: const TextStyle(color: AppColors.error),
-        counterStyle: const TextStyle(color: AppColors.textFaint),
+        errorStyle: TextStyle(color: AppColors.error),
+        counterStyle: TextStyle(color: AppColors.textFaint),
       );
 }
 
@@ -316,7 +316,7 @@ class _ErrorBanner extends StatelessWidget {
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Text(message,
-          style: const TextStyle(color: AppColors.error, fontSize: 13)),
+          style: TextStyle(color: AppColors.error, fontSize: 13)),
     );
   }
 }
@@ -333,7 +333,7 @@ class _FieldGroup extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w500,
@@ -373,7 +373,7 @@ class _DateBtn extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today_outlined,
+            Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 16),
             const SizedBox(width: 6),
             Expanded(
@@ -390,7 +390,7 @@ class _DateBtn extends StatelessWidget {
             if (hasValue)
               GestureDetector(
                 onTap: onClear,
-                child: const Icon(Icons.close,
+                child: Icon(Icons.close,
                     color: AppColors.textSecondary, size: 14),
               ),
           ],

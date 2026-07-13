@@ -193,7 +193,7 @@ class AdminShell extends ConsumerWidget {
                     Container(
                       width: 48,
                       height: 48,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: AssetImage('assets/images/logo_circular.jpg'),
@@ -210,7 +210,7 @@ class AdminShell extends ConsumerWidget {
                           Text(
                             user?.username ?? 'Administrador',
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -255,7 +255,7 @@ class AdminShell extends ConsumerWidget {
               ],
             ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1),
           const SizedBox(height: 8),
           ...adminNavItems.map(
             (item) => NavigationDrawerDestination(
@@ -267,9 +267,9 @@ class AdminShell extends ConsumerWidget {
               label: Text(item.label),
             ),
           ),
-          const Divider(),
+          Divider(),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.person_outline,
               color: AppColors.textSecondary,
             ),
@@ -285,7 +285,7 @@ class AdminShell extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.logout,
               color: AppColors.error,
             ),

@@ -53,20 +53,20 @@ class PublicShell extends ConsumerWidget {
             icon: Stack(
               clipBehavior: Clip.none,
               children: [
-                const Icon(Icons.shopping_cart_outlined),
+                Icon(Icons.shopping_cart_outlined),
                 if (cartCount > 0)
                   Positioned(
                     right: -6,
                     top:   -4,
                     child: Container(
                       padding:    const EdgeInsets.all(3),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.error,
                         shape: BoxShape.circle,
                       ),
                       child: Text(
                         cartCount > 99 ? '99+' : cartCount.toString(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color:      Colors.white,
                           fontSize:   9,
                           fontWeight: FontWeight.bold,
@@ -76,7 +76,7 @@ class PublicShell extends ConsumerWidget {
                   ),
               ],
             ),
-            activeIcon: const Icon(Icons.shopping_cart),
+            activeIcon: Icon(Icons.shopping_cart),
             label:      'Carrito',
           ),
           const BottomNavigationBarItem(

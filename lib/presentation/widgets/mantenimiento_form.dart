@@ -31,7 +31,7 @@ Future<void> showMantenimientoForm(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),
       ),
@@ -448,7 +448,7 @@ class _MantenimientoFormSheetState
                   ? 'Editar mantenimiento '
                       '#${widget.initial!.idMantenimiento}'
                   : 'Nuevo mantenimiento',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -499,7 +499,7 @@ class _MantenimientoFormSheetState
                   children: [
                     Text(
                       state.catalogosError!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.error,
                         fontSize: 13,
                       ),
@@ -543,7 +543,7 @@ class _MantenimientoFormSheetState
                   crossAxisAlignment:
                       CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
                       color: AppColors.error,
                       size: 20,
@@ -552,7 +552,7 @@ class _MantenimientoFormSheetState
                     Expanded(
                       child: Text(
                         formState.message,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.error,
                           fontSize: 13,
                         ),
@@ -578,7 +578,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Moto *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.two_wheeler_outlined,
                       ),
                       errorText: _errorBackend(
@@ -628,7 +628,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Cliente *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.person_outline,
                       ),
                       errorText: _errorBackend(
@@ -678,7 +678,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Servicio *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.build_circle_outlined,
                       ),
                       errorText: _errorBackend(
@@ -734,7 +734,7 @@ class _MantenimientoFormSheetState
                     decoration: InputDecoration(
                       labelText:
                           'Kilometraje actual *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.speed_outlined,
                       ),
                       suffixText: 'km',
@@ -743,7 +743,7 @@ class _MantenimientoFormSheetState
                         'kilometraje_actual',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator:
@@ -777,7 +777,7 @@ class _MantenimientoFormSheetState
                         'diagnostico_inicial',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                   ),
@@ -804,7 +804,7 @@ class _MantenimientoFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Costo final *',
                       prefixText: '\$ ',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.attach_money,
                       ),
                       errorText: _errorBackend(
@@ -812,7 +812,7 @@ class _MantenimientoFormSheetState
                         'costo_final',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarCosto,
@@ -830,7 +830,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Estado *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.info_outline,
                       ),
                       errorText: _errorBackend(

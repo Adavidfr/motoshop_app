@@ -42,7 +42,7 @@ class AppTheme {
       cardTheme:     CardThemeData(
         color:        AppColors.surface,
         elevation:    0,
-        shape:        const RoundedRectangleBorder(
+        shape:        RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         margin: EdgeInsets.zero,
@@ -60,15 +60,15 @@ class AppTheme {
         ),
         focusedBorder:    OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          borderSide:   const BorderSide(color: AppColors.accent, width: 2),
+          borderSide:   BorderSide(color: AppColors.accent, width: 2),
         ),
         errorBorder:      OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          borderSide:   const BorderSide(color: AppColors.error),
+          borderSide:   BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          borderSide:   const BorderSide(color: AppColors.error, width: 2),
+          borderSide:   BorderSide(color: AppColors.error, width: 2),
         ),
         labelStyle:       TextStyle(color: AppColors.textSecondary),
         hintStyle:        TextStyle(color: AppColors.textFaint),
@@ -80,10 +80,10 @@ class AppTheme {
           backgroundColor: AppColors.accent,
           foregroundColor: AppColors.onAccent,
           minimumSize:     const Size(double.infinity, 52),
-          shape:           const RoundedRectangleBorder(
+          shape:           RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
-          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           elevation:  0,
         ),
       ),
@@ -91,24 +91,24 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textPrimary,
           minimumSize:     const Size(double.infinity, 52),
-          shape:           const RoundedRectangleBorder(
+          shape:           RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
           side:      BorderSide(color: AppColors.border),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+          textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
       ),
       textButtonTheme:      TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.accent,
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
       chipTheme:     ChipThemeData(
         backgroundColor:       AppColors.surface2,
         selectedColor:         AppColors.accent,
         labelStyle:            TextStyle(color: AppColors.textSecondary, fontSize: 12),
-        secondaryLabelStyle:   const TextStyle(color: AppColors.onAccent, fontSize: 12),
+        secondaryLabelStyle:   TextStyle(color: AppColors.onAccent, fontSize: 12),
         side:                  BorderSide(color: AppColors.border),
         shape:                 const StadiumBorder(),
         padding:               const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
@@ -122,8 +122,8 @@ class AppTheme {
         backgroundColor:          AppColors.surface,
         selectedItemColor:        AppColors.accent,
         unselectedItemColor:      AppColors.textSecondary,
-        selectedLabelStyle:       const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
-        unselectedLabelStyle:     const TextStyle(fontSize: 11),
+        selectedLabelStyle:       TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+        unselectedLabelStyle:     TextStyle(fontSize: 11),
         elevation:                0,
       ),
       navigationDrawerTheme:    NavigationDrawerThemeData(
@@ -135,7 +135,7 @@ class AppTheme {
         backgroundColor:   AppColors.surface2,
         contentTextStyle:  TextStyle(color: AppColors.textPrimary),
         behavior:          SnackBarBehavior.floating,
-        shape:             const RoundedRectangleBorder(
+        shape:             RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
       ),

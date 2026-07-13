@@ -56,7 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -147,7 +147,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                               child: Text(
                                 error,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColors.error, fontSize: 13),
                               ),
                             ),

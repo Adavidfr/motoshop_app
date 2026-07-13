@@ -106,7 +106,7 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
         formState is HistorialFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -134,7 +134,7 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close,
+                    icon: Icon(Icons.close,
                         color: AppColors.textSecondary),
                   ),
                 ],
@@ -151,7 +151,7 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
                       label: 'ID Venta *',
                       child: TextFormField(
                         controller: _idVentaCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         decoration: _inputDec('Ej: 1'),
@@ -184,7 +184,7 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
                       label: 'Estado Anterior',
                       child: TextFormField(
                         controller: _estadoAnteriorCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         decoration: _inputDec('Ej: Pendiente'),
                       ),
                     ),
@@ -195,7 +195,7 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
                       label: 'Estado Nuevo *',
                       child: TextFormField(
                         controller: _estadoNuevoCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         decoration: _inputDec('Ej: Completada'),
                         validator: (v) => v == null || v.trim().isEmpty
                             ? 'Requerido'
@@ -210,7 +210,7 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
                 label: 'Observación',
                 child: TextFormField(
                   controller: _obsCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   maxLines: 2,
                   decoration: _inputDec('Comentarios adicionales...'),
                 ),
@@ -254,33 +254,33 @@ class _HistorialFormState extends ConsumerState<_HistorialForm> {
 
   InputDecoration _inputDec(String? hint) => InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: AppColors.textFaint),
+        hintStyle: TextStyle(color: AppColors.textFaint),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
-        errorStyle: const TextStyle(color: AppColors.error),
-        counterStyle: const TextStyle(color: AppColors.textFaint),
+        errorStyle: TextStyle(color: AppColors.error),
+        counterStyle: TextStyle(color: AppColors.textFaint),
       );
 }
 
@@ -300,7 +300,7 @@ class _ErrorBanner extends StatelessWidget {
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Text(message,
-          style: const TextStyle(color: AppColors.error, fontSize: 13)),
+          style: TextStyle(color: AppColors.error, fontSize: 13)),
     );
   }
 }
@@ -317,7 +317,7 @@ class _FieldGroup extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w500,
@@ -357,7 +357,7 @@ class _DateBtn extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today_outlined,
+            Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 16),
             const SizedBox(width: 6),
             Expanded(
@@ -374,7 +374,7 @@ class _DateBtn extends StatelessWidget {
             if (hasValue)
               GestureDetector(
                 onTap: onClear,
-                child: const Icon(Icons.close,
+                child: Icon(Icons.close,
                     color: AppColors.textSecondary, size: 14),
               ),
           ],

@@ -244,7 +244,7 @@ class _CartItemTile extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:      AppColors.textPrimary,
                       fontWeight: FontWeight.w600,
                       fontSize:   14,
@@ -255,7 +255,7 @@ class _CartItemTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     formatPrice(product.price),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:   AppColors.accent,
                       fontSize: 13,
                     ),
@@ -279,7 +279,7 @@ class _CartItemTile extends StatelessWidget {
                         ),
                         child: Text(
                           item.quantity.toString(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      AppColors.textPrimary,
                             fontWeight: FontWeight.bold,
                           ),
@@ -294,7 +294,7 @@ class _CartItemTile extends StatelessWidget {
                       // Subtotal
                       Text(
                         formatPrice(item.subtotal),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color:      AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize:   14,
@@ -311,7 +311,7 @@ class _CartItemTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: IconButton(
-              icon:      const Icon(Icons.delete_outline, size: 20),
+              icon:      Icon(Icons.delete_outline, size: 20),
               color:     AppColors.error,
               onPressed: isLoading ? null : onRemove,
             ),
@@ -357,7 +357,7 @@ class _TileNoImage extends StatelessWidget {
     alignment: Alignment.center,
     child: Text(
       product.tipo == ProductType.moto ? '🏍️' : '🔧',
-      style: const TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 28),
     ),
   );
 }
@@ -378,7 +378,7 @@ class _OrderSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color:  AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.border)),
       ),
@@ -388,9 +388,9 @@ class _OrderSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Subtotal (sin IVA)',
-                  style: const TextStyle(color: AppColors.textSecondary)),
+                  style: TextStyle(color: AppColors.textSecondary)),
               Text(formatPrice(cartState.subtotal),
-                  style: const TextStyle(color: AppColors.textPrimary)),
+                  style: TextStyle(color: AppColors.textPrimary)),
             ],
           ),
           const SizedBox(height: 4),
@@ -398,14 +398,14 @@ class _OrderSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Total con IVA (12%)',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color:      AppColors.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize:   16,
                   )),
               Text(
                 formatPrice(cartState.totalWithTax),
-                style: const TextStyle(
+                style: TextStyle(
                   color:      AppColors.accent,
                   fontWeight: FontWeight.bold,
                   fontSize:   18,
@@ -418,7 +418,7 @@ class _OrderSummary extends StatelessWidget {
             width: double.infinity,
             child: FilledButton.icon(
               onPressed: cartState.isLoading ? null : onCheckout,
-              icon:      const Icon(Icons.check_circle_outline),
+              icon:      Icon(Icons.check_circle_outline),
               label:     const Text('Confirmar pedido'),
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.accent,
@@ -464,7 +464,7 @@ class _EmptyCart extends StatelessWidget {
         const SizedBox(height: 24),
         FilledButton.icon(
           onPressed: onShop,
-          icon:      const Icon(Icons.grid_view_rounded),
+          icon:      Icon(Icons.grid_view_rounded),
           label:     const Text('Ir al catálogo'),
           style: FilledButton.styleFrom(
             backgroundColor: AppColors.accent,

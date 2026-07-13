@@ -25,7 +25,7 @@ class DashboardScreen extends ConsumerWidget {
             children: [
               const Text('⚠️', style: TextStyle(fontSize: 48)),
               const SizedBox(height: 12),
-              Text(msg, style: const TextStyle(color: AppColors.error),
+              Text(msg, style: TextStyle(color: AppColors.error),
                   textAlign: TextAlign.center),
               const SizedBox(height: 16),
               ElevatedButton(
@@ -69,11 +69,11 @@ class _DashboardContent extends ConsumerWidget {
                   Text('Dashboard',
                       style: Theme.of(context).textTheme.headlineMedium),
                   Text('Actualizado: $timeFmt',
-                      style: const TextStyle(color: AppColors.textFaint, fontSize: 11)),
+                      style: TextStyle(color: AppColors.textFaint, fontSize: 11)),
                 ],
               ),
               IconButton(
-                icon:      const Icon(Icons.refresh_rounded, color: AppColors.accent),
+                icon:      Icon(Icons.refresh_rounded, color: AppColors.accent),
                 onPressed: () => ref.read(dashboardProvider.notifier).load(),
               ),
             ],
@@ -162,7 +162,7 @@ class _DashboardContent extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(statusName.toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.textSecondary, fontSize: 12,
                                 )),
                             Text(
@@ -282,7 +282,7 @@ class _SectionCard extends StatelessWidget {
                 onTap: onAction,
                 child: Text(
                   '$actionLabel →',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.w600,
                   ),
                 ),

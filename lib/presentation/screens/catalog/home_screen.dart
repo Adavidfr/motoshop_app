@@ -25,7 +25,7 @@ class HomeScreen extends ConsumerWidget {
             child: Container(
               width:   double.infinity,
               padding: const EdgeInsets.fromLTRB(24, 60, 24, 40),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin:  Alignment.topCenter,
                   end:    Alignment.bottomCenter,
@@ -110,7 +110,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     child: FilledButton.icon(
                       onPressed: () => context.go('/catalog'),
-                      icon:      const Icon(Icons.two_wheeler_rounded, size: 18),
+                      icon:      Icon(Icons.two_wheeler_rounded, size: 18),
                       label:     const Text('Explorar Catálogo'),
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.accent,
@@ -186,7 +186,7 @@ class HomeScreen extends ConsumerWidget {
                                   const SizedBox(height: 4),
                                   Text(
                                     cat.name,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color:      AppColors.textPrimary,
                                       fontSize:   11,
                                       fontWeight: FontWeight.w600,

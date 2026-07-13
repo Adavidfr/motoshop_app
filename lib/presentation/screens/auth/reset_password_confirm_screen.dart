@@ -110,7 +110,7 @@ class _ResetPasswordConfirmScreenState
                           ),
                           child: Text(
                             error,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: AppColors.error, fontSize: 13),
                           ),
                         ),

@@ -236,7 +236,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                                 style: TextStyle(fontSize: 40)),
                             const SizedBox(height: 12),
                             Text(state.error!,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColors.error),
                                 textAlign: TextAlign.center),
                             const SizedBox(height: 16),

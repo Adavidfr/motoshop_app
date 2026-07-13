@@ -49,7 +49,7 @@ class _HistorialEstadoVentaAdminScreenState
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar el registro de historial (ID: ${h.idHistorial})?',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
@@ -107,7 +107,7 @@ class _HistorialEstadoVentaAdminScreenState
                         ),
                         Text(
                           '${state.total} registro${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -125,7 +125,7 @@ class _HistorialEstadoVentaAdminScreenState
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      icon: const Icon(Icons.add, size: 18),
+                      icon: Icon(Icons.add, size: 18),
                       label: const Text('Registrar'),
                     ),
                 ],
@@ -136,16 +136,16 @@ class _HistorialEstadoVentaAdminScreenState
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Buscar por ID de venta...',
                         hintStyle:
-                            const TextStyle(color: AppColors.textFaint),
-                        prefixIcon: const Icon(Icons.search,
+                            TextStyle(color: AppColors.textFaint),
+                        prefixIcon: Icon(Icons.search,
                             color: AppColors.textSecondary, size: 20),
                         suffixIcon: _searchController.text.isNotEmpty
                             ? IconButton(
-                                icon: const Icon(Icons.close,
+                                icon: Icon(Icons.close,
                                     color: AppColors.textSecondary, size: 18),
                                 onPressed: _limpiarBusqueda,
                               )
@@ -157,17 +157,17 @@ class _HistorialEstadoVentaAdminScreenState
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.border),
+                              BorderSide(color: AppColors.border),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.border),
+                              BorderSide(color: AppColors.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.accent),
+                              BorderSide(color: AppColors.accent),
                         ),
                       ),
                       keyboardType: TextInputType.number,
@@ -294,7 +294,7 @@ class _HistorialCard extends StatelessWidget {
                     color: AppColors.accent.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.history_outlined,
+                  child: Icon(Icons.history_outlined,
                       color: AppColors.accent, size: 20),
                 ),
                 const SizedBox(width: 12),
@@ -304,7 +304,7 @@ class _HistorialCard extends StatelessWidget {
                     children: [
                       Text(
                         'Venta #${historial.idVenta}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -313,7 +313,7 @@ class _HistorialCard extends StatelessWidget {
                       if (historial.fechaCambio != null)
                         Text(
                           _formatDate(historial.fechaCambio!),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 12,
                           ),
@@ -331,7 +331,7 @@ class _HistorialCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            const Divider(color: AppColors.border, height: 1),
+            Divider(color: AppColors.border, height: 1),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -341,7 +341,7 @@ class _HistorialCard extends StatelessWidget {
                     value: historial.estadoAnterior ?? 'N/A',
                   ),
                 ),
-                const Icon(Icons.arrow_forward_outlined,
+                Icon(Icons.arrow_forward_outlined,
                     color: AppColors.textFaint, size: 16),
                 const SizedBox(width: 8),
                 Expanded(
@@ -363,7 +363,7 @@ class _HistorialCard extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 historial.observacion!,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                 ),
@@ -391,7 +391,7 @@ class _InfoItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textFaint, fontSize: 11)),
         Text(value,
             style: TextStyle(
@@ -450,14 +450,14 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error, size: 18),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
           const SizedBox(width: 8),
           Expanded(
             child: Text(message,
-                style: const TextStyle(color: AppColors.error, fontSize: 13)),
+                style: TextStyle(color: AppColors.error, fontSize: 13)),
           ),
           IconButton(
-            icon: const Icon(Icons.close, color: AppColors.error, size: 16),
+            icon: Icon(Icons.close, color: AppColors.error, size: 16),
             onPressed: onClose,
           ),
         ],
@@ -488,7 +488,7 @@ class _EmptyState extends StatelessWidget {
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
                 : 'No hay historial registrado',
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textSecondary, fontSize: 16),
           ),
         ],
@@ -527,12 +527,12 @@ class _Paginacion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('$desde–$hasta de $total',
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textSecondary, fontSize: 12)),
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left,
+                icon: Icon(Icons.chevron_left,
                     color: AppColors.textSecondary),
                 onPressed: hasPrev ? onPrev : null,
                 padding: EdgeInsets.zero,
@@ -547,13 +547,13 @@ class _Paginacion extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('Pág. $page',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600)),
               ),
               IconButton(
-                icon: const Icon(Icons.chevron_right,
+                icon: Icon(Icons.chevron_right,
                     color: AppColors.textSecondary),
                 onPressed: hasNext ? onNext : null,
                 padding: EdgeInsets.zero,

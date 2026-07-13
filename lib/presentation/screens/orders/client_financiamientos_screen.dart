@@ -29,7 +29,7 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(err.toString(), style: const TextStyle(color: AppColors.error)),
+                Text(err.toString(), style: TextStyle(color: AppColors.error)),
                 const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () => ref.refresh(clientFinanciamientosProvider.future),
@@ -101,7 +101,7 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                           Expanded(
                             child: Text(
                               f.entidadFinanciera,
-                              style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -121,9 +121,9 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text('Contrato #${f.idFinanciamiento} · Venta #${f.idVenta}', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                      Text('Contrato #${f.idFinanciamiento} · Venta #${f.idVenta}', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                       const SizedBox(height: 16),
-                      const Divider(height: 1, color: AppColors.border),
+                      Divider(height: 1, color: AppColors.border),
                       const SizedBox(height: 16),
                       Row(
                         children: [
@@ -185,7 +185,7 @@ class _InfoCell extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+        Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
         const SizedBox(height: 4),
         Text(
           value,

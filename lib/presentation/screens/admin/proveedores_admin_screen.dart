@@ -83,7 +83,7 @@ class _ProveedoresAdminScreenState
                         ),
                         Text(
                           '${state.total} proveedor${state.total == 1 ? '' : 'es'} registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:
                                 AppColors.textSecondary,
                             fontSize: 13,
@@ -99,7 +99,7 @@ class _ProveedoresAdminScreenState
                         ref,
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
@@ -128,7 +128,7 @@ class _ProveedoresAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por nombre, contacto, correo o teléfono...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -139,7 +139,7 @@ class _ProveedoresAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -148,7 +148,7 @@ class _ProveedoresAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                       ),
                       onChanged: (_) {
@@ -162,7 +162,7 @@ class _ProveedoresAdminScreenState
                   IconButton.filled(
                     onPressed:
                         state.isLoading ? null : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -195,7 +195,7 @@ class _ProveedoresAdminScreenState
                                   .limpiarFiltros();
                               setState(() {});
                             },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.filter_alt_off_outlined,
                       ),
                       tooltip: 'Limpiar filtros',
@@ -330,7 +330,7 @@ class _ProveedoresAdminScreenState
           content: Text(
             '"${proveedor.nombre}" se eliminará permanentemente.\n\n'
             'Si tiene compras relacionadas, el backend podría impedir la eliminación. En ese caso puedes desactivarlo.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -450,7 +450,7 @@ class _EstadoFilter extends StatelessWidget {
           },
         ),
         side: WidgetStateProperty.all(
-          const BorderSide(
+          BorderSide(
             color: AppColors.border,
           ),
         ),
@@ -527,7 +527,7 @@ class _ProveedorCard extends StatelessWidget {
                           maxLines: 1,
                           overflow:
                               TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:
                                 AppColors.textPrimary,
                             fontWeight:
@@ -608,7 +608,7 @@ class _ProveedorCard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: onEdit,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.edit_outlined,
                     size: 20,
                   ),
@@ -623,7 +623,7 @@ class _ProveedorCard extends StatelessWidget {
                 if (canDelete)
                   IconButton(
                     onPressed: onDelete,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete_outline,
                       size: 20,
                     ),
@@ -680,7 +680,7 @@ class _InfoRow extends StatelessWidget {
               text,
               maxLines: maxLines,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textSecondary,
                 fontSize: 12,
               ),
@@ -767,7 +767,7 @@ class _PaginationControls extends StatelessWidget {
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,
             ),
@@ -783,7 +783,7 @@ class _PaginationControls extends StatelessWidget {
                           !hasPrevious
                       ? null
                       : onPrevious,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_left,
                   ),
                   label: const Text('Anterior'),
@@ -795,7 +795,7 @@ class _PaginationControls extends StatelessWidget {
               DropdownButton<int>(
                 value: pageSize,
                 dropdownColor: AppColors.surface2,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
                 underline: const SizedBox.shrink(),
@@ -830,7 +830,7 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasNext
                           ? null
                           : onNext,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_right,
                   ),
                   label: const Text('Siguiente'),
@@ -862,7 +862,7 @@ class _ErrorView extends StatelessWidget {
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
@@ -871,7 +871,7 @@ class _ErrorView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
@@ -901,7 +901,7 @@ class _EmptyView extends StatelessWidget {
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.local_shipping_outlined,
             color: AppColors.textFaint,
             size: 55,
@@ -911,7 +911,7 @@ class _EmptyView extends StatelessWidget {
             hasFilters
                 ? 'No se encontraron proveedores'
                 : 'No existen proveedores registrados',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -922,7 +922,7 @@ class _EmptyView extends StatelessWidget {
             hasFilters
                 ? 'Prueba con otros términos o filtros.'
                 : 'Registra el primer proveedor para comenzar.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),

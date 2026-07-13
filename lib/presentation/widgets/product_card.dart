@@ -97,7 +97,7 @@ class ProductCard extends StatelessWidget {
                           children: [
                             Text(
                               product.tipo == ProductType.moto ? '🏍️' : '🔧',
-                              style: const TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: 10),
                             ),
                             const SizedBox(width: 4),
                             Expanded(
@@ -107,7 +107,7 @@ class ProductCard extends StatelessWidget {
                                         ? 'MOTO'
                                         : 'REPUESTO'))
                                     .toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color:         AppColors.accent,
                                   fontSize:      9,
                                   fontWeight:    FontWeight.bold,
@@ -124,7 +124,7 @@ class ProductCard extends StatelessWidget {
                         // Nombre
                         Text(
                           product.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      AppColors.textPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize:   13,
@@ -142,7 +142,7 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Text(
                           formatPrice(product.priceWithTax),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      Colors.white,
                             fontWeight: FontWeight.w900,
                             fontSize:   15,
@@ -150,7 +150,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         Text(
                           '${formatPrice(product.price)} sin IVA',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:    AppColors.textSecondary,
                             fontSize: 9,
                           ),
@@ -177,6 +177,6 @@ class _ImagePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     color:     AppColors.surface2,
     alignment: Alignment.center,
-    child: const Icon(Icons.two_wheeler_rounded, color: AppColors.textFaint, size: 48),
+    child: Icon(Icons.two_wheeler_rounded, color: AppColors.textFaint, size: 48),
   );
 }

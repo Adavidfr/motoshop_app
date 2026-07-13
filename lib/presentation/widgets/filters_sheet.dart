@@ -37,7 +37,7 @@ Future<ProductFilters?> showFiltersSheet({
     context:          context,
     isScrollControlled: true,
     backgroundColor:  AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
     builder: (_) => _FiltersSheet(
@@ -143,7 +143,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                 child: TextField(
                   controller:  _minCtrl,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  style:        const TextStyle(color: AppColors.textPrimary),
+                  style:        TextStyle(color: AppColors.textPrimary),
                   decoration:   _inputDeco('Mín. \$'),
                   onChanged:    (v) => _minPrice = double.tryParse(v),
                 ),
@@ -153,7 +153,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                 child: TextField(
                   controller:  _maxCtrl,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  style:        const TextStyle(color: AppColors.textPrimary),
+                  style:        TextStyle(color: AppColors.textPrimary),
                   decoration:   _inputDeco('Máx. \$'),
                   onChanged:    (v) => _maxPrice = double.tryParse(v),
                 ),
@@ -196,7 +196,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: AppColors.border),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -234,21 +234,21 @@ class _FiltersSheetState extends State<_FiltersSheet> {
 
   InputDecoration _inputDeco(String label) => InputDecoration(
     hintText:    label,
-    hintStyle:   const TextStyle(color: AppColors.textSecondary),
+    hintStyle:   TextStyle(color: AppColors.textSecondary),
     filled:      true,
     fillColor:   AppColors.surface2,
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide:   const BorderSide(color: AppColors.border),
+      borderSide:   BorderSide(color: AppColors.border),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide:   const BorderSide(color: AppColors.border),
+      borderSide:   BorderSide(color: AppColors.border),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide:   const BorderSide(color: AppColors.accent, width: 2),
+      borderSide:   BorderSide(color: AppColors.accent, width: 2),
     ),
   );
 }

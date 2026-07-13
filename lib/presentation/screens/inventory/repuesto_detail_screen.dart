@@ -40,13 +40,13 @@ class RepuestoDetailScreen extends ConsumerWidget {
         actions: canEdit
             ? [
                 IconButton(
-                  icon: const Icon(Icons.edit_outlined),
+                  icon: Icon(Icons.edit_outlined),
                   onPressed: () => context.push('/repuesto-form?id=$repuestoId'),
                   tooltip: 'Editar Repuesto',
                 ),
                 if (canDelete)
                   IconButton(
-                    icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                    icon: Icon(Icons.delete_outline, color: AppColors.error),
                     onPressed: () => _confirmDelete(context, ref, repuesto),
                     tooltip: 'Eliminar Repuesto',
                   ),
@@ -137,7 +137,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
                     const SizedBox(height: 8),
                     Text(
                       repuesto.descripcion!,
-                      style: const TextStyle(fontSize: 15, height: 1.5),
+                      style: TextStyle(fontSize: 15, height: 1.5),
                     ),
                     const SizedBox(height: 24),
                   ],
@@ -181,10 +181,10 @@ class RepuestoDetailScreen extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(entry.value.$1,
-                                        style: const TextStyle(color: AppColors.textSecondary)),
+                                        style: TextStyle(color: AppColors.textSecondary)),
                                     Text(
                                       entry.value.$2,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: AppColors.textPrimary,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -192,7 +192,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
                                   ],
                                 ),
                               ),
-                              if (!isLast) const Divider(height: 1),
+                              if (!isLast) Divider(height: 1),
                             ],
                           );
                         }),

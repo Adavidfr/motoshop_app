@@ -17,7 +17,7 @@ Future<void> showServicioForm(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),
       ),
@@ -269,7 +269,7 @@ class _ServicioFormSheetState
               isEdit
                   ? 'Editar servicio'
                   : 'Nuevo servicio',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -280,7 +280,7 @@ class _ServicioFormSheetState
               const SizedBox(height: 4),
               Text(
                 widget.initial!.nombre,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                 ),
@@ -307,7 +307,7 @@ class _ServicioFormSheetState
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
                       color: AppColors.error,
                       size: 20,
@@ -316,7 +316,7 @@ class _ServicioFormSheetState
                     Expanded(
                       child: Text(
                         formState.message,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.error,
                           fontSize: 13,
                         ),
@@ -339,7 +339,7 @@ class _ServicioFormSheetState
                         TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Nombre *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.build_circle_outlined,
                       ),
                       errorText: _errorBackend(
@@ -347,7 +347,7 @@ class _ServicioFormSheetState
                         'nombre',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarNombre,
@@ -377,7 +377,7 @@ class _ServicioFormSheetState
                         'descripcion',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                   ),
@@ -399,7 +399,7 @@ class _ServicioFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Precio base *',
                       prefixText: '\$ ',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.attach_money,
                       ),
                       errorText: _errorBackend(
@@ -407,7 +407,7 @@ class _ServicioFormSheetState
                         'precio_base',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarPrecio,
@@ -425,7 +425,7 @@ class _ServicioFormSheetState
                     decoration: InputDecoration(
                       labelText:
                           'Tiempo estimado en minutos *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.schedule_outlined,
                       ),
                       suffixText: 'min',
@@ -434,7 +434,7 @@ class _ServicioFormSheetState
                         'tiempo_estimado_minutos',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarTiempo,
@@ -476,7 +476,7 @@ class _ServicioFormSheetState
                                 _estado
                                     ? 'Disponible para nuevos mantenimientos'
                                     : 'No estará disponible para nuevas órdenes',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color:
                                       AppColors.textSecondary,
                                   fontSize: 12,

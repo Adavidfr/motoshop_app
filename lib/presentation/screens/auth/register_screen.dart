@@ -92,7 +92,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           child: Text(
                             error,
-                            style: const TextStyle(color: AppColors.error, fontSize: 13),
+                            style: TextStyle(color: AppColors.error, fontSize: 13),
                           ),
                         ),
                         const SizedBox(height: 16),

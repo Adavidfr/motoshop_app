@@ -70,12 +70,12 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
                       children: [
                         Text('Financiamientos', style: tt.headlineMedium),
                         Text('${state.total} contratos de financiamiento',
-                            style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                            style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                       ],
                     ),
                     IconButton(
                       onPressed: () => ref.read(financiamientosAdminProvider.notifier).refresh(),
-                      icon: const Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
+                      icon: Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
                     ),
                   ],
                 ),
@@ -117,10 +117,10 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
                   controller: _searchCtrl,
                   decoration: InputDecoration(
                     hintText: 'Buscar por entidad financiera...',
-                    prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                    prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                     suffixIcon: _searchCtrl.text.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(Icons.clear),
+                            icon: Icon(Icons.clear),
                             onPressed: () {
                               _searchCtrl.clear();
                               ref.read(financiamientosAdminProvider.notifier).setSearchQuery('');
@@ -129,7 +129,7 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
                         : null,
                     contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
                   ),
-                  style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
                   onChanged: (v) {
                     ref.read(financiamientosAdminProvider.notifier).setSearchQuery(v);
                   },
@@ -144,7 +144,7 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
                     children: _statusFilters.map((f) => Padding(
                       padding: const EdgeInsets.only(right: 6),
                       child: ChoiceChip(
-                        label:     Text(f.$2, style: const TextStyle(fontSize: 12)),
+                        label:     Text(f.$2, style: TextStyle(fontSize: 12)),
                         selected:  state.statusFilter == f.$1,
                         onSelected:(_) =>
                             ref.read(financiamientosAdminProvider.notifier).setStatusFilter(f.$1),
@@ -169,7 +169,7 @@ class _FinanciamientosAdminScreenState extends ConsumerState<FinanciamientosAdmi
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(state.error!, style: const TextStyle(color: AppColors.error)),
+                      Text(state.error!, style: TextStyle(color: AppColors.error)),
                       const SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: () => ref.read(financiamientosAdminProvider.notifier).refresh(),
@@ -302,11 +302,11 @@ class _FinanciamientoCard extends StatelessWidget {
             children: [
               Text(
                 'Financiamiento #${f.idFinanciamiento}',
-                style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
               ),
               if (isAdmin)
                 IconButton(
-                  icon: const Icon(Icons.delete_outline, color: AppColors.error, size: 18),
+                  icon: Icon(Icons.delete_outline, color: AppColors.error, size: 18),
                   onPressed: onDelete,
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
@@ -316,7 +316,7 @@ class _FinanciamientoCard extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             f.entidadFinanciera,
-            style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 13),
+            style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 13),
           ),
           const SizedBox(height: 8),
 
@@ -346,7 +346,7 @@ class _FinanciamientoCard extends StatelessWidget {
           _DetailItem('ID Venta Asociada', '#${f.idVenta}'),
 
           const SizedBox(height: 10),
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: AppColors.border),
           const SizedBox(height: 10),
 
           // Inline status change dropdown
@@ -416,9 +416,9 @@ class _DetailItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 10)),
+        Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 10)),
         const SizedBox(height: 2),
-        Text(value, style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12)),
+        Text(value, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12)),
       ],
     );
   }
@@ -455,7 +455,7 @@ class _DashboardCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(color: AppColors.textSecondary, fontSize: 9)),
+                Text(title, style: TextStyle(color: AppColors.textSecondary, fontSize: 9)),
                 const SizedBox(height: 2),
                 Text(value,
                     style: TextStyle(

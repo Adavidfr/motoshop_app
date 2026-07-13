@@ -85,7 +85,7 @@ class _ServiciosAdminScreenState
                         Text(
                           '${state.total} servicio${state.total == 1 ? '' : 's'} '
                           'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -100,7 +100,7 @@ class _ServiciosAdminScreenState
                         ref,
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
@@ -128,7 +128,7 @@ class _ServiciosAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por nombre o descripción...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -139,7 +139,7 @@ class _ServiciosAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -148,7 +148,7 @@ class _ServiciosAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                       ),
                       onChanged: (_) {
@@ -162,7 +162,7 @@ class _ServiciosAdminScreenState
                   IconButton.filled(
                     onPressed:
                         state.isLoading ? null : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -212,7 +212,7 @@ class _ServiciosAdminScreenState
                                     setState(() {});
                                   }
                                 },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.filter_alt_off_outlined,
                           ),
                           tooltip: 'Limpiar filtros',
@@ -350,7 +350,7 @@ class _ServiciosAdminScreenState
             '"${servicio.nombre}" se eliminará permanentemente.\n\n'
             'Si está asociado a mantenimientos, el servidor podría impedir '
             'su eliminación. En ese caso puedes desactivarlo.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -473,7 +473,7 @@ class _EstadoFilter extends StatelessWidget {
           ),
         ),
         textStyle: WidgetStateProperty.all(
-          const TextStyle(
+          TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
@@ -506,7 +506,7 @@ class _EstadoFilter extends StatelessWidget {
           },
         ),
         side: WidgetStateProperty.all(
-          const BorderSide(
+          BorderSide(
             color: AppColors.border,
           ),
         ),
@@ -666,7 +666,7 @@ class _ServicioCard extends StatelessWidget {
                           maxLines: 1,
                           overflow:
                               TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:
                                 AppColors.textPrimary,
                             fontWeight:
@@ -716,7 +716,7 @@ class _ServicioCard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: onEdit,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.edit_outlined,
                     size: 20,
                   ),
@@ -731,7 +731,7 @@ class _ServicioCard extends StatelessWidget {
                 if (canDelete)
                   IconButton(
                     onPressed: onDelete,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete_outline,
                       size: 20,
                     ),
@@ -885,7 +885,7 @@ class _PaginationControls extends StatelessWidget {
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,
             ),
@@ -901,7 +901,7 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasPrevious
                           ? null
                           : onPrevious,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_left,
                   ),
                   label: const Text('Anterior'),
@@ -913,7 +913,7 @@ class _PaginationControls extends StatelessWidget {
               DropdownButton<int>(
                 value: pageSize,
                 dropdownColor: AppColors.surface2,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
                 underline: const SizedBox.shrink(),
@@ -948,7 +948,7 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasNext
                           ? null
                           : onNext,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_right,
                   ),
                   label: const Text('Siguiente'),
@@ -980,7 +980,7 @@ class _ErrorView extends StatelessWidget {
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
@@ -989,7 +989,7 @@ class _ErrorView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
@@ -1019,7 +1019,7 @@ class _EmptyView extends StatelessWidget {
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.build_circle_outlined,
             color: AppColors.textFaint,
             size: 55,
@@ -1029,7 +1029,7 @@ class _EmptyView extends StatelessWidget {
             hasFilters
                 ? 'No se encontraron servicios'
                 : 'No existen servicios registrados',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -1040,7 +1040,7 @@ class _EmptyView extends StatelessWidget {
             hasFilters
                 ? 'Prueba con otros términos o filtros.'
                 : 'Registra el primer servicio para comenzar.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),

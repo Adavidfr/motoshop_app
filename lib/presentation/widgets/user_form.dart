@@ -16,7 +16,7 @@ Future<void> showUserForm(
     context:           context,
     isScrollControlled:true,
     backgroundColor:   AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
     builder: (_) => ProviderScope(
@@ -120,7 +120,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
             ),
             Text(
               isEdit ? 'Editar: ${widget.initial!.username}' : 'Nuevo usuario',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold,
               ),
             ),
@@ -135,7 +135,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(formSt.message,
-                    style: const TextStyle(color: AppColors.error, fontSize: 13)),
+                    style: TextStyle(color: AppColors.error, fontSize: 13)),
               ),
               const SizedBox(height: 14),
             ],
@@ -151,7 +151,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         child: TextFormField(
                           controller: _userCtrl, enabled: !isSaving,
                           decoration: const InputDecoration(labelText: 'Usuario *'),
-                          style:      const TextStyle(color: AppColors.textPrimary),
+                          style:      TextStyle(color: AppColors.textPrimary),
                           validator:  validateUsername,
                         ),
                       ),
@@ -161,7 +161,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                           controller:  _emailCtrl, enabled: !isSaving,
                           keyboardType:TextInputType.emailAddress,
                           decoration:  const InputDecoration(labelText: 'Email *'),
-                          style:       const TextStyle(color: AppColors.textPrimary),
+                          style:       TextStyle(color: AppColors.textPrimary),
                           validator:   validateEmail,
                         ),
                       ),
@@ -176,7 +176,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         child: TextFormField(
                           controller: _fnCtrl, enabled: !isSaving,
                           decoration: const InputDecoration(labelText: 'Nombre'),
-                          style:      const TextStyle(color: AppColors.textPrimary),
+                          style:      TextStyle(color: AppColors.textPrimary),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -184,7 +184,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         child: TextFormField(
                           controller: _lnCtrl, enabled: !isSaving,
                           decoration: const InputDecoration(labelText: 'Apellido'),
-                          style:      const TextStyle(color: AppColors.textPrimary),
+                          style:      TextStyle(color: AppColors.textPrimary),
                         ),
                       ),
                     ],
@@ -208,7 +208,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         onPressed: () => setState(() => _showPass = !_showPass),
                       ),
                     ),
-                    style:   const TextStyle(color: AppColors.textPrimary),
+                    style:   TextStyle(color: AppColors.textPrimary),
                     validator: isEdit
                         ? null
                         : (v) => (v == null || v.isEmpty)
@@ -299,11 +299,11 @@ class _ToggleCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13,
                   )),
               Text(description,
-                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 10)),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 10)),
             ],
           ),
         ),

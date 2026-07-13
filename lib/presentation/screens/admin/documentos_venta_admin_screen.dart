@@ -49,7 +49,7 @@ class _DocumentosVentaAdminScreenState
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar el documento de tipo ${doc.tipoDocumento.label} (ID: ${doc.idDocumento})?',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
@@ -108,7 +108,7 @@ class _DocumentosVentaAdminScreenState
                         Text(
                           '${state.total} documento${state.total == 1 ? '' : 's'} '
                           'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -126,7 +126,7 @@ class _DocumentosVentaAdminScreenState
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      icon: const Icon(Icons.add, size: 18),
+                      icon: Icon(Icons.add, size: 18),
                       label: const Text('Nuevo'),
                     ),
                 ],
@@ -137,16 +137,16 @@ class _DocumentosVentaAdminScreenState
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Buscar por archivo...',
                         hintStyle:
-                            const TextStyle(color: AppColors.textFaint),
-                        prefixIcon: const Icon(Icons.search,
+                            TextStyle(color: AppColors.textFaint),
+                        prefixIcon: Icon(Icons.search,
                             color: AppColors.textSecondary, size: 20),
                         suffixIcon: _searchController.text.isNotEmpty
                             ? IconButton(
-                                icon: const Icon(Icons.close,
+                                icon: Icon(Icons.close,
                                     color: AppColors.textSecondary, size: 18),
                                 onPressed: _limpiarBusqueda,
                               )
@@ -158,17 +158,17 @@ class _DocumentosVentaAdminScreenState
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.border),
+                              BorderSide(color: AppColors.border),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.border),
+                              BorderSide(color: AppColors.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.accent),
+                              BorderSide(color: AppColors.accent),
                         ),
                       ),
                       onSubmitted: (_) => _buscar(),
@@ -315,7 +315,7 @@ class _DocumentoCard extends StatelessWidget {
                     color: AppColors.accent.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.description_outlined,
+                  child: Icon(Icons.description_outlined,
                       color: AppColors.accent, size: 20),
                 ),
                 const SizedBox(width: 12),
@@ -325,7 +325,7 @@ class _DocumentoCard extends StatelessWidget {
                     children: [
                       Text(
                         'ID Doc: ${documento.idDocumento} - Venta #${documento.idVenta}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -333,7 +333,7 @@ class _DocumentoCard extends StatelessWidget {
                       ),
                       Text(
                         documento.tipoDocumento.label,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -344,7 +344,7 @@ class _DocumentoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            const Divider(color: AppColors.border, height: 1),
+            Divider(color: AppColors.border, height: 1),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -365,7 +365,7 @@ class _DocumentoCard extends StatelessWidget {
             ),
             if (isAdmin) ...[
               const SizedBox(height: 10),
-              const Divider(color: AppColors.border, height: 1),
+              Divider(color: AppColors.border, height: 1),
               const SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -408,10 +408,10 @@ class _InfoItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textFaint, fontSize: 11)),
         Text(value,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600),
@@ -467,9 +467,9 @@ class _FiltroDropdown extends StatelessWidget {
     return DropdownButtonFormField<String>(
       isExpanded: true,
       value: value,
-      hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
+      hint: Text(hint, style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
-      style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.surface2,
@@ -477,15 +477,15 @@ class _FiltroDropdown extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
       ),
       items: items
@@ -518,14 +518,14 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error, size: 18),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
           const SizedBox(width: 8),
           Expanded(
             child: Text(message,
-                style: const TextStyle(color: AppColors.error, fontSize: 13)),
+                style: TextStyle(color: AppColors.error, fontSize: 13)),
           ),
           IconButton(
-            icon: const Icon(Icons.close, color: AppColors.error, size: 16),
+            icon: Icon(Icons.close, color: AppColors.error, size: 16),
             onPressed: onClose,
           ),
         ],
@@ -556,7 +556,7 @@ class _EmptyState extends StatelessWidget {
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
                 : 'No hay documentos registrados',
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textSecondary, fontSize: 16),
           ),
         ],
@@ -595,12 +595,12 @@ class _Paginacion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('$desde–$hasta de $total',
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textSecondary, fontSize: 12)),
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left,
+                icon: Icon(Icons.chevron_left,
                     color: AppColors.textSecondary),
                 onPressed: hasPrev ? onPrev : null,
                 padding: EdgeInsets.zero,
@@ -615,13 +615,13 @@ class _Paginacion extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('Pág. $page',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600)),
               ),
               IconButton(
-                icon: const Icon(Icons.chevron_right,
+                icon: Icon(Icons.chevron_right,
                     color: AppColors.textSecondary),
                 onPressed: hasNext ? onNext : null,
                 padding: EdgeInsets.zero,

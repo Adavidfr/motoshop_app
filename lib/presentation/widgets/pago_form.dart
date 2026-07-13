@@ -156,7 +156,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
         formState is PagoFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -179,7 +179,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   Expanded(
                     child: Text(
                       _isEditing ? 'Editar Pago' : 'Nuevo Pago',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -188,7 +188,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.close,
                       color: AppColors.textSecondary,
                     ),
@@ -210,7 +210,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   ),
                   child: Text(
                     formError,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.error,
                       fontSize: 13,
                     ),
@@ -224,7 +224,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
               const SizedBox(height: 6),
               TextFormField(
                 controller: _idVentaCtrl,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: _inputDec('Ej: 1'),
@@ -243,7 +243,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
               const SizedBox(height: 6),
               TextFormField(
                 controller: _montoCtrl,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: _inputDec('Ej: 1500.00'),
@@ -263,7 +263,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
               DropdownButtonFormField<String>(
                 value: _metodoPago,
                 dropdownColor: AppColors.surface2,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 decoration: _inputDec(null),
                 items: MetodoPago.values
                     .map(
@@ -285,7 +285,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
               DropdownButtonFormField<String>(
                 value: _estado,
                 dropdownColor: AppColors.surface2,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 decoration: _inputDec(null),
                 items: EstadoPago.values
                     .map(
@@ -319,7 +319,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.calendar_today_outlined,
                         color: AppColors.textSecondary,
                         size: 18,
@@ -338,7 +338,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                       if (_fechaPago != null)
                         GestureDetector(
                           onTap: () => setState(() => _fechaPago = null),
-                          child: const Icon(
+                          child: Icon(
                             Icons.close,
                             color: AppColors.textSecondary,
                             size: 18,
@@ -355,7 +355,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
               const SizedBox(height: 6),
               TextFormField(
                 controller: _referenciaCtrl,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 maxLength: 150,
                 decoration: _inputDec('Ej: TXN-00123'),
               ),
@@ -384,7 +384,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
                         )
                       : Text(
                           _isEditing ? 'Actualizar pago' : 'Registrar pago',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -403,7 +403,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
   Widget _buildLabel(String text) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.textSecondary,
         fontSize: 13,
         fontWeight: FontWeight.w500,
@@ -414,7 +414,7 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
   InputDecoration _inputDec(String? hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(color: AppColors.textFaint),
+      hintStyle: TextStyle(color: AppColors.textFaint),
       filled: true,
       fillColor: AppColors.surface2,
       contentPadding: const EdgeInsets.symmetric(
@@ -423,26 +423,26 @@ class _PagoFormState extends ConsumerState<_PagoForm> {
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.border),
+        borderSide: BorderSide(color: AppColors.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.border),
+        borderSide: BorderSide(color: AppColors.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.accent),
+        borderSide: BorderSide(color: AppColors.accent),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.error),
+        borderSide: BorderSide(color: AppColors.error),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.error),
+        borderSide: BorderSide(color: AppColors.error),
       ),
-      errorStyle: const TextStyle(color: AppColors.error),
-      counterStyle: const TextStyle(color: AppColors.textFaint),
+      errorStyle: TextStyle(color: AppColors.error),
+      counterStyle: TextStyle(color: AppColors.textFaint),
     );
   }
 }

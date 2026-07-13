@@ -32,7 +32,7 @@ class OrderAdminDetailScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(err.toString(), style: const TextStyle(color: AppColors.error)),
+              Text(err.toString(), style: TextStyle(color: AppColors.error)),
               const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () => context.pop(),
@@ -148,7 +148,7 @@ class _DetailContent extends StatelessWidget {
                           }
                         }
                       },
-                      icon: const Icon(Icons.receipt_long),
+                      icon: Icon(Icons.receipt_long),
                       label: const Text('Registrar Venta'),
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.accent,
@@ -184,16 +184,16 @@ class _DetailContent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(item.productName,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.textPrimary, fontWeight: FontWeight.w600,
                               )),
                           Text('${formatPrice(item.unitPrice)} × ${item.quantity} ud.',
-                              style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                              style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                         ],
                       ),
                     ),
                     Text(formatPrice(item.subtotal),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.accent, fontWeight: FontWeight.bold,
                         )),
                   ],
@@ -212,7 +212,7 @@ class _DetailContent extends StatelessWidget {
                 const SizedBox(height: 6),
                 _TotalRow('IVA (15%)',          taxAmount,   false),
                 const SizedBox(height: 8),
-                const Divider(),
+                Divider(),
                 const SizedBox(height: 8),
                 _TotalRow('Total',              order.total, true),
               ],
@@ -293,7 +293,7 @@ class _Card extends StatelessWidget {
       children: [
         Text(
           title.toUpperCase(),
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary, fontSize: 11,
             fontWeight: FontWeight.bold, letterSpacing: 0.8,
           ),
@@ -316,8 +316,8 @@ class _InfoRow extends StatelessWidget {
     child:   Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-        Text(value, style: const TextStyle(
+        Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+        Text(value, style: TextStyle(
           color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13,
         )),
       ],
