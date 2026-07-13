@@ -1,6 +1,5 @@
-// lib/presentation/screens/catalog/moto_form_screen.dart
-
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,6 +32,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
   int? _selectedCategoriaId;
   late String _selectedEstado;
   File? _selectedImageFile;
+  Uint8List? _webImageBytes;
   String? _existingImageUrl;
 
   @override
@@ -82,9 +82,16 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
       imageQuality: 85,
     );
     if (picked != null) {
-      setState(() {
-        _selectedImageFile = File(picked.path);
-      });
+      if (kIsWeb) {
+        final bytes = await picked.readAsBytes();
+        setState(() {
+          _webImageBytes = bytes;
+        });
+      } else {
+        setState(() {
+          _selectedImageFile = File(picked.path);
+        });
+      }
     }
   }
 
@@ -138,24 +145,43 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: AppColors.border),
                     ),
-                    child: _selectedImageFile != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.file(_selectedImageFile!, fit: BoxFit.cover),
-                          )
-                        : _existingImageUrl != null
+                    child: kIsWeb
+                        ? (_webImageBytes != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
+                                child: Image.memory(_webImageBytes!, fit: BoxFit.cover),
                               )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
-                                  SizedBox(height: 8),
-                                  Text('Añadir Foto', style: TextStyle(color: AppColors.textSecondary)),
-                                ],
-                              ),
+                            : _existingImageUrl != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
+                                      SizedBox(height: 8),
+                                      Text('Añadir Foto', style: TextStyle(color: AppColors.textSecondary)),
+                                    ],
+                                  ))
+                        : (_selectedImageFile != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.file(_selectedImageFile!, fit: BoxFit.cover),
+                              )
+                            : _existingImageUrl != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
+                                      SizedBox(height: 8),
+                                      Text('Añadir Foto', style: TextStyle(color: AppColors.textSecondary)),
+                                    ],
+                                  )),
                   ),
                 ),
               ),

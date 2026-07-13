@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +29,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   bool _isEditing = false;
   File? _selectedImageFile;
+  Uint8List? _webImageBytes;
 
   @override
   void initState() {
@@ -58,9 +60,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Future<void> _pickImage() async {
     final picked = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
     if (picked != null) {
-      setState(() {
-        _selectedImageFile = File(picked.path);
-      });
+      if (kIsWeb) {
+        final bytes = await picked.readAsBytes();
+        setState(() {
+          _webImageBytes = bytes;
+        });
+      } else {
+        setState(() {
+          _selectedImageFile = File(picked.path);
+        });
+      }
     }
   }
 
@@ -155,16 +164,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 border: Border.all(color: AppColors.border, width: 2),
                               ),
                               child: ClipOval(
-                                child: _selectedImageFile != null
-                                    ? Image.file(_selectedImageFile!, fit: BoxFit.cover)
-                                    : (profile?.fotoPerfil != null
-                                        ? Image.network(
-                                            profile!.fotoPerfil!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (c, o, s) =>
-                                                Icon(Icons.person, size: 60),
-                                          )
-                                        : Icon(Icons.person, size: 60)),
+                                child: kIsWeb
+                                    ? (_webImageBytes != null
+                                        ? Image.memory(_webImageBytes!, fit: BoxFit.cover)
+                                        : (profile?.fotoPerfil != null
+                                            ? Image.network(
+                                                profile!.fotoPerfil!,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (c, o, s) =>
+                                                    Icon(Icons.person, size: 60),
+                                              )
+                                            : Icon(Icons.person, size: 60)))
+                                    : (_selectedImageFile != null
+                                        ? Image.file(_selectedImageFile!, fit: BoxFit.cover)
+                                        : (profile?.fotoPerfil != null
+                                            ? Image.network(
+                                                profile!.fotoPerfil!,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (c, o, s) =>
+                                                    Icon(Icons.person, size: 60),
+                                              )
+                                            : Icon(Icons.person, size: 60))),
                               ),
                             ),
                             if (_isEditing)
