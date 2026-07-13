@@ -80,6 +80,7 @@ class _FacturasAdminScreenState extends ConsumerState<FacturasAdminScreen> {
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(facturasAdminProvider);
     final notifier = ref.read(facturasAdminProvider.notifier);
+    debugPrint('FacturasAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.facturas.length}');
 
     return Column(
       children: [

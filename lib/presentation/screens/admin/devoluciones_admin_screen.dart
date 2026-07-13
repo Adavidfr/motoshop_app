@@ -144,6 +144,7 @@ class _DevolucionesAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(devolucionesAdminProvider);
     final notifier = ref.read(devolucionesAdminProvider.notifier);
+    debugPrint('DevolucionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.devoluciones.length}');
 
     return Column(
       children: [

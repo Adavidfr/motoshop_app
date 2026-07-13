@@ -82,6 +82,7 @@ class _HistorialEstadoVentaAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(historialEstadoVentaProvider);
     final notifier = ref.read(historialEstadoVentaProvider.notifier);
+    debugPrint('HistorialEstadoVentaAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.historial.length}');
 
     return Column(
       children: [

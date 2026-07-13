@@ -144,6 +144,7 @@ class _GarantiasAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(garantiasAdminProvider);
     final notifier = ref.read(garantiasAdminProvider.notifier);
+    debugPrint('GarantiasAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.garantias.length}');
 
     return Column(
       children: [

@@ -143,6 +143,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(segurosAdminProvider);
     final notifier = ref.read(segurosAdminProvider.notifier);
+    debugPrint('SegurosAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.seguros.length}');
 
     return Column(
       children: [

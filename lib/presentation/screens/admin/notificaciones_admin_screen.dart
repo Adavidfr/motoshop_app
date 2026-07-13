@@ -82,6 +82,7 @@ class _NotificacionesAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(notificacionesAdminProvider);
     final notifier = ref.read(notificacionesAdminProvider.notifier);
+    debugPrint('NotificacionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.notificaciones.length}');
 
     return Column(
       children: [

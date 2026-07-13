@@ -82,6 +82,7 @@ class _DocumentosVentaAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(documentosVentaAdminProvider);
     final notifier = ref.read(documentosVentaAdminProvider.notifier);
+    debugPrint('DocumentosVentaAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.documentos.length}');
 
     return Column(
       children: [
