@@ -75,7 +75,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
             Icon(Icons.motorcycle, color: AppColors.accent, size: 28),
             SizedBox(width: 10),
             Text(
-              'AeroRider',
+              'AuraRider',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
