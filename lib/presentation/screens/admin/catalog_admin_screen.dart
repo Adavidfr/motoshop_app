@@ -123,6 +123,8 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
   // --- MOTOS TAB ---
   Widget _buildMotosTab(bool isStaff) {
     final state = ref.watch(motosProvider);
+    final totalPages = (state.count / state.limit).ceil();
+    final maxPages = totalPages > 0 ? totalPages : 1;
 
     return Column(
       children: [
@@ -157,18 +159,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                   : RefreshIndicator(
                       onRefresh: () => ref.read(motosProvider.notifier).loadFirstPage(),
                       child: ListView.builder(
-                        controller: _motoScrollController,
                         padding: const EdgeInsets.all(16),
-                        itemCount: state.motos.length + (state.isMoreLoading ? 1 : 0),
+                        itemCount: state.motos.length,
                         itemBuilder: (context, index) {
-                          if (index == state.motos.length) {
-                            return Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
                           final moto = state.motos[index];
                           return Card(
                             margin: const EdgeInsets.only(bottom: 16),
@@ -248,14 +241,6 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                             ),
                                           ),
                                           SizedBox(height: 4),
-                                          Text(
-                                            'Año: ${moto.anio}  ·  Cilindraje: ${moto.cilindraje} cc',
-                                            style: TextStyle(
-                                              color: AppColors.textSecondary,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          SizedBox(height: 12),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
@@ -292,6 +277,37 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                       ),
                     ),
         ),
+        if (!state.isLoading && state.motos.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              border: Border(top: BorderSide(color: AppColors.border, width: 0.5)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: state.currentPage > 1
+                      ? () => ref.read(motosProvider.notifier).loadPage(state.currentPage - 1)
+                      : null,
+                  icon: const Icon(Icons.arrow_back, size: 16),
+                  label: const Text('Anterior'),
+                ),
+                Text(
+                  'Página ${state.currentPage} de $maxPages',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                ElevatedButton.icon(
+                  onPressed: state.currentPage < maxPages
+                      ? () => ref.read(motosProvider.notifier).loadPage(state.currentPage + 1)
+                      : null,
+                  icon: const Icon(Icons.arrow_forward, size: 16),
+                  label: const Text('Siguiente'),
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }
