@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/config/app_config.dart';
 import '../../../core/error/api_exception.dart';
 import '../../../theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
@@ -397,7 +398,7 @@ class _OrderSummary extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total con IVA (12%)',
+              Text('Total con IVA (${(AppConfig.taxRate * 100).toStringAsFixed(0)}%)',
                   style: TextStyle(
                     color:      AppColors.textPrimary,
                     fontWeight: FontWeight.bold,

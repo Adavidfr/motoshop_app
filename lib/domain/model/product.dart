@@ -46,7 +46,7 @@ class Product {
   });
 
   // ── IVA 12 % (Ecuador) ────────────────────────────────────────
-  double get priceWithTax => price * 1.12;
+  double get priceWithTax => price * (1 + AppConfig.taxRate);
 
   bool get inStock => stock > 0;
 
