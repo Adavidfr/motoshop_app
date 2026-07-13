@@ -62,10 +62,10 @@ class UsersAdminScreen extends ConsumerWidget {
               // Búsqueda
               TextField(
                 onChanged:  ref.read(usersAdminProvider.notifier).setSearch,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText:   'Buscar usuario o email...',
                   prefixIcon: Icon(Icons.search_rounded, color: AppColors.textSecondary),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
                 ),
                 style: TextStyle(color: AppColors.textPrimary),
               ),
