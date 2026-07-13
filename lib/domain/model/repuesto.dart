@@ -1,5 +1,7 @@
 // lib/domain/model/repuesto.dart
 
+import '../../core/config/app_config.dart';
+
 class Repuesto {
   final int idRepuesto;
   final String nombre;
@@ -53,7 +55,7 @@ class Repuesto {
       precioVenta: parsedPrecioVenta,
       stock: json['stock'] as int,
       estado: json['estado'] as String,
-      imagen: json['imagen'] as String?,
+      imagen: AppConfig.resolveImageUrl(json['imagen'] as String?),
       fechaRegistro: json['fecha_registro'] as String,
     );
   }

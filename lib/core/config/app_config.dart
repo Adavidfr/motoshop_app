@@ -6,6 +6,14 @@ class AppConfig {
   static String get baseUrl =>
       dotenv.env['API_BASE_URL'] ?? 'http://10.0.2.2:8000/api';
 
+  static String? resolveImageUrl(String? raw) {
+    if (raw == null || raw.trim().isEmpty) return null;
+    if (raw.startsWith('http://') || raw.startsWith('https://')) return raw;
+    final base = baseUrl.replaceAll('/api', '');
+    final path = raw.startsWith('/') ? raw : '/$raw';
+    return '$base$path';
+  }
+
   static const String appName = 'Flutter Shop App';
   static const double taxRate = 0.15; // IVA Ecuador 15 %
 }

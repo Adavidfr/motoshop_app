@@ -4,6 +4,7 @@
 // Adaptado al backend real de Motoshop.
 
 import 'category.dart';
+import '../../core/config/app_config.dart';
 
 enum ProductType { moto, repuesto }
 
@@ -67,10 +68,7 @@ class Product {
         : null;
 
     final imageRaw = json['imagen'];
-    String? imageUrl;
-    if (imageRaw != null && imageRaw.toString().isNotEmpty) {
-      imageUrl = imageRaw.toString();
-    }
+    final imageUrl = AppConfig.resolveImageUrl(imageRaw?.toString());
 
     return Product(
       id:          json['id_moto']    as int,
@@ -92,10 +90,7 @@ class Product {
   // ── Factory desde JSON de /repuestos/ ─────────────────────────
   factory Product.fromRepuestoJson(Map<String, dynamic> json) {
     final imageRaw = json['imagen'];
-    String? imageUrl;
-    if (imageRaw != null && imageRaw.toString().isNotEmpty) {
-      imageUrl = imageRaw.toString();
-    }
+    final imageUrl = AppConfig.resolveImageUrl(imageRaw?.toString());
 
     return Product(
       id:          json['id_repuesto']  as int,
