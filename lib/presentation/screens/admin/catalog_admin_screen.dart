@@ -278,35 +278,14 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                     ),
         ),
         if (!state.isLoading && state.motos.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: Border(top: BorderSide(color: AppColors.border, width: 0.5)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: state.currentPage > 1
-                      ? () => ref.read(motosProvider.notifier).loadPage(state.currentPage - 1)
-                      : null,
-                  icon: const Icon(Icons.arrow_back, size: 16),
-                  label: const Text('Anterior'),
-                ),
-                Text(
-                  'Página ${state.currentPage} de $maxPages',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                ElevatedButton.icon(
-                  onPressed: state.currentPage < maxPages
-                      ? () => ref.read(motosProvider.notifier).loadPage(state.currentPage + 1)
-                      : null,
-                  icon: const Icon(Icons.arrow_forward, size: 16),
-                  label: const Text('Siguiente'),
-                ),
-              ],
-            ),
+          _Paginacion(
+            page: state.currentPage,
+            total: state.count,
+            pageSize: state.limit,
+            hasNext: state.currentPage < maxPages,
+            hasPrev: state.currentPage > 1,
+            onNext: () => ref.read(motosProvider.notifier).loadPage(state.currentPage + 1),
+            onPrev: () => ref.read(motosProvider.notifier).loadPage(state.currentPage - 1),
           ),
       ],
     );
@@ -667,6 +646,77 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               Navigator.of(context).pop();
             },
             child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Paginacion extends StatelessWidget {
+  final int page;
+  final int total;
+  final int pageSize;
+  final bool hasNext;
+  final bool hasPrev;
+  final VoidCallback onNext;
+  final VoidCallback onPrev;
+
+  const _Paginacion({
+    required this.page,
+    required this.total,
+    required this.pageSize,
+    required this.hasNext,
+    required this.hasPrev,
+    required this.onNext,
+    required this.onPrev,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final desde = ((page - 1) * pageSize) + 1;
+    final hasta = (page * pageSize).clamp(0, total);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: AppColors.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('$desde–$hasta de $total',
+              style: TextStyle(
+                  color: AppColors.textSecondary, fontSize: 12)),
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.chevron_left,
+                    color: AppColors.textSecondary),
+                onPressed: hasPrev ? onPrev : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text('Pág. $page',
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_right,
+                    color: AppColors.textSecondary),
+                onPressed: hasNext ? onNext : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
           ),
         ],
       ),
