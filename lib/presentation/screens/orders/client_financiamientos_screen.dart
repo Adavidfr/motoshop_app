@@ -18,22 +18,22 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Mis Financiamientos'),
+        title: Text('Mis Financiamientos'),
       ),
       body: RefreshIndicator(
         color: AppColors.accent,
         onRefresh: () => ref.refresh(clientFinanciamientosProvider.future),
         child: financiamientosAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator(color: AppColors.accent)),
+          loading: () => Center(child: CircularProgressIndicator(color: AppColors.accent)),
           error: (err, _) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(err.toString(), style: const TextStyle(color: AppColors.error)),
-                const SizedBox(height: 12),
+                Text(err.toString(), style: TextStyle(color: AppColors.error)),
+                SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () => ref.refresh(clientFinanciamientosProvider.future),
-                  child: const Text('Reintentar'),
+                  child: Text('Reintentar'),
                 ),
               ],
             ),
@@ -48,15 +48,15 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('💳', style: TextStyle(fontSize: 64)),
-                        const SizedBox(height: 16),
+                        Text('💳', style: TextStyle(fontSize: 64)),
+                        SizedBox(height: 16),
                         Text(
                           'No tienes financiamientos registrados',
                           style: tt.titleMedium?.copyWith(color: AppColors.textSecondary),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 12),
-                        const Padding(
+                        SizedBox(height: 12),
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 32.0),
                           child: Text(
                             'Los planes de financiamiento se registran al adquirir productos mediante un pedido confirmado.',
@@ -64,11 +64,11 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24),
                         FilledButton(
                           onPressed: () => context.go('/catalog'),
                           style: FilledButton.styleFrom(backgroundColor: AppColors.accent, foregroundColor: AppColors.onAccent),
-                          child: const Text('Ver Catálogo'),
+                          child: Text('Ver Catálogo'),
                         ),
                       ],
                     ),
@@ -80,7 +80,7 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
             return ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: list.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, __) => SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final f = list[index];
                 final statusColor = _getStatusColor(f.estado);
@@ -101,7 +101,7 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                           Expanded(
                             child: Text(
                               f.entidadFinanciera,
-                              style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -120,11 +120,11 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
-                      Text('Contrato #${f.idFinanciamiento} · Venta #${f.idVenta}', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
-                      const SizedBox(height: 16),
-                      const Divider(height: 1, color: AppColors.border),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 4),
+                      Text('Contrato #${f.idFinanciamiento} · Venta #${f.idVenta}', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                      SizedBox(height: 16),
+                      Divider(height: 1, color: AppColors.border),
+                      SizedBox(height: 16),
                       Row(
                         children: [
                           Expanded(
@@ -135,7 +135,7 @@ class ClientFinanciamientosScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       Row(
                         children: [
                           Expanded(
@@ -185,8 +185,8 @@ class _InfoCell extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-        const SizedBox(height: 4),
+        Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+        SizedBox(height: 4),
         Text(
           value,
           style: TextStyle(

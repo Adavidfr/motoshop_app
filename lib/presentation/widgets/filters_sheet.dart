@@ -37,7 +37,7 @@ Future<ProductFilters?> showFiltersSheet({
     context:          context,
     isScrollControlled: true,
     backgroundColor:  AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
     builder: (_) => _FiltersSheet(
@@ -110,17 +110,17 @@ class _FiltersSheetState extends State<_FiltersSheet> {
           ),
 
           Text('Filtros', style: tt.titleLarge?.copyWith(color: AppColors.textPrimary)),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // ── Categoría ─────────────────────────────────────
           Text('Categoría', style: tt.titleSmall?.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Wrap(
             spacing:  8,
             runSpacing: 8,
             children: [
               ChoiceChip(
-                label:     const Text('Todas'),
+                label:     Text('Todas'),
                 selected:  _categoryId == null,
                 onSelected: (_) => setState(() => _categoryId = null),
               ),
@@ -132,39 +132,39 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                 ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
 
           // ── Rango de precio ───────────────────────────────
           Text('Rango de precio', style: tt.titleSmall?.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Row(
             children: [
               Expanded(
                 child: TextField(
                   controller:  _minCtrl,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  style:        const TextStyle(color: AppColors.textPrimary),
+                  style:        TextStyle(color: AppColors.textPrimary),
                   decoration:   _inputDeco('Mín. \$'),
                   onChanged:    (v) => _minPrice = double.tryParse(v),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: TextField(
                   controller:  _maxCtrl,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  style:        const TextStyle(color: AppColors.textPrimary),
+                  style:        TextStyle(color: AppColors.textPrimary),
                   decoration:   _inputDeco('Máx. \$'),
                   onChanged:    (v) => _maxPrice = double.tryParse(v),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
 
           // ── Ordenamiento ──────────────────────────────────
           Text('Ordenar por', style: tt.titleSmall?.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Wrap(
             spacing:  8,
             runSpacing: 8,
@@ -177,7 +177,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                 ),
             ],
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
 
           // ── Botones ───────────────────────────────────────
           Row(
@@ -196,15 +196,15 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: AppColors.border),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('Limpiar'),
+                  child: Text('Limpiar'),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: FilledButton(
                   onPressed: () => Navigator.of(context).pop(
@@ -222,7 +222,7 @@ class _FiltersSheetState extends State<_FiltersSheet> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('Aplicar'),
+                  child: Text('Aplicar'),
                 ),
               ),
             ],
@@ -234,21 +234,21 @@ class _FiltersSheetState extends State<_FiltersSheet> {
 
   InputDecoration _inputDeco(String label) => InputDecoration(
     hintText:    label,
-    hintStyle:   const TextStyle(color: AppColors.textSecondary),
+    hintStyle:   TextStyle(color: AppColors.textSecondary),
     filled:      true,
     fillColor:   AppColors.surface2,
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide:   const BorderSide(color: AppColors.border),
+      borderSide:   BorderSide(color: AppColors.border),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide:   const BorderSide(color: AppColors.border),
+      borderSide:   BorderSide(color: AppColors.border),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide:   const BorderSide(color: AppColors.accent, width: 2),
+      borderSide:   BorderSide(color: AppColors.accent, width: 2),
     ),
   );
 }

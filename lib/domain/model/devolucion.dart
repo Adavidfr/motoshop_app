@@ -37,13 +37,13 @@ class Devolucion {
   });
 
   factory Devolucion.fromJson(Map<String, dynamic> j) => Devolucion(
-        idDevolucion: j['id_devolucion'] as int,
-        idVenta: j['id_venta'] as int,
+        idDevolucion: j['id_devolucion'] as int? ?? 0,
+        idVenta: j['id_venta'] as int? ?? 0,
         motivo: j['motivo']?.toString() ?? '',
         estado: EstadoDevolucion.fromValue(
           j['estado']?.toString() ?? 'Pendiente',
         ),
-        montoDevolucion: double.parse(j['monto_devolucion'].toString()),
+        montoDevolucion: double.tryParse(j['monto_devolucion']?.toString() ?? '') ?? 0.0,
         fechaSolicitud: j['fecha_solicitud'] != null
             ? DateTime.tryParse(j['fecha_solicitud'].toString())
             : null,
@@ -94,7 +94,7 @@ class PaginatedDevoluciones {
 
   factory PaginatedDevoluciones.fromJson(Map<String, dynamic> j) =>
       PaginatedDevoluciones(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)

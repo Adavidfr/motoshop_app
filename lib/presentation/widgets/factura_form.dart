@@ -111,7 +111,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
       lastDate: DateTime(2100),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.dark(
+          colorScheme: ColorScheme.dark(
             primary: AppColors.accent,
             surface: AppColors.surface2,
           ),
@@ -148,7 +148,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
         formState is FacturaFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -170,7 +170,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   Expanded(
                     child: Text(
                       _isEditing ? 'Editar Factura' : 'Nueva Factura',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -179,21 +179,21 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close,
+                    icon: Icon(Icons.close,
                         color: AppColors.textSecondary),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               if (formError != null) ...[
                 _ErrorBanner(message: formError),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
               _buildLabel('ID Venta *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _idVentaCtrl,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: _inputDec('Ej: 1'),
@@ -204,18 +204,18 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                       : null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildLabel('Número de factura *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _numeroFacturaCtrl,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
                 maxLength: 50,
                 decoration: _inputDec('Ej: FAC-2024-001'),
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? 'Campo requerido' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -223,11 +223,11 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildLabel('Subtotal *'),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         TextFormField(
                           controller: _subtotalCtrl,
                           style:
-                              const TextStyle(color: AppColors.textPrimary),
+                              TextStyle(color: AppColors.textPrimary),
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           decoration: _inputDec('0.00'),
@@ -242,17 +242,17 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildLabel('IVA *'),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         TextFormField(
                           controller: _ivaCtrl,
                           style:
-                              const TextStyle(color: AppColors.textPrimary),
+                              TextStyle(color: AppColors.textPrimary),
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           decoration: _inputDec('0.00'),
@@ -269,12 +269,12 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildLabel('Total *'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               TextFormField(
                 controller: _totalCtrl,
-                style: const TextStyle(
+                style: TextStyle(
                     color: AppColors.accent, fontWeight: FontWeight.bold),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
@@ -284,16 +284,16 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                   return val == null || val < 0 ? 'Valor inválido' : null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildLabel('Fecha de emisión (opcional)'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               _DateSelector(
                 fecha: _fechaEmision,
                 onTap: _seleccionarFecha,
                 onClear: () => setState(() => _fechaEmision = null),
                 label: _formatFecha(_fechaEmision),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -306,7 +306,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(
@@ -316,7 +316,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
                         )
                       : Text(
                           _isEditing ? 'Actualizar factura' : 'Crear factura',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -332,7 +332,7 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
 
   Widget _buildLabel(String text) => Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.textSecondary,
           fontSize: 13,
           fontWeight: FontWeight.w500,
@@ -341,33 +341,33 @@ class _FacturaFormState extends ConsumerState<_FacturaForm> {
 
   InputDecoration _inputDec(String? hint) => InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: AppColors.textFaint),
+        hintStyle: TextStyle(color: AppColors.textFaint),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
-        errorStyle: const TextStyle(color: AppColors.error),
-        counterStyle: const TextStyle(color: AppColors.textFaint),
+        errorStyle: TextStyle(color: AppColors.error),
+        counterStyle: TextStyle(color: AppColors.textFaint),
       );
 }
 
@@ -388,7 +388,7 @@ class _ErrorBanner extends StatelessWidget {
             Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Text(message,
-          style: const TextStyle(color: AppColors.error, fontSize: 13)),
+          style: TextStyle(color: AppColors.error, fontSize: 13)),
     );
   }
 }
@@ -421,9 +421,9 @@ class _DateSelector extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today_outlined,
+            Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 18),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               label,
               style: TextStyle(
@@ -437,7 +437,7 @@ class _DateSelector extends StatelessWidget {
             if (fecha != null)
               GestureDetector(
                 onTap: onClear,
-                child: const Icon(Icons.close,
+                child: Icon(Icons.close,
                     color: AppColors.textSecondary, size: 18),
               ),
           ],

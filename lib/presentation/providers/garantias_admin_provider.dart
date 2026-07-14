@@ -109,9 +109,7 @@ class GarantiasAdminNotifier extends StateNotifier<GarantiasAdminState> {
   final GarantiaRemoteDatasource _datasource;
 
   GarantiasAdminNotifier(this._datasource)
-      : super(const GarantiasAdminState()) {
-    load();
-  }
+      : super(const GarantiasAdminState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);

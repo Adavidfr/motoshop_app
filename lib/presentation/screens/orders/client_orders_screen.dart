@@ -19,29 +19,29 @@ class ClientOrdersScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Mis Pedidos'),
+        title: Text('Mis Pedidos'),
         actions: [
           IconButton(
             onPressed: () => ref.read(ordersClientProvider.notifier).load(),
-            icon: const Icon(Icons.refresh),
+            icon: Icon(Icons.refresh),
           ),
         ],
       ),
       body: Builder(
         builder: (_) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.accent));
+            return Center(child: CircularProgressIndicator(color: AppColors.accent));
           }
           if (state.error != null) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(state.error!, style: const TextStyle(color: AppColors.error)),
-                  const SizedBox(height: 12),
+                  Text(state.error!, style: TextStyle(color: AppColors.error)),
+                  SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () => ref.read(ordersClientProvider.notifier).load(),
-                    child: const Text('Reintentar'),
+                    child: Text('Reintentar'),
                   ),
                 ],
               ),
@@ -52,14 +52,14 @@ class ClientOrdersScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('🛍️', style: TextStyle(fontSize: 64)),
-                  const SizedBox(height: 16),
+                  Text('🛍️', style: TextStyle(fontSize: 64)),
+                  SizedBox(height: 16),
                   Text('No tienes ningún pedido todavía', style: tt.titleMedium?.copyWith(color: AppColors.textSecondary)),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
                   FilledButton(
                     onPressed: () => context.go('/catalog'),
                     style: FilledButton.styleFrom(backgroundColor: AppColors.accent, foregroundColor: AppColors.onAccent),
-                    child: const Text('Explorar catálogo'),
+                    child: Text('Explorar catálogo'),
                   ),
                 ],
               ),
@@ -72,7 +72,7 @@ class ClientOrdersScreen extends ConsumerWidget {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: state.orders.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, __) => SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final order = state.orders[index];
                 final dateStr = formatDate(order.createdAt.toIso8601String());
@@ -94,14 +94,14 @@ class ClientOrdersScreen extends ConsumerWidget {
                           children: [
                             Text(
                               'Pedido #${order.id}',
-                              style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             StatusBadge(status: order.status),
                           ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(dateStr, style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 4),
+                        Text(dateStr, style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                        SizedBox(height: 12),
                         Wrap(
                           spacing: 8,
                           runSpacing: 4,
@@ -113,27 +113,27 @@ class ClientOrdersScreen extends ConsumerWidget {
                             ),
                             child: Text(
                               '${item.quantity}x ${item.productName}',
-                              style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                              style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                             ),
                           )).toList(),
                         ),
                         if (order.items.length > 2) ...[
-                          const SizedBox(height: 4),
-                          Text('+${order.items.length - 2} productos más', style: const TextStyle(color: AppColors.textFaint, fontSize: 11)),
+                          SizedBox(height: 4),
+                          Text('+${order.items.length - 2} productos más', style: TextStyle(color: AppColors.textFaint, fontSize: 11)),
                         ],
-                        const SizedBox(height: 12),
-                        const Divider(height: 1, color: AppColors.border),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12),
+                        Divider(height: 1, color: AppColors.border),
+                        SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               '${order.numItems} producto${order.numItems != 1 ? "s" : ""}',
-                              style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                              style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
                             ),
                             Text(
                               formatPrice(order.total),
-                              style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ],
                         ),

@@ -74,7 +74,7 @@ class _ServiciosAdminScreenState
                       crossAxisAlignment:
                           CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Servicios',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -85,7 +85,7 @@ class _ServiciosAdminScreenState
                         Text(
                           '${state.total} servicio${state.total == 1 ? '' : 's'} '
                           'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -100,11 +100,11 @@ class _ServiciosAdminScreenState
                         ref,
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
-                    label: const Text('Nuevo'),
+                    label: Text('Nuevo'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 40),
                       padding: const EdgeInsets.symmetric(
@@ -115,7 +115,7 @@ class _ServiciosAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -128,7 +128,7 @@ class _ServiciosAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por nombre o descripción...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -139,7 +139,7 @@ class _ServiciosAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -148,7 +148,7 @@ class _ServiciosAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                       ),
                       onChanged: (_) {
@@ -157,12 +157,12 @@ class _ServiciosAdminScreenState
                     ),
                   ),
 
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
 
                   IconButton.filled(
                     onPressed:
                         state.isLoading ? null : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -170,7 +170,7 @@ class _ServiciosAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Column(
                 children: [
@@ -184,7 +184,7 @@ class _ServiciosAdminScreenState
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
                   Row(
                     children: [
@@ -199,7 +199,7 @@ class _ServiciosAdminScreenState
                       if (state.search.isNotEmpty ||
                           state.filtroEstado != null ||
                           state.ordering != 'nombre') ...[
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         IconButton(
                           onPressed: state.isLoading
                               ? null
@@ -212,7 +212,7 @@ class _ServiciosAdminScreenState
                                     setState(() {});
                                   }
                                 },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.filter_alt_off_outlined,
                           ),
                           tooltip: 'Limpiar filtros',
@@ -232,7 +232,7 @@ class _ServiciosAdminScreenState
             builder: (_) {
               if (state.isLoading &&
                   state.servicios.isEmpty) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
@@ -267,10 +267,10 @@ class _ServiciosAdminScreenState
                   separatorBuilder: (_, index) {
                     if (index ==
                         state.servicios.length - 1) {
-                      return const SizedBox(height: 16);
+                      return SizedBox(height: 16);
                     }
 
-                    return const SizedBox(height: 10);
+                    return SizedBox(height: 10);
                   },
                   itemBuilder: (_, index) {
                     if (index ==
@@ -340,7 +340,7 @@ class _ServiciosAdminScreenState
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text(
+          title: Text(
             '¿Eliminar servicio?',
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -350,7 +350,7 @@ class _ServiciosAdminScreenState
             '"${servicio.nombre}" se eliminará permanentemente.\n\n'
             'Si está asociado a mantenimientos, el servidor podría impedir '
             'su eliminación. En ese caso puedes desactivarlo.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -359,7 +359,7 @@ class _ServiciosAdminScreenState
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
@@ -390,7 +390,7 @@ class _ServiciosAdminScreenState
                   );
                 }
               },
-              child: const Text(
+              child: Text(
                 'Eliminar',
                 style: TextStyle(
                   color: AppColors.error,
@@ -473,7 +473,7 @@ class _EstadoFilter extends StatelessWidget {
           ),
         ),
         textStyle: WidgetStateProperty.all(
-          const TextStyle(
+          TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
@@ -506,7 +506,7 @@ class _EstadoFilter extends StatelessWidget {
           },
         ),
         side: WidgetStateProperty.all(
-          const BorderSide(
+          BorderSide(
             color: AppColors.border,
           ),
         ),
@@ -576,7 +576,7 @@ class _OrderingMenu extends StatelessWidget {
             color: AppColors.border,
           ),
         ),
-        child: const Row(
+        child: Row(
           children: [
             Icon(
               Icons.sort,
@@ -651,7 +651,7 @@ class _ServicioCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 4),
+            SizedBox(width: 4),
 
             Expanded(
               child: Column(
@@ -666,7 +666,7 @@ class _ServicioCard extends StatelessWidget {
                           maxLines: 1,
                           overflow:
                               TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:
                                 AppColors.textPrimary,
                             fontWeight:
@@ -675,14 +675,14 @@ class _ServicioCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       _EstadoBadge(
                         activo: servicio.estado,
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   _InfoRow(
                     icon: Icons.attach_money,
@@ -710,13 +710,13 @@ class _ServicioCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
 
             Column(
               children: [
                 IconButton(
                   onPressed: onEdit,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.edit_outlined,
                     size: 20,
                   ),
@@ -731,7 +731,7 @@ class _ServicioCard extends StatelessWidget {
                 if (canDelete)
                   IconButton(
                     onPressed: onDelete,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete_outline,
                       size: 20,
                     ),
@@ -789,7 +789,7 @@ class _InfoRow extends StatelessWidget {
             size: 15,
             color: color,
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: 6),
           Expanded(
             child: Text(
               text,
@@ -885,13 +885,13 @@ class _PaginationControls extends StatelessWidget {
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,
             ),
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           Row(
             children: [
@@ -901,22 +901,22 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasPrevious
                           ? null
                           : onPrevious,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_left,
                   ),
-                  label: const Text('Anterior'),
+                  label: Text('Anterior'),
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               DropdownButton<int>(
                 value: pageSize,
                 dropdownColor: AppColors.surface2,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
-                underline: const SizedBox.shrink(),
+                underline: SizedBox.shrink(),
                 items: const [
                   DropdownMenuItem(
                     value: 10,
@@ -940,7 +940,7 @@ class _PaginationControls extends StatelessWidget {
                       },
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               Expanded(
                 child: ElevatedButton.icon(
@@ -948,10 +948,10 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasNext
                           ? null
                           : onNext,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_right,
                   ),
-                  label: const Text('Siguiente'),
+                  label: Text('Siguiente'),
                 ),
               ),
             ],
@@ -980,23 +980,23 @@ class _ErrorView extends StatelessWidget {
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             ElevatedButton(
               onPressed: onRetry,
-              child: const Text('Reintentar'),
+              child: Text('Reintentar'),
             ),
           ],
         ),
@@ -1019,28 +1019,28 @@ class _EmptyView extends StatelessWidget {
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.build_circle_outlined,
             color: AppColors.textFaint,
             size: 55,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             hasFilters
                 ? 'No se encontraron servicios'
                 : 'No existen servicios registrados',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             hasFilters
                 ? 'Prueba con otros términos o filtros.'
                 : 'Registra el primer servicio para comenzar.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),

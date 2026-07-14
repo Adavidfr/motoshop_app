@@ -22,6 +22,14 @@ class _DevolucionesAdminScreenState
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(devolucionesAdminProvider.notifier).load();
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -45,16 +53,16 @@ class _DevolucionesAdminScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar devolución',
+        title: Text('Eliminar devolución',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar la devolución (ID: ${dev.idDevolucion})?',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -63,7 +71,7 @@ class _DevolucionesAdminScreenState
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -81,7 +89,7 @@ class _DevolucionesAdminScreenState
     final nuevoEstado = await showModalBottomSheet<String>(
       context: context,
       backgroundColor: AppColors.surface2,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) => Padding(
@@ -89,7 +97,7 @@ class _DevolucionesAdminScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 'Cambiar estado',
@@ -100,7 +108,7 @@ class _DevolucionesAdminScreenState
                 ),
               ),
             ),
-            const Divider(color: AppColors.border),
+            Divider(color: AppColors.border),
             ...EstadoDevolucion.values.map(
               (e) => ListTile(
                 leading: Icon(
@@ -119,7 +127,7 @@ class _DevolucionesAdminScreenState
                   ),
                 ),
                 trailing: e.value == dev.estado.value
-                    ? const Icon(Icons.check, color: AppColors.accent)
+                    ? Icon(Icons.check, color: AppColors.accent)
                     : null,
                 onTap: () => Navigator.pop(context, e.value),
               ),
@@ -144,198 +152,202 @@ class _DevolucionesAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(devolucionesAdminProvider);
     final notifier = ref.read(devolucionesAdminProvider.notifier);
+    debugPrint('DevolucionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.devoluciones.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Devoluciones',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Devoluciones',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} devolución${state.total == 1 ? '' : 'es'} '
+                            'registrada${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showDevolucionForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} devolución${state.total == 1 ? '' : 'es'} '
-                          'registrada${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Nueva'),
+                      ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por motivo...',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showDevolucionForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        onSubmitted: (_) => _buscar(),
                       ),
-                      icon: const Icon(Icons.add, size: 18),
-                      label: const Text('Nueva'),
                     ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: const TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por motivo...',
-                        hintStyle:
-                            const TextStyle(color: AppColors.textFaint),
-                        prefixIcon: const Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.border),
+                    SizedBox(width: 8),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.accent),
-                        ),
+                        child: Text('Buscar'),
                       ),
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: const Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _FiltroDropdown(
-                      hint: 'Estado',
-                      value: state.filtroEstado,
-                      items:
-                          EstadoDevolucion.values.map((e) => e.value).toList(),
-                      onChanged: (v) => notifier.setFiltroEstado(v),
-                    ),
-                  ),
-                  if (state.filtroEstado != null ||
-                      state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        notifier.limpiarFiltros();
-                        setState(() {});
-                      },
-                      style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
                     ),
                   ],
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // ── Error ─────────────────────────────────────────────────────────────
-        if (state.error != null)
-          _ErrorBanner(message: state.error!, onClose: notifier.clearError),
-
-        // ── Lista ─────────────────────────────────────────────────────────────
-        Expanded(
-          child: state.isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.devoluciones.isEmpty
-                  ? _EmptyState(
-                      tieneFiltos: state.filtroEstado != null ||
-                          state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.devoluciones.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final dev = state.devoluciones[index];
-                          return _DevolucionCard(
-                            devolucion: dev,
-                            isAdmin: isAdmin,
-                            onEdit: () =>
-                                showDevolucionForm(context, devolucion: dev),
-                            onDelete: () =>
-                                _confirmarEliminar(context, dev),
-                            onChangeEstado: () =>
-                                _mostrarCambioEstado(context, dev),
-                          );
-                        },
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _FiltroDropdown(
+                        hint: 'Estado',
+                        value: state.filtroEstado,
+                        items:
+                            EstadoDevolucion.values.map((e) => e.value).toList(),
+                        onChanged: (v) => notifier.setFiltroEstado(v),
                       ),
                     ),
-        ),
-
-        // ── Paginación ────────────────────────────────────────────────────────
-        if (!state.isLoading && state.devoluciones.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    if (state.filtroEstado != null ||
+                        state.search.isNotEmpty) ...[
+                      SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          notifier.limpiarFiltros();
+                          setState(() {});
+                        },
+                        style: TextButton.styleFrom(
+                            foregroundColor: AppColors.accent),
+                        child: Text('Limpiar'),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
           ),
-      ],
+  
+          // ── Error ─────────────────────────────────────────────────────────────
+          if (state.error != null)
+            _ErrorBanner(message: state.error!, onClose: notifier.clearError),
+  
+          // ── Lista ─────────────────────────────────────────────────────────────
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.devoluciones.isEmpty
+                    ? _EmptyState(
+                        tieneFiltos: state.filtroEstado != null ||
+                            state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.devoluciones.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final dev = state.devoluciones[index];
+                            return _DevolucionCard(
+                              devolucion: dev,
+                              isAdmin: isAdmin,
+                              onEdit: () =>
+                                  showDevolucionForm(context, devolucion: dev),
+                              onDelete: () =>
+                                  _confirmarEliminar(context, dev),
+                              onChangeEstado: () =>
+                                  _mostrarCambioEstado(context, dev),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          // ── Paginación ────────────────────────────────────────────────────────
+          if (!state.isLoading && state.devoluciones.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }
@@ -384,14 +396,14 @@ class _DevolucionCard extends StatelessWidget {
                   ),
                   child: Icon(iconoEstado, color: colorEstado, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Devolución #${devolucion.idDevolucion}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -399,7 +411,7 @@ class _DevolucionCard extends StatelessWidget {
                       ),
                       Text(
                         'Venta #${devolucion.idVenta}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -409,7 +421,7 @@ class _DevolucionCard extends StatelessWidget {
                 ),
                 Text(
                   '\$${devolucion.montoDevolucion.toStringAsFixed(2)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -417,9 +429,9 @@ class _DevolucionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            const Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 12),
+            Divider(color: AppColors.border, height: 1),
+            SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -427,13 +439,13 @@ class _DevolucionCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Motivo',
+                      Text('Motivo',
                           style: TextStyle(
                               color: AppColors.textFaint, fontSize: 11)),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         devolucion.motivo,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: AppColors.textPrimary, fontSize: 13),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -441,7 +453,7 @@ class _DevolucionCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -464,7 +476,7 @@ class _DevolucionCard extends StatelessWidget {
             ),
             if (devolucion.fechaSolicitud != null ||
                 devolucion.fechaResolucion != null) ...[
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Row(
                 children: [
                   if (devolucion.fechaSolicitud != null)
@@ -474,7 +486,7 @@ class _DevolucionCard extends StatelessWidget {
                     ),
                   if (devolucion.fechaSolicitud != null &&
                       devolucion.fechaResolucion != null)
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
                   if (devolucion.fechaResolucion != null)
                     _InfoItem(
                       label: 'Resolución',
@@ -484,9 +496,9 @@ class _DevolucionCard extends StatelessWidget {
               ),
             ],
             if (isAdmin) ...[
-              const SizedBox(height: 10),
-              const Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 10),
+              Divider(color: AppColors.border, height: 1),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -496,7 +508,7 @@ class _DevolucionCard extends StatelessWidget {
                     color: AppColors.info,
                     onPressed: onChangeEstado,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Editar',
                     icon: Icons.edit_outlined,
@@ -504,7 +516,7 @@ class _DevolucionCard extends StatelessWidget {
                     onPressed: onEdit,
                   ),
                   if (isAdmin) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     _AccionBtn(
                       label: 'Eliminar',
                       icon: Icons.delete_outline,
@@ -573,10 +585,10 @@ class _InfoItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textFaint, fontSize: 11)),
         Text(value,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600)),
@@ -631,9 +643,9 @@ class _FiltroDropdown extends StatelessWidget {
     return DropdownButtonFormField<String>(
       isExpanded: true,
       value: value,
-      hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
+      hint: Text(hint, style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
-      style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.surface2,
@@ -641,15 +653,15 @@ class _FiltroDropdown extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
       ),
       items: items
@@ -682,16 +694,16 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style:
-                    const TextStyle(color: AppColors.error, fontSize: 13)),
+                    TextStyle(color: AppColors.error, fontSize: 13)),
           ),
           IconButton(
             icon:
-                const Icon(Icons.close, color: AppColors.error, size: 16),
+                Icon(Icons.close, color: AppColors.error, size: 16),
             onPressed: onClose,
           ),
         ],
@@ -717,12 +729,12 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
                 : 'No hay devoluciones registradas',
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textSecondary, fontSize: 16),
           ),
         ],
@@ -761,12 +773,12 @@ class _Paginacion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('$desde–$hasta de $total',
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textSecondary, fontSize: 12)),
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left,
+                icon: Icon(Icons.chevron_left,
                     color: AppColors.textSecondary),
                 onPressed: hasPrev ? onPrev : null,
                 padding: EdgeInsets.zero,
@@ -781,13 +793,13 @@ class _Paginacion extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('Pág. $page',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600)),
               ),
               IconButton(
-                icon: const Icon(Icons.chevron_right,
+                icon: Icon(Icons.chevron_right,
                     color: AppColors.textSecondary),
                 onPressed: hasNext ? onNext : null,
                 padding: EdgeInsets.zero,

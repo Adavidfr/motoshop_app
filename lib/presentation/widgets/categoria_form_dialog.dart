@@ -77,7 +77,7 @@ class _CategoriaFormDialogState extends ConsumerState<CategoriaFormDialog> {
                 validator: (val) =>
                     val == null || val.trim().isEmpty ? 'El nombre es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _descController,
                 decoration: const InputDecoration(
@@ -86,10 +86,10 @@ class _CategoriaFormDialogState extends ConsumerState<CategoriaFormDialog> {
                 ),
                 maxLines: 3,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               if (widget.categoria != null)
                 SwitchListTile(
-                  title: const Text('Estado Activo'),
+                  title: Text('Estado Activo'),
                   value: _estado,
                   activeColor: AppColors.accent,
                   onChanged: (val) => setState(() => _estado = val),
@@ -101,7 +101,7 @@ class _CategoriaFormDialogState extends ConsumerState<CategoriaFormDialog> {
       actions: [
         TextButton(
           onPressed: isSaving ? null : () => Navigator.of(context).pop(),
-          child: const Text('Cancelar'),
+          child: Text('Cancelar'),
         ),
         ElevatedButton(
           onPressed: isSaving
@@ -119,12 +119,12 @@ class _CategoriaFormDialogState extends ConsumerState<CategoriaFormDialog> {
                   }
                 },
           child: isSaving
-              ? const SizedBox(
+              ? SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('Guardar'),
+              : Text('Guardar'),
         ),
       ],
     );

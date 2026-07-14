@@ -17,7 +17,7 @@ Future<void> showServicioForm(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),
       ),
@@ -269,7 +269,7 @@ class _ServicioFormSheetState
               isEdit
                   ? 'Editar servicio'
                   : 'Nuevo servicio',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -277,17 +277,17 @@ class _ServicioFormSheetState
             ),
 
             if (isEdit) ...[
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 widget.initial!.nombre,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                 ),
               ),
             ],
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (formState is ServicioFormError) ...[
               Container(
@@ -307,16 +307,16 @@ class _ServicioFormSheetState
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.error,
                           fontSize: 13,
                         ),
@@ -325,7 +325,7 @@ class _ServicioFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -339,7 +339,7 @@ class _ServicioFormSheetState
                         TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Nombre *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.build_circle_outlined,
                       ),
                       errorText: _errorBackend(
@@ -347,13 +347,13 @@ class _ServicioFormSheetState
                         'nombre',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarNombre,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _descripcionController,
@@ -364,7 +364,7 @@ class _ServicioFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Descripción',
                       alignLabelWithHint: true,
-                      prefixIcon: const Padding(
+                      prefixIcon: Padding(
                         padding: EdgeInsets.only(
                           bottom: 45,
                         ),
@@ -377,12 +377,12 @@ class _ServicioFormSheetState
                         'descripcion',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _precioController,
@@ -399,7 +399,7 @@ class _ServicioFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Precio base *',
                       prefixText: '\$ ',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.attach_money,
                       ),
                       errorText: _errorBackend(
@@ -407,13 +407,13 @@ class _ServicioFormSheetState
                         'precio_base',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarPrecio,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller: _tiempoController,
@@ -425,7 +425,7 @@ class _ServicioFormSheetState
                     decoration: InputDecoration(
                       labelText:
                           'Tiempo estimado en minutos *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.schedule_outlined,
                       ),
                       suffixText: 'min',
@@ -434,13 +434,13 @@ class _ServicioFormSheetState
                         'tiempo_estimado_minutos',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarTiempo,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -462,7 +462,7 @@ class _ServicioFormSheetState
                             crossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Servicio activo',
                                 style: TextStyle(
                                   color:
@@ -471,12 +471,12 @@ class _ServicioFormSheetState
                                       FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              SizedBox(height: 2),
                               Text(
                                 _estado
                                     ? 'Disponible para nuevos mantenimientos'
                                     : 'No estará disponible para nuevas órdenes',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color:
                                       AppColors.textSecondary,
                                   fontSize: 12,
@@ -514,7 +514,7 @@ class _ServicioFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -524,16 +524,16 @@ class _ServicioFormSheetState
                               ? null
                               : () =>
                                   Navigator.pop(context),
-                          child: const Text('Cancelar'),
+                          child: Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed:
                               isSaving ? null : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

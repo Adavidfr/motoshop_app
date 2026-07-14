@@ -102,9 +102,7 @@ class FacturasAdminNotifier extends StateNotifier<FacturasAdminState> {
   final FacturaRemoteDatasource _datasource;
 
   FacturasAdminNotifier(this._datasource)
-      : super(const FacturasAdminState()) {
-    load();
-  }
+      : super(const FacturasAdminState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);

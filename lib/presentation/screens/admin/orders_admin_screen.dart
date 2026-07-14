@@ -68,16 +68,16 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                       children: [
                         Text('Pedidos', style: tt.headlineMedium),
                         Text('${state.total} pedidos',
-                            style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                            style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                       ],
                     ),
                     IconButton(
                       onPressed: ref.read(ordersAdminProvider.notifier).refresh,
-                      icon:      const Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
+                      icon:      Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 SizedBox(
                   height: 34,
                   child:  ListView(
@@ -93,7 +93,7 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                     )).toList(),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
               ],
             ),
           ),
@@ -102,7 +102,7 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
           Expanded(
             child: Builder(builder: (_) {
               if (state.isLoading && state.orders.isEmpty) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(color: AppColors.accent),
                 );
               }
@@ -111,18 +111,18 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(state.error!, style: const TextStyle(color: AppColors.error)),
-                      const SizedBox(height: 12),
+                      Text(state.error!, style: TextStyle(color: AppColors.error)),
+                      SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: ref.read(ordersAdminProvider.notifier).refresh,
-                        child:     const Text('Reintentar'),
+                        child:     Text('Reintentar'),
                       ),
                     ],
                   ),
                 );
               }
               if (state.orders.isEmpty) {
-                return const Center(
+                return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -141,10 +141,10 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                 controller:      _scrollCtrl,
                 padding:         const EdgeInsets.all(16),
                 itemCount:       state.orders.length + (state.isLoadingMore ? 1 : 0),
-                separatorBuilder:(_, __) => const SizedBox(height: 10),
+                separatorBuilder:(_, __) => SizedBox(height: 10),
                 itemBuilder: (_, i) {
                   if (i >= state.orders.length) {
-                    return const Center(
+                    return Center(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child:   CircularProgressIndicator(
@@ -209,20 +209,20 @@ class _OrderAdminCard extends StatelessWidget {
                   children: [
                     Text(
                       'Pedido #${order.id}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 15,
                       ),
                     ),
                     Text(
                       '${order.username} · $dateStr',
-                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                      style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     ),
                   ],
                 ),
                 StatusDropdown(current: order.status, onChange: onStatus),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             // Preview ítems
             Wrap(
@@ -236,18 +236,18 @@ class _OrderAdminCard extends StatelessWidget {
                   ),
                   child: Text(
                     '${item.quantity}× ${item.productName}',
-                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                     maxLines: 1, overflow: TextOverflow.ellipsis,
                   ),
                 )),
                 if (order.items.length > 2)
                   Text('+${order.items.length - 2} más',
-                      style: const TextStyle(color: AppColors.textFaint, fontSize: 11)),
+                      style: TextStyle(color: AppColors.textFaint, fontSize: 11)),
               ],
             ),
-            const SizedBox(height: 10),
-            const Divider(height: 1),
-            const SizedBox(height: 8),
+            SizedBox(height: 10),
+            Divider(height: 1),
+            SizedBox(height: 8),
 
             // Footer
             Row(
@@ -255,18 +255,18 @@ class _OrderAdminCard extends StatelessWidget {
               children: [
                 Text(
                   '${order.numItems} producto${order.numItems != 1 ? "s" : ""}',
-                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                 ),
                 Row(
                   children: [
                     Text(
                       formatPrice(order.total),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 15,
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.chevron_right, color: AppColors.textFaint, size: 18),
+                    SizedBox(width: 4),
+                    Icon(Icons.chevron_right, color: AppColors.textFaint, size: 18),
                   ],
                 ),
               ],

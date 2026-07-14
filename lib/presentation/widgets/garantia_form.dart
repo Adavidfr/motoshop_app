@@ -103,7 +103,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
       lastDate: DateTime(2100),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.dark(
+          colorScheme: ColorScheme.dark(
             primary: AppColors.accent,
             surface: AppColors.surface2,
           ),
@@ -147,7 +147,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
         formState is GarantiaFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -166,7 +166,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   Expanded(
                     child: Text(
                       _isEditing ? 'Editar Garantía' : 'Nueva Garantía',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -175,15 +175,15 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close,
+                    icon: Icon(Icons.close,
                         color: AppColors.textSecondary),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               if (formError != null) ...[
                 _ErrorBanner(message: formError),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
               Row(
                 children: [
@@ -192,7 +192,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                       label: 'ID Venta *',
                       child: TextFormField(
                         controller: _idVentaCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
@@ -207,13 +207,13 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: _FieldGroup(
                       label: 'ID Moto *',
                       child: TextFormField(
                         controller: _idMotoCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
@@ -230,12 +230,12 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Meses de garantía *',
                 child: TextFormField(
                   controller: _mesesCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: _inputDec('Ej: 12'),
@@ -247,13 +247,13 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Estado *',
                 child: DropdownButtonFormField<String>(
                   value: _estado,
                   dropdownColor: AppColors.surface2,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   decoration: _inputDec(null),
                   items: EstadoGarantia.values
                       .map((e) => DropdownMenuItem(
@@ -266,7 +266,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -280,7 +280,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: _FieldGroup(
                       label: 'Fecha fin',
@@ -294,17 +294,17 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Descripción (opcional)',
                 child: TextFormField(
                   controller: _descripcionCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   maxLines: 3,
                   decoration: _inputDec('Descripción de la garantía…'),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -317,7 +317,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(
@@ -329,7 +329,7 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
                           _isEditing
                               ? 'Actualizar garantía'
                               : 'Registrar garantía',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -345,32 +345,32 @@ class _GarantiaFormState extends ConsumerState<_GarantiaForm> {
 
   InputDecoration _inputDec(String? hint) => InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: AppColors.textFaint),
+        hintStyle: TextStyle(color: AppColors.textFaint),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
-        errorStyle: const TextStyle(color: AppColors.error),
+        errorStyle: TextStyle(color: AppColors.error),
       );
 }
 
@@ -390,7 +390,7 @@ class _ErrorBanner extends StatelessWidget {
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Text(message,
-          style: const TextStyle(color: AppColors.error, fontSize: 13)),
+          style: TextStyle(color: AppColors.error, fontSize: 13)),
     );
   }
 }
@@ -407,13 +407,13 @@ class _FieldGroup extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6),
         child,
       ],
     );
@@ -447,9 +447,9 @@ class _DateBtn extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today_outlined,
+            Icon(Icons.calendar_today_outlined,
                 color: AppColors.textSecondary, size: 16),
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
             Expanded(
               child: Text(
                 label,
@@ -464,7 +464,7 @@ class _DateBtn extends StatelessWidget {
             if (hasValue)
               GestureDetector(
                 onTap: onClear,
-                child: const Icon(Icons.close,
+                child: Icon(Icons.close,
                     color: AppColors.textSecondary, size: 14),
               ),
           ],

@@ -43,19 +43,19 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         foregroundColor:  AppColors.textPrimary,
         elevation:        0,
         leading:          IconButton(
-          icon:      const Icon(Icons.arrow_back_ios_new_rounded),
+          icon:      Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () => context.pop(),
         ),
         title: Text(
           widget.tipo == ProductType.moto ? 'Moto' : 'Repuesto',
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: AppColors.textPrimary),
         ),
         actions: [
           Stack(
             alignment: Alignment.topRight,
             children: [
               IconButton(
-                icon:      const Icon(Icons.shopping_cart_outlined),
+                icon:      Icon(Icons.shopping_cart_outlined),
                 color:     AppColors.textPrimary,
                 onPressed: () => context.push('/cart'),
               ),
@@ -65,13 +65,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   top:   6,
                   child: Container(
                     padding:    const EdgeInsets.all(3),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppColors.error,
                       shape: BoxShape.circle,
                     ),
                     child: Text(
                       cartState.totalItems.toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color:      Colors.white,
                         fontSize:   9,
                         fontWeight: FontWeight.bold,
@@ -84,19 +84,19 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         ],
       ),
       body: productAsync.when(
-        loading: () => const Center(
+        loading: () => Center(
           child: CircularProgressIndicator(color: AppColors.accent),
         ),
         error: (err, _) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('❌', style: TextStyle(fontSize: 48)),
-              const SizedBox(height: 12),
+              Text('❌', style: TextStyle(fontSize: 48)),
+              SizedBox(height: 12),
               Text(err.toString(),
-                  style: const TextStyle(color: AppColors.error),
+                  style: TextStyle(color: AppColors.error),
                   textAlign: TextAlign.center),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               FilledButton(
                 onPressed: () => ref.refresh(
                   productDetailProvider(
@@ -106,7 +106,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   backgroundColor: AppColors.accent,
                   foregroundColor: AppColors.onAccent,
                 ),
-                child: const Text('Reintentar'),
+                child: Text('Reintentar'),
               ),
             ],
           ),
@@ -148,12 +148,14 @@ class _ProductBody extends ConsumerWidget {
           AspectRatio(
             aspectRatio: 16 / 9,
             child: product.imageUrl != null
-                ? CachedNetworkImage(
-                    imageUrl:    product.imageUrl!,
+                ? Image.network(
+                    product.imageUrl!,
                     fit:         BoxFit.cover,
-                    placeholder: (_, __) =>
-                        Container(color: AppColors.surface2),
-                    errorWidget: (_, __, ___) => _NoImage(product),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(color: AppColors.surface2);
+                    },
+                    errorBuilder: (context, error, stackTrace) => _NoImage(product),
                   )
                 : _NoImage(product),
           ),
@@ -177,14 +179,14 @@ class _ProductBody extends ConsumerWidget {
                     product.tipo == ProductType.moto
                         ? '🏍️ Moto'
                         : '🔧 Repuesto',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:      AppColors.accent,
                       fontSize:   12,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Nombre
                 Text(
@@ -194,13 +196,13 @@ class _ProductBody extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
 
                 // Categoría
                 if (product.category != null)
                   Text(
                     product.category!.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:   AppColors.accent,
                       fontSize: 13,
                     ),
@@ -208,37 +210,37 @@ class _ProductBody extends ConsumerWidget {
 
                 // Campos extra según tipo
                 if (product.tipo == ProductType.moto) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   _InfoRow('Marca',      product.marca     ?? '—'),
                   _InfoRow('Año',        product.anio?.toString() ?? '—'),
                   _InfoRow('Cilindraje', '${product.cilindraje} cc'),
                   _InfoRow('Color',      product.color     ?? '—'),
                 ] else if (product.sku != null) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   _InfoRow('SKU', product.sku!),
                 ],
 
                 if (product.description != null &&
                     product.description!.isNotEmpty) ...[
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     'Descripción',
                     style: tt.titleSmall?.copyWith(
                         color: AppColors.textSecondary),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     product.description!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:  AppColors.textSecondary,
                       height: 1.5,
                     ),
                   ),
                 ],
 
-                const SizedBox(height: 24),
-                const Divider(color: AppColors.border),
-                const SizedBox(height: 16),
+                SizedBox(height: 24),
+                Divider(color: AppColors.border),
+                SizedBox(height: 16),
 
                 // ── Precio ──────────────────────────────────
                 Row(
@@ -251,12 +253,12 @@ class _ProductBody extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
                         '${formatPrice(product.priceWithTax)} c/IVA',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color:   AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -264,7 +266,7 @@ class _ProductBody extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
 
                 // Stock
                 Row(
@@ -278,7 +280,7 @@ class _ProductBody extends ConsumerWidget {
                           : AppColors.error,
                       size: 16,
                     ),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       product.inStock
                           ? '${product.stock} en stock'
@@ -292,7 +294,7 @@ class _ProductBody extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 // ── Selector de cantidad ──────────────────────
                 if (product.inStock) ...[
@@ -301,7 +303,7 @@ class _ProductBody extends ConsumerWidget {
                     style: tt.titleSmall
                         ?.copyWith(color: AppColors.textSecondary),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Row(
                     children: [
                       _QtyButton(
@@ -323,7 +325,7 @@ class _ProductBody extends ConsumerWidget {
                         ),
                         child: Text(
                           quantity.toString(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      AppColors.textPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize:   16,
@@ -338,7 +340,7 @@ class _ProductBody extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
                 ],
 
                 // ── Botón Agregar al carrito ──────────────────
@@ -372,7 +374,7 @@ class _ProductBody extends ConsumerWidget {
                           }
                         : null,
                     icon: cartState.isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width:  16,
                             height: 16,
                             child:  CircularProgressIndicator(
@@ -380,7 +382,7 @@ class _ProductBody extends ConsumerWidget {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Icon(Icons.shopping_cart_outlined),
+                        : Icon(Icons.shopping_cart_outlined),
                     label: Text(
                       product.inStock
                           ? 'Agregar al carrito'
@@ -402,16 +404,16 @@ class _ProductBody extends ConsumerWidget {
                 ),
 
                 if (cartState.error != null) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Text(
                     cartState.error!,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.error, fontSize: 13),
                     textAlign: TextAlign.center,
                   ),
                 ],
 
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
               ],
             ),
           ),
@@ -435,7 +437,7 @@ class _InfoRow extends StatelessWidget {
           width: 90,
           child: Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color:   AppColors.textSecondary,
               fontSize: 13,
             ),
@@ -443,7 +445,7 @@ class _InfoRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             color:      AppColors.textPrimary,
             fontSize:   13,
             fontWeight: FontWeight.w500,
@@ -464,7 +466,7 @@ class _QtyButton extends StatelessWidget {
     color:  AppColors.surface2,
     shape:  RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(0),
-      side:         const BorderSide(color: AppColors.border),
+      side:         BorderSide(color: AppColors.border),
     ),
     child: InkWell(
       onTap: onPressed,
@@ -493,7 +495,7 @@ class _NoImage extends StatelessWidget {
     alignment: Alignment.center,
     child: Text(
       product.tipo == ProductType.moto ? '🏍️' : '🔧',
-      style: const TextStyle(fontSize: 64),
+      style: TextStyle(fontSize: 64),
     ),
   );
 }

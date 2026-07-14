@@ -35,19 +35,19 @@ class UsersAdminScreen extends ConsumerWidget {
                     children: [
                       Text('Usuarios', style: tt.headlineMedium),
                       Text('${state.total} usuarios',
-                          style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                          style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     ],
                   ),
                   Row(
                     children: [
                       IconButton(
                         onPressed: () => ref.read(usersAdminProvider.notifier).load(),
-                        icon: const Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
+                        icon: Icon(Icons.refresh_rounded, color: AppColors.textSecondary),
                       ),
                       ElevatedButton.icon(
                         onPressed: () => showUserForm(context, ref),
-                        icon:      const Icon(Icons.person_add_outlined, size: 18),
-                        label:     const Text('Nuevo'),
+                        icon:      Icon(Icons.person_add_outlined, size: 18),
+                        label:     Text('Nuevo'),
                         style:     ElevatedButton.styleFrom(
                           minimumSize: const Size(0, 40),
                           padding:     const EdgeInsets.symmetric(horizontal: 16),
@@ -57,19 +57,19 @@ class UsersAdminScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               // Búsqueda
               TextField(
                 onChanged:  ref.read(usersAdminProvider.notifier).setSearch,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText:   'Buscar usuario o email...',
                   prefixIcon: Icon(Icons.search_rounded, color: AppColors.textSecondary),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
                 ),
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               // Chips de filtro de rol
               SizedBox(
@@ -87,7 +87,7 @@ class UsersAdminScreen extends ConsumerWidget {
                   )).toList(),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
             ],
           ),
         ),
@@ -96,7 +96,7 @@ class UsersAdminScreen extends ConsumerWidget {
         Expanded(
           child: Builder(builder: (_) {
             if (state.isLoading) {
-              return const Center(
+              return Center(
                 child: CircularProgressIndicator(color: AppColors.accent),
               );
             }
@@ -105,18 +105,18 @@ class UsersAdminScreen extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(state.error!, style: const TextStyle(color: AppColors.error)),
-                    const SizedBox(height: 12),
+                    Text(state.error!, style: TextStyle(color: AppColors.error)),
+                    SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: () => ref.read(usersAdminProvider.notifier).load(),
-                      child: const Text('Reintentar'),
+                      child: Text('Reintentar'),
                     ),
                   ],
                 ),
               );
             }
             if (filtered.isEmpty) {
-              return const Center(
+              return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -134,7 +134,7 @@ class UsersAdminScreen extends ConsumerWidget {
             return ListView.separated(
               padding:         const EdgeInsets.all(16),
               itemCount:       filtered.length,
-              separatorBuilder:(_, __) => const SizedBox(height: 10),
+              separatorBuilder:(_, __) => SizedBox(height: 10),
               itemBuilder: (_, i) => _UserCard(
                 user:          filtered[i],
                 canDelete:     isAdmin,
@@ -158,23 +158,23 @@ class UsersAdminScreen extends ConsumerWidget {
       builder: (_) => AlertDialog(
         backgroundColor: AppColors.surface,
         shape:           RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title:           const Text('¿Eliminar usuario?',
+        title:           Text('¿Eliminar usuario?',
             style: TextStyle(color: AppColors.textPrimary)),
         content:         Text(
           '"${user.username}" se eliminará permanentemente.',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child:     const Text('Cancelar'),
+            child:     Text('Cancelar'),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               ref.read(usersAdminProvider.notifier).deleteUser(user.id);
             },
-            child: const Text('Eliminar',
+            child: Text('Eliminar',
                 style: TextStyle(color: AppColors.error, fontWeight: FontWeight.bold)),
           ),
         ],
@@ -233,7 +233,7 @@ class _UserCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
 
           // Info
           Expanded(
@@ -245,13 +245,13 @@ class _UserCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         user.username,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary, fontWeight: FontWeight.w600,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     if (user.isStaff)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
@@ -259,20 +259,20 @@ class _UserCard extends StatelessWidget {
                           color:        AppColors.accent.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text('Staff',
+                        child: Text('Staff',
                             style: TextStyle(
                               color: AppColors.accent, fontSize: 10, fontWeight: FontWeight.bold,
                             )),
                       ),
                     if (!user.isActive) ...[
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                         decoration: BoxDecoration(
                           color:        AppColors.error.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text('Inactivo',
+                        child: Text('Inactivo',
                             style: TextStyle(
                               color: AppColors.error, fontSize: 10, fontWeight: FontWeight.bold,
                             )),
@@ -281,11 +281,11 @@ class _UserCard extends StatelessWidget {
                   ],
                 ),
                 Text(user.email,
-                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     overflow: TextOverflow.ellipsis),
                 Text(
                   '${user.numOrders} pedido${user.numOrders != 1 ? "s" : ""}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -329,7 +329,7 @@ class _UserCard extends StatelessWidget {
                   // Editar
                   GestureDetector(
                     onTap: onEdit,
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(4),
                       child:   Icon(Icons.edit_outlined,
                           color: AppColors.textSecondary, size: 20),
@@ -339,7 +339,7 @@ class _UserCard extends StatelessWidget {
                   if (canDelete)
                     GestureDetector(
                       onTap: onDelete,
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(4),
                         child:   Icon(Icons.person_remove_outlined,
                             color: AppColors.error, size: 20),

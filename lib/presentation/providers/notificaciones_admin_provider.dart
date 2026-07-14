@@ -106,9 +106,7 @@ class NotificacionesAdminNotifier
   final NotificacionRemoteDatasource _datasource;
 
   NotificacionesAdminNotifier(this._datasource)
-      : super(const NotificacionesAdminState()) {
-    load();
-  }
+      : super(const NotificacionesAdminState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);

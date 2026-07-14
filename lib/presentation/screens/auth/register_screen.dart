@@ -64,11 +64,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              SizedBox(height: 60),
               Text('Flutter Shop App', style: tt.displayMedium?.copyWith(color: AppColors.accent)),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text('Crea tu cuenta gratis', style: tt.bodyMedium),
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               Container(
                 padding:    const EdgeInsets.all(24),
@@ -92,10 +92,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           child: Text(
                             error,
-                            style: const TextStyle(color: AppColors.error, fontSize: 13),
+                            style: TextStyle(color: AppColors.error, fontSize: 13),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                       ],
 
                       // Usuario
@@ -107,7 +107,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         validator:  _submitted ? validateUsername : null,
                         onChanged:  (_) => ref.read(authProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14),
 
                       // Email
                       AuthTextField(
@@ -119,7 +119,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         validator:   _submitted ? validateEmail : null,
                         onChanged:   (_) => ref.read(authProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14),
 
                       // Contraseña
                       AuthTextField(
@@ -131,7 +131,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         validator:  _submitted ? validatePassword : null,
                         onChanged:  (_) => ref.read(authProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14),
 
                       // Confirmar contraseña
                       AuthTextField(
@@ -149,7 +149,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             : null,
                         onChanged: (_) => ref.read(authProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24),
 
                       AuthButton(
                         label:     'Crear mi cuenta',
@@ -161,14 +161,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('¿Ya tienes cuenta? ', style: tt.bodyMedium),
                   TextButton(
                     onPressed: () => context.go('/login'),
-                    child: const Text('Inicia sesión'),
+                    child: Text('Inicia sesión'),
                   ),
                 ],
               ),

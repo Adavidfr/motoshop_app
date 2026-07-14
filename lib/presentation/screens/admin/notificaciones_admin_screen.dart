@@ -22,6 +22,14 @@ class _NotificacionesAdminScreenState
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(notificacionesAdminProvider.notifier).load();
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -45,16 +53,16 @@ class _NotificacionesAdminScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar notificación',
+        title: Text('Eliminar notificación',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar la notificación "${notif.titulo}"?',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -63,7 +71,7 @@ class _NotificacionesAdminScreenState
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -82,194 +90,198 @@ class _NotificacionesAdminScreenState
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(notificacionesAdminProvider);
     final notifier = ref.read(notificacionesAdminProvider.notifier);
+    debugPrint('NotificacionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.notificaciones.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Notificaciones',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Notificaciones',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} notificación${state.total == 1 ? '' : 'es'} '
+                            'registrada${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showNotificacionForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} notificación${state.total == 1 ? '' : 'es'} '
-                          'registrada${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Nueva'),
+                      ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por título o mensaje...',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showNotificacionForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        onSubmitted: (_) => _buscar(),
                       ),
-                      icon: const Icon(Icons.add, size: 18),
-                      label: const Text('Nueva'),
                     ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: const TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por título o mensaje...',
-                        hintStyle:
-                            const TextStyle(color: AppColors.textFaint),
-                        prefixIcon: const Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.border),
+                    SizedBox(width: 8),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.accent),
-                        ),
+                        child: Text('Buscar'),
                       ),
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: const Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _FiltroLeidoDropdown(
-                      value: state.filtroLeido,
-                      onChanged: (v) => notifier.setFiltroLeido(v),
-                    ),
-                  ),
-                  if (state.filtroLeido != null ||
-                      state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        notifier.limpiarFiltros();
-                        setState(() {});
-                      },
-                      style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
                     ),
                   ],
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // ── Error ─────────────────────────────────────────────────────────────
-        if (state.error != null)
-          _ErrorBanner(message: state.error!, onClose: notifier.clearError),
-
-        // ── Lista ─────────────────────────────────────────────────────────────
-        Expanded(
-          child: state.isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.notificaciones.isEmpty
-                  ? _EmptyState(
-                      tieneFiltos: state.filtroLeido != null ||
-                          state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.notificaciones.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final notif = state.notificaciones[index];
-                          return _NotificacionCard(
-                            notificacion: notif,
-                            isAdmin: isAdmin,
-                            onEdit: () => showNotificacionForm(context,
-                                notificacion: notif),
-                            onDelete: () => _confirmarEliminar(context, notif),
-                            onToggleLeido: () => notifier.marcarComoLeido(
-                                notif.idNotificacion, !notif.leido),
-                          );
-                        },
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _FiltroLeidoDropdown(
+                        value: state.filtroLeido,
+                        onChanged: (v) => notifier.setFiltroLeido(v),
                       ),
                     ),
-        ),
-
-        // ── Paginación ────────────────────────────────────────────────────────
-        if (!state.isLoading && state.notificaciones.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    if (state.filtroLeido != null ||
+                        state.search.isNotEmpty) ...[
+                      SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          notifier.limpiarFiltros();
+                          setState(() {});
+                        },
+                        style: TextButton.styleFrom(
+                            foregroundColor: AppColors.accent),
+                        child: Text('Limpiar'),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
           ),
-      ],
+  
+          // ── Error ─────────────────────────────────────────────────────────────
+          if (state.error != null)
+            _ErrorBanner(message: state.error!, onClose: notifier.clearError),
+  
+          // ── Lista ─────────────────────────────────────────────────────────────
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.notificaciones.isEmpty
+                    ? _EmptyState(
+                        tieneFiltos: state.filtroLeido != null ||
+                            state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.notificaciones.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final notif = state.notificaciones[index];
+                            return _NotificacionCard(
+                              notificacion: notif,
+                              isAdmin: isAdmin,
+                              onEdit: () => showNotificacionForm(context,
+                                  notificacion: notif),
+                              onDelete: () => _confirmarEliminar(context, notif),
+                              onToggleLeido: () => notifier.marcarComoLeido(
+                                  notif.idNotificacion, !notif.leido),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          // ── Paginación ────────────────────────────────────────────────────────
+          if (!state.isLoading && state.notificaciones.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }
@@ -326,7 +338,7 @@ class _NotificacionCard extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,7 +355,7 @@ class _NotificacionCard extends StatelessWidget {
                       ),
                       Text(
                         'Usuario #${notificacion.idUsuario}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -367,9 +379,9 @@ class _NotificacionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            const Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 12),
+            Divider(color: AppColors.border, height: 1),
+            SizedBox(height: 10),
             Text(
               notificacion.mensaje,
               style: TextStyle(
@@ -380,19 +392,19 @@ class _NotificacionCard extends StatelessWidget {
               ),
             ),
             if (notificacion.fechaCreacion != null) ...[
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text(
                 'Enviada: ${_formatDate(notificacion.fechaCreacion!)}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textFaint,
                   fontSize: 11,
                 ),
               ),
             ],
             if (isAdmin) ...[
-              const SizedBox(height: 10),
-              const Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 10),
+              Divider(color: AppColors.border, height: 1),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -402,7 +414,7 @@ class _NotificacionCard extends StatelessWidget {
                     color: AppColors.accent,
                     onPressed: onEdit,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Eliminar',
                     icon: Icons.delete_outline,
@@ -473,10 +485,10 @@ class _FiltroLeidoDropdown extends StatelessWidget {
     return DropdownButtonFormField<bool>(
       isExpanded: true,
       value: value,
-      hint: const Text('Estado lectura',
+      hint: Text('Estado lectura',
           style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
-      style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.surface2,
@@ -484,15 +496,15 @@ class _FiltroLeidoDropdown extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
       ),
       items: const [
@@ -529,16 +541,16 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style:
-                    const TextStyle(color: AppColors.error, fontSize: 13)),
+                    TextStyle(color: AppColors.error, fontSize: 13)),
           ),
           IconButton(
             icon:
-                const Icon(Icons.close, color: AppColors.error, size: 16),
+                Icon(Icons.close, color: AppColors.error, size: 16),
             onPressed: onClose,
           ),
         ],
@@ -564,12 +576,12 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
                 : 'No hay notificaciones registradas',
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textSecondary, fontSize: 16),
           ),
         ],
@@ -608,12 +620,12 @@ class _Paginacion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('$desde–$hasta de $total',
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textSecondary, fontSize: 12)),
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left,
+                icon: Icon(Icons.chevron_left,
                     color: AppColors.textSecondary),
                 onPressed: hasPrev ? onPrev : null,
                 padding: EdgeInsets.zero,
@@ -628,13 +640,13 @@ class _Paginacion extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('Pág. $page',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600)),
               ),
               IconButton(
-                icon: const Icon(Icons.chevron_right,
+                icon: Icon(Icons.chevron_right,
                     color: AppColors.textSecondary),
                 onPressed: hasNext ? onNext : null,
                 padding: EdgeInsets.zero,

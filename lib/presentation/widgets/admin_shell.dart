@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../providers/auth_provider.dart';
+import '../providers/theme_provider.dart';
 
 class AdminNavItem {
   final String label;
@@ -141,9 +142,22 @@ class AdminShell extends ConsumerWidget {
       appBar: AppBar(
         title: Text(title),
         actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(themeProvider.notifier).toggleTheme();
+            },
+            icon: Icon(
+              ref.watch(themeProvider)
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+              color: AppColors.accent,
+            ),
+            tooltip: 'Cambiar tema',
+          ),
+          SizedBox(width: 8),
           TextButton(
             onPressed: () => context.go('/'),
-            child: const Text(
+            child: Text(
               '← Perfil',
               style: TextStyle(
                 color: AppColors.accent,
@@ -179,7 +193,7 @@ class AdminShell extends ConsumerWidget {
                     Container(
                       width: 48,
                       height: 48,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: AssetImage('assets/images/logo_circular.jpg'),
@@ -187,7 +201,7 @@ class AdminShell extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment:
@@ -196,13 +210,13 @@ class AdminShell extends ConsumerWidget {
                           Text(
                             user?.username ?? 'Administrador',
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
@@ -216,7 +230,7 @@ class AdminShell extends ConsumerWidget {
                                 999,
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Administrador',
                               style: TextStyle(
                                 color: AppColors.accent,
@@ -230,8 +244,8 @@ class AdminShell extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                const Text(
+                SizedBox(height: 12),
+                Text(
                   'Panel de administración',
                   style: TextStyle(
                     color: AppColors.textSecondary,
@@ -241,8 +255,8 @@ class AdminShell extends ConsumerWidget {
               ],
             ),
           ),
-          const Divider(height: 1),
-          const SizedBox(height: 8),
+          Divider(height: 1),
+          SizedBox(height: 8),
           ...adminNavItems.map(
             (item) => NavigationDrawerDestination(
               icon: Icon(item.icon),
@@ -253,13 +267,13 @@ class AdminShell extends ConsumerWidget {
               label: Text(item.label),
             ),
           ),
-          const Divider(),
+          Divider(),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.person_outline,
               color: AppColors.textSecondary,
             ),
-            title: const Text(
+            title: Text(
               'Mi perfil',
               style: TextStyle(
                 color: AppColors.textPrimary,
@@ -271,11 +285,11 @@ class AdminShell extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.logout,
               color: AppColors.error,
             ),
-            title: const Text(
+            title: Text(
               'Cerrar sesión',
               style: TextStyle(
                 color: AppColors.error,

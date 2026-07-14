@@ -283,6 +283,8 @@ class MotosState {
   final int limit;
   final bool hasMore;
   final CatalogFormState formState;
+  final int count;
+  final int currentPage;
 
   const MotosState({
     this.motos = const [],
@@ -295,6 +297,8 @@ class MotosState {
     this.limit = 10,
     this.hasMore = true,
     this.formState = const CatalogFormIdle(),
+    this.count = 0,
+    this.currentPage = 1,
   });
 
   MotosState copyWith({
@@ -308,6 +312,8 @@ class MotosState {
     int? limit,
     bool? hasMore,
     CatalogFormState? formState,
+    int? count,
+    int? currentPage,
   }) =>
       MotosState(
         motos: motos ?? this.motos,
@@ -320,6 +326,8 @@ class MotosState {
         limit: limit ?? this.limit,
         hasMore: hasMore ?? this.hasMore,
         formState: formState ?? this.formState,
+        count: count ?? this.count,
+        currentPage: currentPage ?? this.currentPage,
       );
 }
 
@@ -331,7 +339,7 @@ class MotosNotifier extends StateNotifier<MotosState> {
   }
 
   Future<void> loadFirstPage() async {
-    state = state.copyWith(isLoading: true, offset: 0, error: null, hasMore: true);
+    state = state.copyWith(isLoading: true, offset: 0, error: null, hasMore: true, currentPage: 1);
     try {
       final res = await _datasource.getMotos(
         search: state.search,
@@ -344,6 +352,33 @@ class MotosNotifier extends StateNotifier<MotosState> {
         isLoading: false,
         hasMore: res.next != null,
         offset: state.limit,
+        count: res.count,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString().replaceAll('Exception: ', ''),
+      );
+    }
+  }
+
+  Future<void> loadPage(int page) async {
+    if (page < 1) return;
+    final int newOffset = (page - 1) * state.limit;
+    state = state.copyWith(isLoading: true, offset: newOffset, error: null, currentPage: page);
+    try {
+      final res = await _datasource.getMotos(
+        search: state.search,
+        ordering: state.ordering,
+        limit: state.limit,
+        offset: newOffset,
+      );
+      state = state.copyWith(
+        motos: res.results,
+        isLoading: false,
+        hasMore: res.next != null,
+        offset: newOffset + state.limit,
+        count: res.count,
       );
     } catch (e) {
       state = state.copyWith(
@@ -368,6 +403,7 @@ class MotosNotifier extends StateNotifier<MotosState> {
         isMoreLoading: false,
         hasMore: res.next != null,
         offset: state.offset + state.limit,
+        count: res.count,
       );
     } catch (e) {
       state = state.copyWith(

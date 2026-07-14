@@ -33,22 +33,10 @@ class UserAvatar extends StatelessWidget {
     Widget avatar;
 
     if (avatarUrl != null) {
-      avatar = CachedNetworkImage(
-        imageUrl: avatarUrl!,
-        imageBuilder: (context, imageProvider) => CircleAvatar(
-          radius: radius,
-          backgroundImage: imageProvider,
-        ),
-        placeholder: (context, url) => _InitialsAvatar(
-          username: username,
-          radius: radius,
-          colorScheme: colorScheme,
-        ),
-        errorWidget: (context, url, error) => _InitialsAvatar(
-          username: username,
-          radius: radius,
-          colorScheme: colorScheme,
-        ),
+      avatar = CircleAvatar(
+        radius: radius,
+        backgroundImage: NetworkImage(avatarUrl!),
+        onBackgroundImageError: (exception, stackTrace) {},
       );
     } else {
       avatar = _InitialsAvatar(

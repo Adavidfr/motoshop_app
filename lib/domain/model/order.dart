@@ -40,11 +40,11 @@ class OrderItem {
     final idRepuesto = json['id_repuesto'] as int?;
     final name = idMoto != null ? 'Moto #$idMoto' : 'Repuesto #$idRepuesto';
     return OrderItem(
-      id: json['id_item'] as int,
+      id: json['id_item'] as int? ?? 0,
       productName: name,
-      quantity: json['cantidad'] as int,
-      unitPrice: double.parse(json['precio_unitario'].toString()),
-      subtotal: double.parse(json['subtotal'].toString()),
+      quantity: json['cantidad'] as int? ?? 0,
+      unitPrice: double.tryParse(json['precio_unitario']?.toString() ?? '') ?? 0.0,
+      subtotal: double.tryParse(json['subtotal']?.toString() ?? '') ?? 0.0,
     );
   }
 }
@@ -73,16 +73,17 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) {
     final carritoJson = json['carrito'] as Map<String, dynamic>? ?? {};
     final itemsList = carritoJson['items'] as List<dynamic>? ?? [];
-    final date = DateTime.parse(json['fecha_pedido'] as String);
+    final rawDate = json['fecha_pedido']?.toString();
+    final date = rawDate != null ? (DateTime.tryParse(rawDate) ?? DateTime.now()) : DateTime.now();
 
     return Order(
-      id: json['id_pedido'] as int,
-      status: OrderStatus.fromValue(json['estado'] as String? ?? 'pending'),
+      id: json['id_pedido'] as int? ?? 0,
+      status: OrderStatus.fromValue(json['estado']?.toString() ?? 'pending'),
       createdAt: date,
       updatedAt: date,
-      username: json['username_cliente'] as String? ?? 'Desconocido',
+      username: json['username_cliente']?.toString() ?? 'Desconocido',
       numItems: carritoJson['num_items'] as int? ?? 0,
-      total: double.parse(json['total']?.toString() ?? '0.0'),
+      total: double.tryParse(json['total']?.toString() ?? '') ?? 0.0,
       items: itemsList.map((e) => OrderItem.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }

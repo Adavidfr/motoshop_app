@@ -1,5 +1,7 @@
 // lib/domain/model/user_profile.dart
 
+import '../../core/config/app_config.dart';
+
 class UserProfile {
   final int idPerfil;
   final String username;
@@ -28,7 +30,7 @@ class UserProfile {
         cedula: json['cedula'] as String? ?? '',
         telefono: json['telefono'] as String? ?? '',
         direccion: json['direccion'] as String? ?? '',
-        fotoPerfil: json['foto_perfil'] as String?,
+        fotoPerfil: AppConfig.resolveImageUrl(json['foto_perfil'] as String?),
         fechaNacimiento: json['fecha_nacimiento'] as String?,
       );
 

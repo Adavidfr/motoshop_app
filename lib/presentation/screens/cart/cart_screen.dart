@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/config/app_config.dart';
 import '../../../core/error/api_exception.dart';
 import '../../../theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
@@ -40,7 +41,7 @@ class CartScreen extends ConsumerWidget {
                   await notifier.clearCart();
                 }
               },
-              child: const Text(
+              child: Text(
                 'Vaciar',
                 style: TextStyle(color: AppColors.error),
               ),
@@ -48,7 +49,7 @@ class CartScreen extends ConsumerWidget {
         ],
       ),
       body: cartState.isLoading && cartState.items.isEmpty
-          ? const Center(
+          ? Center(
               child: CircularProgressIndicator(color: AppColors.accent),
             )
           : cartState.items.isEmpty
@@ -64,7 +65,7 @@ class CartScreen extends ConsumerWidget {
                           padding:         const EdgeInsets.all(16),
                           itemCount:       cartState.items.length,
                           separatorBuilder:(_, __) =>
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12),
                           itemBuilder: (_, i) {
                             final item = cartState.items[i];
                             return _CartItemTile(
@@ -105,14 +106,14 @@ class CartScreen extends ConsumerWidget {
     context: context,
     builder: (_) => AlertDialog(
       backgroundColor: AppColors.surface,
-      title: const Text('Vaciar carrito',
+      title: Text('Vaciar carrito',
           style: TextStyle(color: AppColors.textPrimary)),
-      content: const Text('¿Seguro que deseas eliminar todos los ítems?',
+      content: Text('¿Seguro que deseas eliminar todos los ítems?',
           style: TextStyle(color: AppColors.textSecondary)),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Cancelar',
+          child: Text('Cancelar',
               style: TextStyle(color: AppColors.textSecondary)),
         ),
         FilledButton(
@@ -121,7 +122,7 @@ class CartScreen extends ConsumerWidget {
             backgroundColor: AppColors.error,
             foregroundColor: Colors.white,
           ),
-          child: const Text('Vaciar'),
+          child: Text('Vaciar'),
         ),
       ],
     ),
@@ -224,12 +225,15 @@ class _CartItemTile extends StatelessWidget {
               width:  90,
               height: 90,
               child: product.imageUrl != null
-                  ? CachedNetworkImage(
-                      imageUrl:    product.imageUrl!,
+                  ? Image.network(
+                      product.imageUrl!,
                       fit:         BoxFit.cover,
-                      placeholder: (_, __) =>
-                          Container(color: AppColors.surface2),
-                      errorWidget: (_, __, ___) => _TileNoImage(product),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(color: AppColors.surface2);
+                      },
+                      errorBuilder: (context, error, stackTrace) =>
+                          _TileNoImage(product),
                     )
                   : _TileNoImage(product),
             ),
@@ -244,7 +248,7 @@ class _CartItemTile extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:      AppColors.textPrimary,
                       fontWeight: FontWeight.w600,
                       fontSize:   14,
@@ -252,15 +256,15 @@ class _CartItemTile extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     formatPrice(product.price),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color:   AppColors.accent,
                       fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   // Controles de cantidad
                   Row(
@@ -279,7 +283,7 @@ class _CartItemTile extends StatelessWidget {
                         ),
                         child: Text(
                           item.quantity.toString(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      AppColors.textPrimary,
                             fontWeight: FontWeight.bold,
                           ),
@@ -294,7 +298,7 @@ class _CartItemTile extends StatelessWidget {
                       // Subtotal
                       Text(
                         formatPrice(item.subtotal),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color:      AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize:   14,
@@ -311,7 +315,7 @@ class _CartItemTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: IconButton(
-              icon:      const Icon(Icons.delete_outline, size: 20),
+              icon:      Icon(Icons.delete_outline, size: 20),
               color:     AppColors.error,
               onPressed: isLoading ? null : onRemove,
             ),
@@ -357,7 +361,7 @@ class _TileNoImage extends StatelessWidget {
     alignment: Alignment.center,
     child: Text(
       product.tipo == ProductType.moto ? '🏍️' : '🔧',
-      style: const TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 28),
     ),
   );
 }
@@ -378,7 +382,7 @@ class _OrderSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color:  AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.border)),
       ),
@@ -388,24 +392,24 @@ class _OrderSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Subtotal (sin IVA)',
-                  style: const TextStyle(color: AppColors.textSecondary)),
+                  style: TextStyle(color: AppColors.textSecondary)),
               Text(formatPrice(cartState.subtotal),
-                  style: const TextStyle(color: AppColors.textPrimary)),
+                  style: TextStyle(color: AppColors.textPrimary)),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total con IVA (12%)',
-                  style: const TextStyle(
+              Text('Total con IVA (${(AppConfig.taxRate * 100).toStringAsFixed(0)}%)',
+                  style: TextStyle(
                     color:      AppColors.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize:   16,
                   )),
               Text(
                 formatPrice(cartState.totalWithTax),
-                style: const TextStyle(
+                style: TextStyle(
                   color:      AppColors.accent,
                   fontWeight: FontWeight.bold,
                   fontSize:   18,
@@ -413,13 +417,13 @@ class _OrderSummary extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
               onPressed: cartState.isLoading ? null : onCheckout,
-              icon:      const Icon(Icons.check_circle_outline),
-              label:     const Text('Confirmar pedido'),
+              icon:      Icon(Icons.check_circle_outline),
+              label:     Text('Confirmar pedido'),
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.accent,
                 foregroundColor: AppColors.onAccent,
@@ -446,9 +450,9 @@ class _EmptyCart extends StatelessWidget {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('🛒', style: TextStyle(fontSize: 64)),
-        const SizedBox(height: 16),
-        const Text(
+        Text('🛒', style: TextStyle(fontSize: 64)),
+        SizedBox(height: 16),
+        Text(
           'Tu carrito está vacío',
           style: TextStyle(
             color:      AppColors.textPrimary,
@@ -456,16 +460,16 @@ class _EmptyCart extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
-        const Text(
+        SizedBox(height: 8),
+        Text(
           'Agrega motos o repuestos al carrito',
           style: TextStyle(color: AppColors.textSecondary),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         FilledButton.icon(
           onPressed: onShop,
-          icon:      const Icon(Icons.grid_view_rounded),
-          label:     const Text('Ir al catálogo'),
+          icon:      Icon(Icons.grid_view_rounded),
+          label:     Text('Ir al catálogo'),
           style: FilledButton.styleFrom(
             backgroundColor: AppColors.accent,
             foregroundColor: AppColors.onAccent,

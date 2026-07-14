@@ -1,6 +1,5 @@
-// lib/presentation/screens/catalog/moto_form_screen.dart
-
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,6 +32,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
   int? _selectedCategoriaId;
   late String _selectedEstado;
   File? _selectedImageFile;
+  Uint8List? _webImageBytes;
   String? _existingImageUrl;
 
   @override
@@ -56,7 +56,12 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
 
     _selectedMarcaId = editingMoto?.marca.idMarca;
     _selectedCategoriaId = editingMoto?.categoria.idCategoria;
-    _selectedEstado = editingMoto?.estado ?? 'activo';
+    
+    final rawEstado = editingMoto?.estado.toLowerCase() ?? 'activo';
+    _selectedEstado = ['activo', 'inactivo', 'disponible', 'no disponible'].contains(rawEstado)
+        ? rawEstado
+        : 'activo';
+        
     _existingImageUrl = editingMoto?.imagen;
   }
 
@@ -77,9 +82,16 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
       imageQuality: 85,
     );
     if (picked != null) {
-      setState(() {
-        _selectedImageFile = File(picked.path);
-      });
+      if (kIsWeb) {
+        final bytes = await picked.readAsBytes();
+        setState(() {
+          _webImageBytes = bytes;
+        });
+      } else {
+        setState(() {
+          _selectedImageFile = File(picked.path);
+        });
+      }
     }
   }
 
@@ -133,28 +145,47 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: AppColors.border),
                     ),
-                    child: _selectedImageFile != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.file(_selectedImageFile!, fit: BoxFit.cover),
-                          )
-                        : _existingImageUrl != null
+                    child: kIsWeb
+                        ? (_webImageBytes != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
+                                child: Image.memory(_webImageBytes!, fit: BoxFit.cover),
                               )
-                            : const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
-                                  SizedBox(height: 8),
-                                  Text('Añadir Foto', style: TextStyle(color: AppColors.textSecondary)),
-                                ],
-                              ),
+                            : _existingImageUrl != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
+                                      SizedBox(height: 8),
+                                      Text('Añadir Foto', style: TextStyle(color: AppColors.textSecondary)),
+                                    ],
+                                  ))
+                        : (_selectedImageFile != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.file(_selectedImageFile!, fit: BoxFit.cover),
+                              )
+                            : _existingImageUrl != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(_existingImageUrl!, fit: BoxFit.cover),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_a_photo_outlined, size: 40, color: AppColors.textSecondary),
+                                      SizedBox(height: 8),
+                                      Text('Añadir Foto', style: TextStyle(color: AppColors.textSecondary)),
+                                    ],
+                                  )),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Marca Dropdown
               DropdownButtonFormField<int>(
@@ -166,7 +197,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 onChanged: (val) => setState(() => _selectedMarcaId = val),
                 validator: (val) => val == null ? 'Selecciona una marca' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Categoria Dropdown
               DropdownButtonFormField<int>(
@@ -178,7 +209,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 onChanged: (val) => setState(() => _selectedCategoriaId = val),
                 validator: (val) => val == null ? 'Selecciona una categoría' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Modelo Input
               TextFormField(
@@ -186,7 +217,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Modelo', hintText: 'Ej. CBR 250R'),
                 validator: (val) => val == null || val.trim().isEmpty ? 'El modelo es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Row(
                 children: [
@@ -204,7 +235,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   // Cilindraje Input
                   Expanded(
                     child: TextFormField(
@@ -221,7 +252,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Color Input
               TextFormField(
@@ -229,7 +260,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Color', hintText: 'Ej. Negro, Rojo metálico'),
                 validator: (val) => val == null || val.trim().isEmpty ? 'El color es obligatorio' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Row(
                 children: [
@@ -247,7 +278,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   // Stock Input
                   Expanded(
                     child: TextFormField(
@@ -264,7 +295,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Estado Dropdown
               DropdownButtonFormField<String>(
@@ -280,7 +311,7 @@ class _MotoFormScreenState extends ConsumerState<MotoFormScreen> {
                   if (val != null) setState(() => _selectedEstado = val);
                 },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Submit Button
               SizedBox(

@@ -58,8 +58,8 @@ class Seguro {
   });
 
   factory Seguro.fromJson(Map<String, dynamic> j) => Seguro(
-        idSeguro: j['id_seguro'] as int,
-        idVenta: j['id_venta'] as int,
+        idSeguro: j['id_seguro'] as int? ?? 0,
+        idVenta: j['id_venta'] as int? ?? 0,
         aseguradora: j['aseguradora']?.toString() ?? '',
         numeroPoliza: j['numero_poliza']?.toString() ?? '',
         tipoCobertura: TipoCobertura.fromValue(
@@ -71,7 +71,7 @@ class Seguro {
         fechaFin: j['fecha_fin'] != null
             ? DateTime.tryParse(j['fecha_fin'].toString())
             : null,
-        costoAnual: double.parse(j['costo_anual'].toString()),
+        costoAnual: double.tryParse(j['costo_anual']?.toString() ?? '') ?? 0.0,
         estado: EstadoSeguro.fromValue(
           j['estado']?.toString() ?? 'Pendiente',
         ),
@@ -119,7 +119,7 @@ class PaginatedSeguros {
 
   factory PaginatedSeguros.fromJson(Map<String, dynamic> j) =>
       PaginatedSeguros(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)

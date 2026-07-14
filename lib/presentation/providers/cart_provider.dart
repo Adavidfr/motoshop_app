@@ -192,12 +192,18 @@ class CartNotifier extends StateNotifier<CartState> {
         statusCode = e.response?.statusCode;
       }
       final isInvalidCart = statusCode == 404 || statusCode == 400;
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString().replaceAll('Exception: ', ''),
-        clearCarritoId: isInvalidCart,
-        items: isInvalidCart ? const [] : state.items,
-      );
+      if (isInvalidCart && state.carritoId != null) {
+        // Reset local cart ID and retry adding item (which will force creating a new cart)
+        state = state.copyWith(clearCarritoId: true, items: const []);
+        await addItem(product, quantity: quantity);
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: e.toString().replaceAll('Exception: ', ''),
+          clearCarritoId: isInvalidCart,
+          items: isInvalidCart ? const [] : state.items,
+        );
+      }
     }
   }
 

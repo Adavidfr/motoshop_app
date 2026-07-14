@@ -31,7 +31,7 @@ Future<void> showMantenimientoForm(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),
       ),
@@ -448,17 +448,17 @@ class _MantenimientoFormSheetState
                   ? 'Editar mantenimiento '
                       '#${widget.initial!.idMantenimiento}'
                   : 'Nuevo mantenimiento',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (state.isLoadingCatalogos) ...[
-              const Center(
+              Center(
                 child: Column(
                   children: [
                     CircularProgressIndicator(
@@ -476,7 +476,7 @@ class _MantenimientoFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
             ],
 
             if (state.catalogosError != null) ...[
@@ -499,12 +499,12 @@ class _MantenimientoFormSheetState
                   children: [
                     Text(
                       state.catalogosError!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.error,
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextButton(
                       onPressed: () {
                         ref
@@ -514,14 +514,14 @@ class _MantenimientoFormSheetState
                             )
                             .cargarCatalogos();
                       },
-                      child: const Text(
+                      child: Text(
                         'Reintentar',
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             if (formState
@@ -543,16 +543,16 @@ class _MantenimientoFormSheetState
                   crossAxisAlignment:
                       CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.error,
                           fontSize: 13,
                         ),
@@ -561,7 +561,7 @@ class _MantenimientoFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -578,7 +578,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Moto *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.two_wheeler_outlined,
                       ),
                       errorText: _errorBackend(
@@ -616,7 +616,7 @@ class _MantenimientoFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<int>(
                     value:
@@ -628,7 +628,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Cliente *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.person_outline,
                       ),
                       errorText: _errorBackend(
@@ -666,7 +666,7 @@ class _MantenimientoFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<int>(
                     value:
@@ -678,7 +678,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Servicio *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.build_circle_outlined,
                       ),
                       errorText: _errorBackend(
@@ -719,7 +719,7 @@ class _MantenimientoFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -734,7 +734,7 @@ class _MantenimientoFormSheetState
                     decoration: InputDecoration(
                       labelText:
                           'Kilometraje actual *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.speed_outlined,
                       ),
                       suffixText: 'km',
@@ -743,14 +743,14 @@ class _MantenimientoFormSheetState
                         'kilometraje_actual',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator:
                         _validarKilometraje,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -764,7 +764,7 @@ class _MantenimientoFormSheetState
                       labelText:
                           'Diagnóstico inicial',
                       alignLabelWithHint: true,
-                      prefixIcon: const Padding(
+                      prefixIcon: Padding(
                         padding: EdgeInsets.only(
                           bottom: 68,
                         ),
@@ -777,12 +777,12 @@ class _MantenimientoFormSheetState
                         'diagnostico_inicial',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -804,7 +804,7 @@ class _MantenimientoFormSheetState
                     decoration: InputDecoration(
                       labelText: 'Costo final *',
                       prefixText: '\$ ',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.attach_money,
                       ),
                       errorText: _errorBackend(
@@ -812,13 +812,13 @@ class _MantenimientoFormSheetState
                         'costo_final',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarCosto,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<String>(
                     value:
@@ -830,7 +830,7 @@ class _MantenimientoFormSheetState
                         AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Estado *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.info_outline,
                       ),
                       errorText: _errorBackend(
@@ -859,7 +859,7 @@ class _MantenimientoFormSheetState
                           },
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -872,13 +872,13 @@ class _MantenimientoFormSheetState
                                     context,
                                   );
                                 },
-                          child: const Text(
+                          child: Text(
                             'Cancelar',
                           ),
                         ),
                       ),
 
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
 
                       Expanded(
                         child: ElevatedButton(
@@ -888,7 +888,7 @@ class _MantenimientoFormSheetState
                               ? null
                               : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

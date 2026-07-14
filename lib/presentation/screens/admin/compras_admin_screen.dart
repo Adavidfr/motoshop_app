@@ -74,7 +74,7 @@ class _ComprasAdminScreenState
                       crossAxisAlignment:
                           CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Compras',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -85,7 +85,7 @@ class _ComprasAdminScreenState
                         Text(
                           '${state.total} compra${state.total == 1 ? '' : 's'} '
                           'registrada${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -102,11 +102,11 @@ class _ComprasAdminScreenState
                               ref,
                             );
                           },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
-                    label: const Text('Nueva'),
+                    label: Text('Nueva'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 40),
                       padding: const EdgeInsets.symmetric(
@@ -117,7 +117,7 @@ class _ComprasAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -130,7 +130,7 @@ class _ComprasAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por proveedor, moto, repuesto o estado...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -141,7 +141,7 @@ class _ComprasAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -150,7 +150,7 @@ class _ComprasAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                       ),
                       onChanged: (_) {
@@ -158,11 +158,11 @@ class _ComprasAdminScreenState
                       },
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   IconButton.filled(
                     onPressed:
                         state.isLoading ? null : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -170,7 +170,7 @@ class _ComprasAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               SizedBox(
                 width: double.infinity,
@@ -182,7 +182,7 @@ class _ComprasAdminScreenState
                 ),
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
 
               Row(
@@ -200,7 +200,7 @@ class _ComprasAdminScreenState
                       state.filtroEstado != null ||
                       state.ordering !=
                           '-fecha_compra') ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     IconButton(
                       onPressed: state.isLoading
                           ? null
@@ -214,7 +214,7 @@ class _ComprasAdminScreenState
                                 setState(() {});
                               }
                             },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.filter_alt_off_outlined,
                       ),
                       tooltip: 'Limpiar filtros',
@@ -233,7 +233,7 @@ class _ComprasAdminScreenState
             builder: (_) {
               if (state.isLoading &&
                   state.compras.isEmpty) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
@@ -271,10 +271,10 @@ class _ComprasAdminScreenState
                   separatorBuilder: (_, index) {
                     if (index ==
                         state.compras.length - 1) {
-                      return const SizedBox(height: 16);
+                      return SizedBox(height: 16);
                     }
 
-                    return const SizedBox(height: 10);
+                    return SizedBox(height: 10);
                   },
                   itemBuilder: (_, index) {
                     if (index ==
@@ -374,7 +374,7 @@ class _ComprasAdminScreenState
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text(
+          title: Text(
             '¿Eliminar compra?',
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -382,7 +382,7 @@ class _ComprasAdminScreenState
           ),
           content: Text(
             'La compra #${compra.idCompra} se eliminará permanentemente.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -391,7 +391,7 @@ class _ComprasAdminScreenState
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
@@ -424,7 +424,7 @@ class _ComprasAdminScreenState
                   );
                 }
               },
-              child: const Text(
+              child: Text(
                 'Eliminar',
                 style: TextStyle(
                   color: AppColors.error,
@@ -517,7 +517,7 @@ class _EstadoCompraFilter extends StatelessWidget {
           ),
         ),
         textStyle: WidgetStateProperty.all(
-          const TextStyle(
+          TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w600,
           ),
@@ -550,7 +550,7 @@ class _EstadoCompraFilter extends StatelessWidget {
           },
         ),
         side: WidgetStateProperty.all(
-          const BorderSide(
+          BorderSide(
             color: AppColors.border,
           ),
         ),
@@ -622,7 +622,7 @@ class _OrderingMenu extends StatelessWidget {
             color: AppColors.border,
           ),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
@@ -692,7 +692,7 @@ class _CompraCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Compra #${compra.idCompra}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -702,11 +702,11 @@ class _CompraCard extends StatelessWidget {
               _CompraEstadoBadge(
                 estado: compra.estado,
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               PopupMenuButton<String>(
                 tooltip: 'Cambiar estado',
                 color: AppColors.surface2,
-                icon: const Icon(
+                icon: Icon(
                   Icons.more_vert,
                   color: AppColors.textSecondary,
                 ),
@@ -762,7 +762,7 @@ class _CompraCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           _CompraInfoRow(
             label: 'Proveedor',
@@ -792,14 +792,14 @@ class _CompraCard extends StatelessWidget {
             ),
           ),
 
-          const Divider(
+          Divider(
             height: 22,
             color: AppColors.border,
           ),
 
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Subtotal',
                   style: TextStyle(
@@ -881,7 +881,7 @@ class _CompraInfoRow extends StatelessWidget {
             width: 105,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textFaint,
                 fontSize: 12,
               ),
@@ -891,7 +891,7 @@ class _CompraInfoRow extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -982,12 +982,12 @@ class _PaginationControls extends StatelessWidget {
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Row(
             children: [
               Expanded(
@@ -996,15 +996,15 @@ class _PaginationControls extends StatelessWidget {
                       isLoading || !hasPrevious
                           ? null
                           : onPrevious,
-                  child: const Text('Anterior'),
+                  child: Text('Anterior'),
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               DropdownButton<int>(
                 value: pageSize,
                 dropdownColor: AppColors.surface2,
-                underline: const SizedBox.shrink(),
-                style: const TextStyle(
+                underline: SizedBox.shrink(),
+                style: TextStyle(
                   color: AppColors.textPrimary,
                 ),
                 items: const [
@@ -1029,14 +1029,14 @@ class _PaginationControls extends StatelessWidget {
                         }
                       },
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
                   onPressed:
                       isLoading || !hasNext
                           ? null
                           : onNext,
-                  child: const Text('Siguiente'),
+                  child: Text('Siguiente'),
                 ),
               ),
             ],
@@ -1066,23 +1066,23 @@ class _ErrorView extends StatelessWidget {
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             ElevatedButton(
               onPressed: onRetry,
-              child: const Text('Reintentar'),
+              child: Text('Reintentar'),
             ),
           ],
         ),
@@ -1105,28 +1105,28 @@ class _EmptyView extends StatelessWidget {
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.shopping_cart_checkout_outlined,
             color: AppColors.textFaint,
             size: 55,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             hasFilters
                 ? 'No se encontraron compras'
                 : 'No existen compras registradas',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             hasFilters
                 ? 'Prueba con otros términos o estados.'
                 : 'Registra la primera compra para comenzar.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),

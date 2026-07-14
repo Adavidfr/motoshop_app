@@ -35,7 +35,7 @@ Future<void> showCompraForm(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),
       ),
@@ -438,17 +438,17 @@ class _CompraFormSheetState
               isEdit
                   ? 'Editar compra #${widget.initial!.idCompra}'
                   : 'Nueva compra',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (state.isLoadingCatalogos) ...[
-              const Center(
+              Center(
                 child: Column(
                   children: [
                     CircularProgressIndicator(
@@ -466,7 +466,7 @@ class _CompraFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
             ],
 
             if (state.catalogosError != null) ...[
@@ -484,12 +484,12 @@ class _CompraFormSheetState
                   children: [
                     Text(
                       state.catalogosError!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.error,
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextButton(
                       onPressed: () {
                         ref
@@ -500,12 +500,12 @@ class _CompraFormSheetState
                             .cargarCatalogos();
                       },
                       child:
-                          const Text('Reintentar'),
+                          Text('Reintentar'),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             if (formState is CompraFormError) ...[
@@ -528,16 +528,16 @@ class _CompraFormSheetState
                   crossAxisAlignment:
                       CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
                       color: AppColors.error,
                       size: 20,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         formState.message,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.error,
                           fontSize: 13,
                         ),
@@ -546,7 +546,7 @@ class _CompraFormSheetState
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -562,7 +562,7 @@ class _CompraFormSheetState
                     dropdownColor: AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Proveedor *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.local_shipping_outlined,
                       ),
                       errorText: _errorBackend(
@@ -603,7 +603,7 @@ class _CompraFormSheetState
                     },
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   Align(
                     alignment: Alignment.centerLeft,
@@ -619,7 +619,7 @@ class _CompraFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   SizedBox(
                     width: double.infinity,
@@ -656,7 +656,7 @@ class _CompraFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   if (_tipoCompra ==
                       TipoCompra.moto)
@@ -670,7 +670,7 @@ class _CompraFormSheetState
                           AppColors.surface2,
                       decoration: InputDecoration(
                         labelText: 'Moto *',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.two_wheeler_outlined,
                         ),
                         errorText: _errorBackend(
@@ -725,7 +725,7 @@ class _CompraFormSheetState
                           AppColors.surface2,
                       decoration: InputDecoration(
                         labelText: 'Repuesto *',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.settings_outlined,
                         ),
                         errorText: _errorBackend(
@@ -769,7 +769,7 @@ class _CompraFormSheetState
                       },
                     ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -783,7 +783,7 @@ class _CompraFormSheetState
                     ],
                     decoration: InputDecoration(
                       labelText: 'Cantidad *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.numbers_outlined,
                       ),
                       errorText: _errorBackend(
@@ -791,13 +791,13 @@ class _CompraFormSheetState
                         'cantidad',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarCantidad,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   TextFormField(
                     controller:
@@ -820,7 +820,7 @@ class _CompraFormSheetState
                       labelText:
                           'Precio unitario *',
                       prefixText: '\$ ',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.attach_money,
                       ),
                       errorText: _errorBackend(
@@ -828,13 +828,13 @@ class _CompraFormSheetState
                         'precio_unitario',
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                     ),
                     validator: _validarPrecio,
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Container(
                     width: double.infinity,
@@ -850,7 +850,7 @@ class _CompraFormSheetState
                     ),
                     child: Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
                             'Subtotal',
                             style: TextStyle(
@@ -863,7 +863,7 @@ class _CompraFormSheetState
                         ),
                         Text(
                           '\$ ${_subtotal.toStringAsFixed(2)}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.accent,
                             fontSize: 18,
                             fontWeight:
@@ -874,7 +874,7 @@ class _CompraFormSheetState
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   DropdownButtonFormField<String>(
                     value: estadosCompra
@@ -884,7 +884,7 @@ class _CompraFormSheetState
                     dropdownColor: AppColors.surface2,
                     decoration: InputDecoration(
                       labelText: 'Estado *',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.info_outline,
                       ),
                       errorText: _errorBackend(
@@ -912,7 +912,7 @@ class _CompraFormSheetState
                           },
                   ),
 
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22),
 
                   Row(
                     children: [
@@ -923,10 +923,10 @@ class _CompraFormSheetState
                               : () =>
                                   Navigator.pop(context),
                           child:
-                              const Text('Cancelar'),
+                              Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: isSaving ||
@@ -935,7 +935,7 @@ class _CompraFormSheetState
                               ? null
                               : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18,
                                   height: 18,
                                   child:

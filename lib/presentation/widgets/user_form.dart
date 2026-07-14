@@ -16,7 +16,7 @@ Future<void> showUserForm(
     context:           context,
     isScrollControlled:true,
     backgroundColor:   AppColors.surface,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
     builder: (_) => ProviderScope(
@@ -120,11 +120,11 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
             ),
             Text(
               isEdit ? 'Editar: ${widget.initial!.username}' : 'Nuevo usuario',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             if (formSt is UserFormError) ...[
               Container(
@@ -135,9 +135,9 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(formSt.message,
-                    style: const TextStyle(color: AppColors.error, fontSize: 13)),
+                    style: TextStyle(color: AppColors.error, fontSize: 13)),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
             ],
 
             Form(
@@ -151,23 +151,23 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         child: TextFormField(
                           controller: _userCtrl, enabled: !isSaving,
                           decoration: const InputDecoration(labelText: 'Usuario *'),
-                          style:      const TextStyle(color: AppColors.textPrimary),
+                          style:      TextStyle(color: AppColors.textPrimary),
                           validator:  validateUsername,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller:  _emailCtrl, enabled: !isSaving,
                           keyboardType:TextInputType.emailAddress,
                           decoration:  const InputDecoration(labelText: 'Email *'),
-                          style:       const TextStyle(color: AppColors.textPrimary),
+                          style:       TextStyle(color: AppColors.textPrimary),
                           validator:   validateEmail,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Nombre y Apellido
                   Row(
@@ -176,20 +176,20 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         child: TextFormField(
                           controller: _fnCtrl, enabled: !isSaving,
                           decoration: const InputDecoration(labelText: 'Nombre'),
-                          style:      const TextStyle(color: AppColors.textPrimary),
+                          style:      TextStyle(color: AppColors.textPrimary),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller: _lnCtrl, enabled: !isSaving,
                           decoration: const InputDecoration(labelText: 'Apellido'),
-                          style:      const TextStyle(color: AppColors.textPrimary),
+                          style:      TextStyle(color: AppColors.textPrimary),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Contraseña
                   TextFormField(
@@ -208,14 +208,14 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         onPressed: () => setState(() => _showPass = !_showPass),
                       ),
                     ),
-                    style:   const TextStyle(color: AppColors.textPrimary),
+                    style:   TextStyle(color: AppColors.textPrimary),
                     validator: isEdit
                         ? null
                         : (v) => (v == null || v.isEmpty)
                             ? 'Contraseña obligatoria'
                             : (v.length < 8 ? 'Mínimo 8 caracteres' : null),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Toggles Staff y Activo en fila
                   Row(
@@ -226,7 +226,7 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                         value:       _isStaff,
                         onChanged:   isSaving ? null : (v) => setState(() => _isStaff = v),
                       )),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(child: _ToggleCard(
                         label:       'Activo',
                         description: 'Puede iniciar sesión',
@@ -235,22 +235,22 @@ class _UserFormSheetState extends ConsumerState<UserFormSheet> {
                       )),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           onPressed: isSaving ? null : () => Navigator.pop(context),
-                          child:     const Text('Cancelar'),
+                          child:     Text('Cancelar'),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: isSaving ? null : _submit,
                           child: isSaving
-                              ? const SizedBox(
+                              ? SizedBox(
                                   width: 18, height: 18,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2.5, color: AppColors.onAccent,
@@ -299,11 +299,11 @@ class _ToggleCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13,
                   )),
               Text(description,
-                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 10)),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 10)),
             ],
           ),
         ),

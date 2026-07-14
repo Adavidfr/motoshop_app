@@ -39,7 +39,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title:           const Text('Recuperar contraseña'),
+        title:           Text('Recuperar contraseña'),
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
         elevation:       0,
@@ -50,18 +50,18 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 48),
+              SizedBox(height: 48),
 
               if (!isSent) ...[
                 // ── Formulario de solicitud ───────────────────────────
                 Icon(Icons.email_outlined, size: 64, color: AppColors.accent),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Text(
                   'Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.',
                   textAlign: TextAlign.center,
                   style: tt.bodyMedium?.copyWith(color: AppColors.textSecondary),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
@@ -83,11 +83,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                           ),
                           child: Text(
                             error,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: AppColors.error, fontSize: 13),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                       ],
                       AuthTextField(
                         label:        'Correo electrónico',
@@ -98,7 +98,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         onChanged: (_) =>
                             ref.read(forgotPasswordProvider.notifier).clearError(),
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24),
                       ListenableBuilder(
                         listenable: _emailCtrl,
                         builder: (_, __) => AuthButton(
@@ -121,7 +121,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   size:  64,
                   color: AppColors.success,
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Text(
                   'Revisa tu correo',
                   style: tt.headlineSmall?.copyWith(
@@ -129,26 +129,26 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Text(
                   'Si el correo está registrado, recibirás el enlace en unos minutos.\n\n'
                   'Abre el enlace del correo, copia el uid y el token, y úsalos en el siguiente paso.',
                   textAlign: TextAlign.center,
                   style: tt.bodyMedium?.copyWith(color: AppColors.textSecondary),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
                 SizedBox(
                   width:  double.infinity,
                   height: 52,
                   child: ElevatedButton(
                     onPressed: () => context.push('/reset-password-confirm'),
-                    child: const Text('Tengo el código → Restablecer contraseña'),
+                    child: Text('Tengo el código → Restablecer contraseña'),
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextButton(
                   onPressed: () => context.pop(),
-                  child: const Text('Volver al inicio de sesión'),
+                  child: Text('Volver al inicio de sesión'),
                 ),
               ],
             ],

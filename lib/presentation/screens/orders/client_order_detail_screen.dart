@@ -23,16 +23,16 @@ class ClientOrderDetailScreen extends ConsumerWidget {
         title: Text('Detalle de Pedido #$orderId'),
       ),
       body: orderAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator(color: AppColors.accent)),
+        loading: () => Center(child: CircularProgressIndicator(color: AppColors.accent)),
         error: (err, _) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(err.toString(), style: const TextStyle(color: AppColors.error)),
-              const SizedBox(height: 12),
+              Text(err.toString(), style: TextStyle(color: AppColors.error)),
+              SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () => context.pop(),
-                child: const Text('Volver'),
+                child: Text('Volver'),
               ),
             ],
           ),
@@ -66,18 +66,18 @@ class _DetailContent extends StatelessWidget {
                 _InfoRow('Número de pedido', '#${order.id}'),
                 _InfoRow('Fecha', dateStr),
                 _InfoRow('Cantidad total', '${order.numItems} items'),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Estado del pedido', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                    Text('Estado del pedido', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     StatusBadge(status: order.status),
                   ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           // Items card
           _Card(
@@ -94,25 +94,25 @@ class _DetailContent extends StatelessWidget {
                         color: AppColors.surface2,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Center(child: Text('📦', style: TextStyle(fontSize: 20))),
+                      child: Center(child: Text('📦', style: TextStyle(fontSize: 20))),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(item.productName, style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
-                          Text('${formatPrice(item.unitPrice)} × ${item.quantity} ud.', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                          Text(item.productName, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
+                          Text('${formatPrice(item.unitPrice)} × ${item.quantity} ud.', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                         ],
                       ),
                     ),
-                    Text(formatPrice(item.subtotal), style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold)),
+                    Text(formatPrice(item.subtotal), style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold)),
                   ],
                 ),
               )).toList(),
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
 
           // Financial summary card
           _Card(
@@ -120,16 +120,16 @@ class _DetailContent extends StatelessWidget {
             child: Column(
               children: [
                 _TotalRow('Subtotal (sin IVA)', subtotal, false),
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
                 _TotalRow('IVA (15%)', taxAmount, false),
-                const SizedBox(height: 8),
-                const Divider(),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
+                Divider(),
+                SizedBox(height: 8),
                 _TotalRow('Total pagado', order.total, true),
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
         ],
       ),
     );
@@ -157,14 +157,14 @@ class _Card extends StatelessWidget {
       children: [
         Text(
           title.toUpperCase(),
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary,
             fontSize: 11,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.8,
           ),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14),
         child,
       ],
     ),
@@ -182,8 +182,8 @@ class _InfoRow extends StatelessWidget {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-        Text(value, style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13)),
+        Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+        Text(value, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13)),
       ],
     ),
   );

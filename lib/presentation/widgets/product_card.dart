@@ -45,12 +45,15 @@ class ProductCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
                       child: product.imageUrl != null
-                          ? CachedNetworkImage(
-                              imageUrl:    product.imageUrl!,
+                          ? Image.network(
+                              product.imageUrl!,
                               fit:         BoxFit.cover,
-                              placeholder: (_, __) =>
-                                  Container(color: AppColors.surface2),
-                              errorWidget: (_, __, ___) => const _ImagePlaceholder(),
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Container(color: AppColors.surface2);
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const _ImagePlaceholder(),
                             )
                           : const _ImagePlaceholder(),
                     ),
@@ -65,7 +68,7 @@ class ProductCard extends StatelessWidget {
                           color: AppColors.error.withOpacity(0.85),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text(
+                        child: Text(
                           'AGOTADO',
                           style: TextStyle(
                             color: Colors.white,
@@ -97,9 +100,9 @@ class ProductCard extends StatelessWidget {
                           children: [
                             Text(
                               product.tipo == ProductType.moto ? '🏍️' : '🔧',
-                              style: const TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: 10),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4),
                             Expanded(
                               child: Text(
                                 (product.category?.name ??
@@ -107,7 +110,7 @@ class ProductCard extends StatelessWidget {
                                         ? 'MOTO'
                                         : 'REPUESTO'))
                                     .toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color:         AppColors.accent,
                                   fontSize:      9,
                                   fontWeight:    FontWeight.bold,
@@ -119,12 +122,12 @@ class ProductCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4),
 
                         // Nombre
                         Text(
                           product.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      AppColors.textPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize:   13,
@@ -142,7 +145,7 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Text(
                           formatPrice(product.priceWithTax),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:      Colors.white,
                             fontWeight: FontWeight.w900,
                             fontSize:   15,
@@ -150,7 +153,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         Text(
                           '${formatPrice(product.price)} sin IVA',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:    AppColors.textSecondary,
                             fontSize: 9,
                           ),
@@ -177,6 +180,6 @@ class _ImagePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     color:     AppColors.surface2,
     alignment: Alignment.center,
-    child: const Icon(Icons.two_wheeler_rounded, color: AppColors.textFaint, size: 48),
+    child: Icon(Icons.two_wheeler_rounded, color: AppColors.textFaint, size: 48),
   );
 }

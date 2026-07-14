@@ -2,6 +2,7 @@
 
 import 'marca.dart';
 import 'categoria_moto.dart';
+import '../../core/config/app_config.dart';
 
 class Moto {
   final int idMoto;
@@ -54,7 +55,7 @@ class Moto {
       precio: parsedPrecio,
       stock: json['stock'] as int,
       estado: json['estado'] as String,
-      imagen: json['imagen'] as String?,
+      imagen: AppConfig.resolveImageUrl(json['imagen'] as String?),
       fechaRegistro: json['fecha_registro'] as String,
     );
   }

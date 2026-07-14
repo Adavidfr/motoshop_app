@@ -103,7 +103,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
         formState is NotificacionFormError ? (formState).message : null;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -122,7 +122,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                   Expanded(
                     child: Text(
                       _isEditing ? 'Editar Notificación' : 'Nueva Notificación',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -131,15 +131,15 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close,
+                    icon: Icon(Icons.close,
                         color: AppColors.textSecondary),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               if (formError != null) ...[
                 _ErrorBanner(message: formError),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
               ],
               Row(
                 children: [
@@ -149,7 +149,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                       label: 'ID Usuario *',
                       child: TextFormField(
                         controller: _idUsuarioCtrl,
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: AppColors.textPrimary),
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         decoration: _inputDec('Ej: 1'),
@@ -160,13 +160,13 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Expanded(
                     flex: 3,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Estado',
                           style: TextStyle(
                             color: AppColors.textSecondary,
@@ -174,7 +174,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         SwitchListTile(
                           value: _leido,
                           onChanged: (v) => setState(() => _leido = v),
@@ -195,31 +195,31 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Título *',
                 child: TextFormField(
                   controller: _tituloCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   maxLength: 150,
                   decoration: _inputDec('Ej: Alerta de mantenimiento'),
                   validator: (v) =>
                       v == null || v.trim().isEmpty ? 'Requerido' : null,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               _FieldGroup(
                 label: 'Mensaje *',
                 child: TextFormField(
                   controller: _mensajeCtrl,
-                  style: const TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: AppColors.textPrimary),
                   maxLines: 4,
                   decoration: _inputDec('Cuerpo del mensaje...'),
                   validator: (v) =>
                       v == null || v.trim().isEmpty ? 'Requerido' : null,
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -232,7 +232,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                     ),
                   ),
                   child: isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 22,
                           height: 22,
                           child: CircularProgressIndicator(
@@ -242,7 +242,7 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
                         )
                       : Text(
                           _isEditing ? 'Actualizar' : 'Enviar Notificación',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -258,33 +258,33 @@ class _NotificacionFormState extends ConsumerState<_NotificacionForm> {
 
   InputDecoration _inputDec(String? hint) => InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: AppColors.textFaint),
+        hintStyle: TextStyle(color: AppColors.textFaint),
         filled: true,
         fillColor: AppColors.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: AppColors.error),
         ),
-        errorStyle: const TextStyle(color: AppColors.error),
-        counterStyle: const TextStyle(color: AppColors.textFaint),
+        errorStyle: TextStyle(color: AppColors.error),
+        counterStyle: TextStyle(color: AppColors.textFaint),
       );
 }
 
@@ -304,7 +304,7 @@ class _ErrorBanner extends StatelessWidget {
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Text(message,
-          style: const TextStyle(color: AppColors.error, fontSize: 13)),
+          style: TextStyle(color: AppColors.error, fontSize: 13)),
     );
   }
 }
@@ -321,13 +321,13 @@ class _FieldGroup extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6),
         child,
       ],
     );

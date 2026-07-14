@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:motoshop_app/domain/model/user_profile.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/user_avatar.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -27,6 +29,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   bool _isEditing = false;
   File? _selectedImageFile;
+  Uint8List? _webImageBytes;
 
   @override
   void initState() {
@@ -57,9 +60,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Future<void> _pickImage() async {
     final picked = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
     if (picked != null) {
-      setState(() {
-        _selectedImageFile = File(picked.path);
-      });
+      if (kIsWeb) {
+        final bytes = await picked.readAsBytes();
+        setState(() {
+          _webImageBytes = bytes;
+        });
+      } else {
+        setState(() {
+          _selectedImageFile = File(picked.path);
+        });
+      }
     }
   }
 
@@ -100,17 +110,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi Perfil'),
+        title: Text('Mi Perfil'),
         actions: [
+          IconButton(
+            icon: Icon(
+              ref.watch(themeProvider)
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+            ),
+            onPressed: () {
+              ref.read(themeProvider.notifier).toggleTheme();
+            },
+            tooltip: 'Cambiar Tema',
+          ),
           if (!_isEditing && profile != null)
             IconButton(
-              icon: const Icon(Icons.edit_outlined),
+              icon: Icon(Icons.edit_outlined),
               onPressed: () => setState(() => _isEditing = true),
               tooltip: 'Editar Perfil',
             ),
           if (_isEditing)
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: Icon(Icons.close),
               onPressed: () => setState(() {
                 _isEditing = false;
                 _selectedImageFile = null;
@@ -121,12 +142,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
       body: SafeArea(
         child: profileState.isLoading && profile == null
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     // Avatar & Picker
                     Center(
                       child: GestureDetector(
@@ -143,32 +164,43 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 border: Border.all(color: AppColors.border, width: 2),
                               ),
                               child: ClipOval(
-                                child: _selectedImageFile != null
-                                    ? Image.file(_selectedImageFile!, fit: BoxFit.cover)
-                                    : (profile?.fotoPerfil != null
-                                        ? Image.network(
-                                            profile!.fotoPerfil!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (c, o, s) =>
-                                                const Icon(Icons.person, size: 60),
-                                          )
-                                        : const Icon(Icons.person, size: 60)),
+                                child: kIsWeb
+                                    ? (_webImageBytes != null
+                                        ? Image.memory(_webImageBytes!, fit: BoxFit.cover)
+                                        : (profile?.fotoPerfil != null
+                                            ? Image.network(
+                                                profile!.fotoPerfil!,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (c, o, s) =>
+                                                    Icon(Icons.person, size: 60),
+                                              )
+                                            : Icon(Icons.person, size: 60)))
+                                    : (_selectedImageFile != null
+                                        ? Image.file(_selectedImageFile!, fit: BoxFit.cover)
+                                        : (profile?.fotoPerfil != null
+                                            ? Image.network(
+                                                profile!.fotoPerfil!,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (c, o, s) =>
+                                                    Icon(Icons.person, size: 60),
+                                              )
+                                            : Icon(Icons.person, size: 60))),
                               ),
                             ),
                             if (_isEditing)
                               CircleAvatar(
                                 radius: 18,
                                 backgroundColor: AppColors.accent,
-                                child: const Icon(Icons.camera_alt, size: 18, color: Colors.white),
+                                child: Icon(Icons.camera_alt, size: 18, color: Colors.white),
                               )
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     Text(user?.username ?? '—', style: tt.headlineMedium),
                     Text(user?.email ?? '—', style: tt.bodyMedium),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     if (user?.isStaff == true)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
@@ -176,7 +208,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           color: AppColors.accent.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(999),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Staff / Administrador',
                           style: TextStyle(
                             color: AppColors.accent,
@@ -186,7 +218,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                         ),
                       ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     Form(
                       key: _formKey,
@@ -209,7 +241,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             TextFormField(
                               controller: _cedulaCtrl,
                               decoration: const InputDecoration(labelText: 'Cédula / RUC'),
@@ -217,7 +249,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               validator: (val) =>
                                   val == null || val.trim().isEmpty ? 'Requerido' : null,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             TextFormField(
                               controller: _telefonoCtrl,
                               decoration: const InputDecoration(labelText: 'Teléfono'),
@@ -225,7 +257,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               validator: (val) =>
                                   val == null || val.trim().isEmpty ? 'Requerido' : null,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             TextFormField(
                               controller: _direccionCtrl,
                               decoration: const InputDecoration(labelText: 'Dirección'),
@@ -234,7 +266,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               validator: (val) =>
                                   val == null || val.trim().isEmpty ? 'Requerido' : null,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             TextFormField(
                               controller: _fechaNacCtrl,
                               decoration: const InputDecoration(
@@ -250,7 +282,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               },
                             ),
                             if (_isEditing) ...[
-                              const SizedBox(height: 24),
+                              SizedBox(height: 24),
                               SizedBox(
                                 width: double.infinity,
                                 height: 50,
@@ -258,7 +290,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   onPressed: isSaving ? null : _onSave,
                                   child: isSaving
                                       ? const CircularProgressIndicator()
-                                      : const Text('Guardar Cambios'),
+                                      : Text('Guardar Cambios'),
                                 ),
                               ),
                             ]
@@ -266,7 +298,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
 
                     // Admin view list navigate button
                     if (user?.isStaff == true) ...[
@@ -275,11 +307,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 52,
                         child: ElevatedButton.icon(
                           onPressed: () => context.go('/admin'),
-                          icon: const Icon(Icons.admin_panel_settings_outlined),
-                          label: const Text('Panel de Usuarios (Admin)'),
+                          icon: Icon(Icons.admin_panel_settings_outlined),
+                          label: Text('Panel de Usuarios (Admin)'),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                     ],
 
                     // Client Financing Button
@@ -289,16 +321,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 52,
                         child: ElevatedButton.icon(
                           onPressed: () => context.push('/financiamientos'),
-                          icon: const Icon(Icons.credit_card_outlined),
-                          label: const Text('Mis Planes de Financiamiento'),
+                          icon: Icon(Icons.credit_card_outlined),
+                          label: Text('Mis Planes de Financiamiento'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.surface,
                             foregroundColor: AppColors.accent,
-                            side: const BorderSide(color: AppColors.border),
+                            side: BorderSide(color: AppColors.border),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                     ],
 
                     // Logout Button
@@ -307,7 +339,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         await ref.read(authProvider.notifier).logout();
                       },
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
                   ],
                 ),
               ),
@@ -342,15 +374,15 @@ class _LogoutButton extends StatelessWidget {
             builder: (dialogContext) => AlertDialog(
               backgroundColor: AppColors.surface,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              title: const Text('¿Cerrar sesión?', style: TextStyle(color: AppColors.textPrimary)),
-              content: const Text(
+              title: Text('¿Cerrar sesión?', style: TextStyle(color: AppColors.textPrimary)),
+              content: Text(
                 'Tu sesión se cerrará en este dispositivo.',
                 style: TextStyle(color: AppColors.textSecondary),
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(dialogContext),
-                  child: const Text('Cancelar'),
+                  child: Text('Cancelar'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -358,7 +390,7 @@ class _LogoutButton extends StatelessWidget {
                     await Future.delayed(const Duration(milliseconds: 100));
                     await onConfirm();
                   },
-                  child: const Text(
+                  child: Text(
                     'Cerrar sesión',
                     style: TextStyle(color: AppColors.error, fontWeight: FontWeight.bold),
                   ),
@@ -366,8 +398,8 @@ class _LogoutButton extends StatelessWidget {
               ],
             ),
           ),
-          icon: const Icon(Icons.logout, color: AppColors.error),
-          label: const Text('Cerrar sesión'),
+          icon: Icon(Icons.logout, color: AppColors.error),
+          label: Text('Cerrar sesión'),
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.error,
             side: BorderSide(color: AppColors.error.withValues(alpha: 0.5)),

@@ -97,7 +97,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   // Barra de búsqueda + botón filtros
                   Row(
@@ -110,7 +110,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                               ref.read(catalogProvider.notifier).setSearch(q),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Badge(
                         isLabelVisible: hasActiveFilters,
                         backgroundColor: AppColors.accent,
@@ -127,7 +127,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
                   // Chips de ordenamiento
                   SizedBox(
@@ -161,12 +161,12 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   // Chips de categorías
                   catsAsync.when(
-                    loading: () => const SizedBox.shrink(),
-                    error:   (_, __) => const SizedBox.shrink(),
+                    loading: () => SizedBox.shrink(),
+                    error:   (_, __) => SizedBox.shrink(),
                     data: (cats) => SizedBox(
                       height: 34,
                       child: ListView(
@@ -175,7 +175,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                           Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: ChoiceChip(
-                              label:     const Text('Todas'),
+                              label:     Text('Todas'),
                               selected:  state.categoryId == null,
                               onSelected: (_) => ref
                                   .read(catalogProvider.notifier)
@@ -211,7 +211,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                 ],
               ),
             ),
@@ -221,7 +221,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
               child: Builder(
                 builder: (_) {
                   if (state.isLoading && state.products.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(color: AppColors.accent),
                     );
                   }
@@ -232,14 +232,14 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('❌',
+                            Text('❌',
                                 style: TextStyle(fontSize: 40)),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12),
                             Text(state.error!,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColors.error),
                                 textAlign: TextAlign.center),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             FilledButton(
                               onPressed: () => ref
                                   .read(catalogProvider.notifier)
@@ -248,7 +248,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                                 backgroundColor: AppColors.accent,
                                 foregroundColor: AppColors.onAccent,
                               ),
-                              child: const Text('Reintentar'),
+                              child: Text('Reintentar'),
                             ),
                           ],
                         ),
@@ -256,7 +256,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                     );
                   }
                   if (state.products.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -293,7 +293,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                           (state.isLoadingMore ? 1 : 0),
                       itemBuilder: (ctx, i) {
                         if (i >= state.products.length) {
-                          return const Center(
+                          return Center(
                             child: Padding(
                               padding: EdgeInsets.all(16),
                               child: CircularProgressIndicator(

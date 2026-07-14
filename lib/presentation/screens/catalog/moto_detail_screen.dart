@@ -27,8 +27,8 @@ class MotoDetailScreen extends ConsumerWidget {
 
     if (motoIndex == -1) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Detalle de Moto')),
-        body: const Center(child: Text('Motocicleta no encontrada.')),
+        appBar: AppBar(title: Text('Detalle de Moto')),
+        body: Center(child: Text('Motocicleta no encontrada.')),
       );
     }
 
@@ -41,13 +41,13 @@ class MotoDetailScreen extends ConsumerWidget {
         actions: canEdit
             ? [
                 IconButton(
-                  icon: const Icon(Icons.edit_outlined),
+                  icon: Icon(Icons.edit_outlined),
                   onPressed: () => context.push('/moto-form?id=$motoId'),
                   tooltip: 'Editar Motocicleta',
                 ),
                 if (canDelete)
                   IconButton(
-                    icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                    icon: Icon(Icons.delete_outline, color: AppColors.error),
                     onPressed: () => _confirmDelete(context, ref, moto),
                     tooltip: 'Eliminar Motocicleta',
                   ),
@@ -67,11 +67,11 @@ class MotoDetailScreen extends ConsumerWidget {
                   ? Image.network(
                       moto.imagen!,
                       fit: BoxFit.cover,
-                      errorBuilder: (c, o, s) => const Center(
+                      errorBuilder: (c, o, s) => Center(
                         child: Icon(Icons.image_not_supported, size: 80, color: AppColors.textSecondary),
                       ),
                     )
-                  : const Center(
+                  : Center(
                       child: Icon(Icons.motorcycle, size: 100, color: AppColors.textSecondary),
                     ),
             ),
@@ -93,7 +93,7 @@ class MotoDetailScreen extends ConsumerWidget {
                               '${moto.marca.nombre} ${moto.modelo}',
                               style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Text(
                               moto.categoria.nombre,
                               style: tt.titleMedium?.copyWith(color: AppColors.accent),
@@ -110,7 +110,7 @@ class MotoDetailScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Stock & Status pills
                   Row(
@@ -119,7 +119,7 @@ class MotoDetailScreen extends ConsumerWidget {
                         label: moto.stock > 0 ? 'Disponible (${moto.stock})' : 'Agotado',
                         color: moto.stock > 0 ? Colors.green : Colors.red,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       _buildPill(
                         label: moto.estado.toUpperCase(),
                         color: moto.estado.toLowerCase() == 'activo' ||
@@ -129,7 +129,7 @@ class MotoDetailScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Detail specifications card
                   Container(
@@ -151,7 +151,7 @@ class MotoDetailScreen extends ConsumerWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         ...[
                           ('Marca', moto.marca.nombre),
                           ('Modelo', moto.modelo),
@@ -171,10 +171,10 @@ class MotoDetailScreen extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(entry.value.$1,
-                                        style: const TextStyle(color: AppColors.textSecondary)),
+                                        style: TextStyle(color: AppColors.textSecondary)),
                                     Text(
                                       entry.value.$2,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: AppColors.textPrimary,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -182,7 +182,7 @@ class MotoDetailScreen extends ConsumerWidget {
                                   ],
                                 ),
                               ),
-                              if (!isLast) const Divider(height: 1),
+                              if (!isLast) Divider(height: 1),
                             ],
                           );
                         }),
@@ -222,12 +222,12 @@ class MotoDetailScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Motocicleta'),
+        title: Text('Eliminar Motocicleta'),
         content: Text('¿Estás seguro de que deseas eliminar la motocicleta "${moto.marca.nombre} ${moto.modelo}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
@@ -236,7 +236,7 @@ class MotoDetailScreen extends ConsumerWidget {
               Navigator.of(context).pop(); // pop dialog
               context.pop(); // pop details screen
             },
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),

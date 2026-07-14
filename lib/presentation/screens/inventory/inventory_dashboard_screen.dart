@@ -73,7 +73,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Repuestos e Inventario'),
+        title: Text('Repuestos e Inventario'),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: AppColors.accent,
@@ -127,7 +127,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           _buildErrorWidget(state.error!, () => ref.read(repuestosProvider.notifier).loadFirstPage()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.repuestos.isEmpty
                   ? _buildEmptyState('No se encontraron repuestos')
                   : RefreshIndicator(
@@ -138,7 +138,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                         itemCount: state.repuestos.length + (state.isMoreLoading ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index == state.repuestos.length) {
-                            return const Center(
+                            return Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 child: CircularProgressIndicator(),
@@ -165,9 +165,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                             repuesto.imagen!,
                                             fit: BoxFit.cover,
                                             errorBuilder: (c, o, s) =>
-                                                const Icon(Icons.broken_image_outlined, size: 30),
+                                                Icon(Icons.broken_image_outlined, size: 30),
                                           )
-                                        : const Icon(Icons.settings_outlined, size: 40),
+                                        : Icon(Icons.settings_outlined, size: 40),
                                   ),
                                   // Detail
                                   Expanded(
@@ -182,7 +182,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                               Expanded(
                                                 child: Text(
                                                   repuesto.nombre,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                       fontWeight: FontWeight.bold, fontSize: 15),
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
@@ -210,19 +210,19 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 4),
+                                          SizedBox(height: 4),
                                           Text(
                                             'SKU: ${repuesto.sku}',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 12, color: AppColors.textSecondary),
                                           ),
-                                          const SizedBox(height: 8),
+                                          SizedBox(height: 8),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 '\$${repuesto.precioVenta.toStringAsFixed(2)}',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.accent,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 15,
@@ -270,7 +270,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           _buildErrorWidget(state.error!, () => ref.read(movimientosProvider.notifier).loadFirstPage()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.movimientos.isEmpty
                   ? _buildEmptyState('No hay movimientos registrados')
                   : RefreshIndicator(
@@ -281,7 +281,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                         itemCount: state.movimientos.length + (state.isMoreLoading ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index == state.movimientos.length) {
-                            return const Center(
+                            return Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 child: CircularProgressIndicator(),
@@ -326,43 +326,43 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                                       ),
                                       Text(
                                         'Cant: ${mov.cantidad}',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.bold, fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 12),
+                                  SizedBox(height: 12),
                                   Text(
                                     affectedItem,
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                   ),
                                   if (mov.descripcion != null && mov.descripcion!.isNotEmpty) ...[
-                                    const SizedBox(height: 6),
+                                    SizedBox(height: 6),
                                     Text(
                                       mov.descripcion!,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           color: AppColors.textSecondary, fontSize: 13),
                                     ),
                                   ],
-                                  const Divider(height: 24),
+                                  Divider(height: 24),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
-                                          const Icon(Icons.person_outline,
+                                          Icon(Icons.person_outline,
                                               size: 14, color: AppColors.textSecondary),
-                                          const SizedBox(width: 4),
+                                          SizedBox(width: 4),
                                           Text(
                                             mov.usuario.username,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 11, color: AppColors.textSecondary),
                                           ),
                                         ],
                                       ),
                                       Text(
                                         mov.fechaMovimiento.split('T')[0],
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 11, color: AppColors.textSecondary),
                                       ),
                                     ],
@@ -417,9 +417,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: hint,
-                prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear),
                   onPressed: () {
                     _searchController.clear();
                     onSearch('');
@@ -430,7 +430,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
             ),
           ),
           if (showSort && sortOptions != null) ...[
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -441,7 +441,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: currentSort,
-                  icon: const Icon(Icons.sort, color: AppColors.accent),
+                  icon: Icon(Icons.sort, color: AppColors.accent),
                   onChanged: onSortChanged,
                   items: sortOptions.entries
                       .map((e) => DropdownMenuItem(
@@ -463,9 +463,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
-          const SizedBox(height: 16),
-          Text(msg, style: const TextStyle(color: AppColors.textSecondary, fontSize: 16)),
+          Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
+          SizedBox(height: 16),
+          Text(msg, style: TextStyle(color: AppColors.textSecondary, fontSize: 16)),
         ],
       ),
     );
@@ -482,17 +482,17 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error),
-          const SizedBox(width: 12),
+          Icon(Icons.error_outline, color: AppColors.error),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               error,
-              style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
+              style: TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(
             onPressed: onRetry,
-            child: const Text('Reintentar', style: TextStyle(color: AppColors.accent)),
+            child: Text('Reintentar', style: TextStyle(color: AppColors.accent)),
           ),
         ],
       ),

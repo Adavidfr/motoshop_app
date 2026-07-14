@@ -72,10 +72,10 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       appBar: AppBar(
         title: Row(
           children: [
-            const Icon(Icons.motorcycle, color: AppColors.accent, size: 28),
-            const SizedBox(width: 10),
+            Icon(Icons.motorcycle, color: AppColors.accent, size: 28),
+            SizedBox(width: 10),
             Text(
-              'MotoShop',
+              'AuraRider',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
@@ -85,16 +85,16 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.inventory_2_outlined),
+            icon: Icon(Icons.inventory_2_outlined),
             onPressed: () => context.push('/inventory'),
             tooltip: 'Repuestos e Inventario',
           ),
           IconButton(
-            icon: const Icon(Icons.person_outline),
+            icon: Icon(Icons.person_outline),
             onPressed: () => context.push('/profile'),
             tooltip: 'Ver perfil',
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
         ],
         bottom: TabBar(
           controller: _tabController,
@@ -123,6 +123,8 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
   // --- MOTOS TAB ---
   Widget _buildMotosTab(bool isStaff) {
     final state = ref.watch(motosProvider);
+    final totalPages = (state.count / state.limit).ceil();
+    final maxPages = totalPages > 0 ? totalPages : 1;
 
     return Column(
       children: [
@@ -151,24 +153,15 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _buildErrorWidget(state.error!, () => ref.read(motosProvider.notifier).loadFirstPage()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.motos.isEmpty
                   ? _buildEmptyState('No se encontraron motocicletas')
                   : RefreshIndicator(
                       onRefresh: () => ref.read(motosProvider.notifier).loadFirstPage(),
                       child: ListView.builder(
-                        controller: _motoScrollController,
                         padding: const EdgeInsets.all(16),
-                        itemCount: state.motos.length + (state.isMoreLoading ? 1 : 0),
+                        itemCount: state.motos.length,
                         itemBuilder: (context, index) {
-                          if (index == state.motos.length) {
-                            return const Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
                           final moto = state.motos[index];
                           return Card(
                             margin: const EdgeInsets.only(bottom: 16),
@@ -192,9 +185,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                             moto.imagen!,
                                             fit: BoxFit.cover,
                                             errorBuilder: (c, o, s) =>
-                                                const Icon(Icons.image_not_supported, size: 40),
+                                                Icon(Icons.image_not_supported, size: 40),
                                           )
-                                        : const Icon(Icons.motorcycle_outlined, size: 50),
+                                        : Icon(Icons.motorcycle_outlined, size: 50),
                                   ),
                                   // Details
                                   Expanded(
@@ -209,7 +202,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                               Expanded(
                                                 child: Text(
                                                   '${moto.marca.nombre} ${moto.modelo}',
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
                                                   ),
@@ -239,29 +232,21 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 4),
+                                          SizedBox(height: 4),
                                           Text(
                                             'Categoría: ${moto.categoria.nombre}',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: AppColors.textSecondary,
                                               fontSize: 13,
                                             ),
                                           ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            'Año: ${moto.anio}  ·  Cilindraje: ${moto.cilindraje} cc',
-                                            style: const TextStyle(
-                                              color: AppColors.textSecondary,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 12),
+                                          SizedBox(height: 4),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 '\$${moto.precio.toStringAsFixed(2)}',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.accent,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 17,
@@ -292,6 +277,16 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                       ),
                     ),
         ),
+        if (!state.isLoading && state.motos.isNotEmpty)
+          _Paginacion(
+            page: state.currentPage,
+            total: state.count,
+            pageSize: state.limit,
+            hasNext: state.currentPage < maxPages,
+            hasPrev: state.currentPage > 1,
+            onNext: () => ref.read(motosProvider.notifier).loadPage(state.currentPage + 1),
+            onPrev: () => ref.read(motosProvider.notifier).loadPage(state.currentPage - 1),
+          ),
       ],
     );
   }
@@ -310,7 +305,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _buildErrorWidget(state.error!, () => ref.read(marcasProvider.notifier).load()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.marcas.isEmpty
                   ? _buildEmptyState('No se encontraron marcas')
                   : ListView.builder(
@@ -328,7 +323,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                               backgroundColor: AppColors.surface,
                               child: Text(
                                 marca.nombre[0].toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.accent,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -336,7 +331,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                             ),
                             title: Text(
                               marca.nombre,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(marca.descripcion ?? 'Sin descripción'),
                             trailing: canEdit
@@ -344,12 +339,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.edit_outlined, color: Colors.blue),
+                                        icon: Icon(Icons.edit_outlined, color: Colors.blue),
                                         onPressed: () => _showMarcaDialog(marca),
                                       ),
                                       if (canDelete)
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                          icon: Icon(Icons.delete_outline, color: Colors.red),
                                           onPressed: () => _confirmDeleteMarca(marca),
                                         ),
                                     ],
@@ -394,7 +389,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _buildErrorWidget(state.error!, () => ref.read(categoriasProvider.notifier).load()),
         Expanded(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : state.categorias.isEmpty
                   ? _buildEmptyState('No se encontraron categorías')
                   : ListView.builder(
@@ -412,7 +407,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                               backgroundColor: AppColors.surface,
                               child: Text(
                                 categoria.nombre[0].toUpperCase(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.accent,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -420,7 +415,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                             ),
                             title: Text(
                               categoria.nombre,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(categoria.descripcion ?? 'Sin descripción'),
                             trailing: canEdit
@@ -428,12 +423,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.edit_outlined, color: Colors.blue),
+                                        icon: Icon(Icons.edit_outlined, color: Colors.blue),
                                         onPressed: () => _showCategoriaDialog(categoria),
                                       ),
                                       if (canDelete)
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                          icon: Icon(Icons.delete_outline, color: Colors.red),
                                           onPressed: () => _confirmDeleteCategoria(categoria),
                                         ),
                                     ],
@@ -480,7 +475,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           _showCategoriaDialog();
         }
       },
-      child: const Icon(Icons.add),
+      child: Icon(Icons.add),
     );
   }
 
@@ -502,9 +497,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: hint,
-                prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear),
                   onPressed: () {
                     _searchController.clear();
                     onSearch('');
@@ -515,7 +510,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
             ),
           ),
           if (showSort && sortOptions != null) ...[
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -526,7 +521,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: currentSort,
-                  icon: const Icon(Icons.sort, color: AppColors.accent),
+                  icon: Icon(Icons.sort, color: AppColors.accent),
                   onChanged: onSortChanged,
                   items: sortOptions.entries
                       .map((e) => DropdownMenuItem(
@@ -548,9 +543,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
-          const SizedBox(height: 16),
-          Text(msg, style: const TextStyle(color: AppColors.textSecondary, fontSize: 16)),
+          Icon(Icons.info_outline, size: 64, color: AppColors.textSecondary),
+          SizedBox(height: 16),
+          Text(msg, style: TextStyle(color: AppColors.textSecondary, fontSize: 16)),
         ],
       ),
     );
@@ -567,17 +562,17 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error),
-          const SizedBox(width: 12),
+          Icon(Icons.error_outline, color: AppColors.error),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               error,
-              style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
+              style: TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(
             onPressed: onRetry,
-            child: const Text('Reintentar', style: TextStyle(color: AppColors.accent)),
+            child: Text('Reintentar', style: TextStyle(color: AppColors.accent)),
           ),
         ],
       ),
@@ -613,12 +608,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Marca'),
+        title: Text('Eliminar Marca'),
         content: Text('¿Estás seguro de que deseas eliminar la marca "${marca.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
@@ -626,7 +621,7 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               ref.read(marcasProvider.notifier).delete(marca.idMarca);
               Navigator.of(context).pop();
             },
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -637,12 +632,12 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Categoría'),
+        title: Text('Eliminar Categoría'),
         content: Text('¿Estás seguro de que deseas eliminar la categoría "${cat.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
@@ -650,7 +645,78 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               ref.read(categoriasProvider.notifier).delete(cat.idCategoria);
               Navigator.of(context).pop();
             },
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Paginacion extends StatelessWidget {
+  final int page;
+  final int total;
+  final int pageSize;
+  final bool hasNext;
+  final bool hasPrev;
+  final VoidCallback onNext;
+  final VoidCallback onPrev;
+
+  const _Paginacion({
+    required this.page,
+    required this.total,
+    required this.pageSize,
+    required this.hasNext,
+    required this.hasPrev,
+    required this.onNext,
+    required this.onPrev,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final desde = ((page - 1) * pageSize) + 1;
+    final hasta = (page * pageSize).clamp(0, total);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: AppColors.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('$desde–$hasta de $total',
+              style: TextStyle(
+                  color: AppColors.textSecondary, fontSize: 12)),
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.chevron_left,
+                    color: AppColors.textSecondary),
+                onPressed: hasPrev ? onPrev : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text('Pág. $page',
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_right,
+                    color: AppColors.textSecondary),
+                onPressed: hasNext ? onNext : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
           ),
         ],
       ),

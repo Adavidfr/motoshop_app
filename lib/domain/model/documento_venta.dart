@@ -35,8 +35,8 @@ class DocumentoVenta {
   });
 
   factory DocumentoVenta.fromJson(Map<String, dynamic> j) => DocumentoVenta(
-        idDocumento: j['id_documento'] as int,
-        idVenta: j['id_venta'] as int,
+        idDocumento: j['id_documento'] as int? ?? 0,
+        idVenta: j['id_venta'] as int? ?? 0,
         tipoDocumento: TipoDocumento.fromValue(
           j['tipo_documento']?.toString() ?? 'Otro',
         ),
@@ -79,7 +79,7 @@ class PaginatedDocumentosVenta {
 
   factory PaginatedDocumentosVenta.fromJson(Map<String, dynamic> j) =>
       PaginatedDocumentosVenta(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)

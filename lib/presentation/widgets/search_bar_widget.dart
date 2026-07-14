@@ -61,14 +61,14 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       controller:      _ctrl,
       onChanged:       _onChanged,
       textInputAction: TextInputAction.search,
-      style: const TextStyle(color: AppColors.textPrimary),
+      style: TextStyle(color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText:   widget.hintText,
-        hintStyle:  const TextStyle(color: AppColors.textSecondary),
-        prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textSecondary),
+        hintStyle:  TextStyle(color: AppColors.textSecondary),
+        prefixIcon: Icon(Icons.search_rounded, color: AppColors.textSecondary),
         suffixIcon: _ctrl.text.isNotEmpty
             ? IconButton(
-                icon:      const Icon(Icons.clear, color: AppColors.textSecondary),
+                icon:      Icon(Icons.clear, color: AppColors.textSecondary),
                 onPressed: _clear,
               )
             : null,
@@ -77,15 +77,15 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide:   const BorderSide(color: AppColors.border),
+          borderSide:   BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide:   const BorderSide(color: AppColors.border),
+          borderSide:   BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide:   const BorderSide(color: AppColors.accent, width: 2),
+          borderSide:   BorderSide(color: AppColors.accent, width: 2),
         ),
       ),
     );

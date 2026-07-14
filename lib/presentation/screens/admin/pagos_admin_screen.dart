@@ -47,18 +47,18 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text(
+        title: Text(
           'Eliminar pago',
           style: TextStyle(color: AppColors.textPrimary),
         ),
         content: Text(
           '¿Eliminar el pago #${pago.idPago} de \$${pago.monto.toStringAsFixed(2)}?',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text(
+            child: Text(
               'Cancelar',
               style: TextStyle(color: AppColors.textSecondary),
             ),
@@ -69,7 +69,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -91,7 +91,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
     final nuevoEstado = await showModalBottomSheet<String>(
       context: context,
       backgroundColor: AppColors.surface2,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) => Padding(
@@ -99,7 +99,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 'Cambiar estado',
@@ -110,7 +110,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                 ),
               ),
             ),
-            const Divider(color: AppColors.border),
+            Divider(color: AppColors.border),
             ...EstadoPago.values.map(
               (e) => ListTile(
                 leading: Icon(
@@ -129,7 +129,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                   ),
                 ),
                 trailing: e.value == pago.estado.value
-                    ? const Icon(Icons.check, color: AppColors.accent)
+                    ? Icon(Icons.check, color: AppColors.accent)
                     : null,
                 onTap: () => Navigator.pop(context, e.value),
               ),
@@ -171,7 +171,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Pagos',
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -182,7 +182,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                         Text(
                           '${state.total} pago${state.total == 1 ? '' : 's'} '
                           'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
@@ -200,12 +200,12 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      icon: const Icon(Icons.add, size: 18),
-                      label: const Text('Nuevo'),
+                      icon: Icon(Icons.add, size: 18),
+                      label: Text('Nuevo'),
                     ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               // ── Barra de búsqueda ────────────────────────────────────────
               Row(
@@ -213,19 +213,19 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
                         hintText: 'Buscar por referencia…',
                         hintStyle:
-                            const TextStyle(color: AppColors.textFaint),
-                        prefixIcon: const Icon(
+                            TextStyle(color: AppColors.textFaint),
+                        prefixIcon: Icon(
                           Icons.search,
                           color: AppColors.textSecondary,
                           size: 20,
                         ),
                         suffixIcon: _searchController.text.isNotEmpty
                             ? IconButton(
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.close,
                                   color: AppColors.textSecondary,
                                   size: 18,
@@ -240,27 +240,27 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.border),
+                              BorderSide(color: AppColors.border),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.border),
+                              BorderSide(color: AppColors.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: AppColors.accent),
+                              BorderSide(color: AppColors.accent),
                         ),
                       ),
                       onSubmitted: (_) => _buscar(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _BotonBuscar(onPressed: _buscar),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               // ── Filtros ──────────────────────────────────────────────────
               Row(
@@ -275,7 +275,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                       onChanged: (v) => notifier.setFiltroEstado(v),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Expanded(
                     child: _FiltroDropdown(
                       hint: 'Método',
@@ -289,7 +289,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                   if (state.filtroEstado != null ||
                       state.filtroMetodo != null ||
                       state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     TextButton(
                       onPressed: () {
                         _searchController.clear();
@@ -299,7 +299,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.accent,
                       ),
-                      child: const Text('Limpiar'),
+                      child: Text('Limpiar'),
                     ),
                   ],
                 ],
@@ -323,20 +323,20 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.error_outline,
+                Icon(Icons.error_outline,
                     color: AppColors.error, size: 18),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     state.error!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.error,
                       fontSize: 13,
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close,
+                  icon: Icon(Icons.close,
                       color: AppColors.error, size: 16),
                   onPressed: notifier.clearError,
                 ),
@@ -347,7 +347,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
         // ── Lista ───────────────────────────────────────────────────────────
         Expanded(
           child: state.isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(
                     color: AppColors.accent,
                   ),
@@ -365,7 +365,7 @@ class _PagosAdminScreenState extends ConsumerState<PagosAdminScreen> {
                         padding: const EdgeInsets.all(12),
                         itemCount: state.pagos.length,
                         separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final pago = state.pagos[index];
                           return _PagoCard(
@@ -421,7 +421,7 @@ class _BotonBuscar extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 14),
         ),
-        child: const Text('Buscar'),
+        child: Text('Buscar'),
       ),
     );
   }
@@ -453,11 +453,11 @@ class _FiltroDropdown extends StatelessWidget {
         child: DropdownButton<String>(
           isExpanded: true,
           value: value,
-          hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
+          hint: Text(hint, style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
           dropdownColor: AppColors.surface2,
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+          style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
           items: [
-            const DropdownMenuItem<String>(
+            DropdownMenuItem<String>(
               value: null,
               child: Text(
                 'Todos',
@@ -525,14 +525,14 @@ class _PagoCard extends StatelessWidget {
                   ),
                   child: Icon(iconoEstado, color: colorEstado, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Pago #${pago.idPago}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -540,7 +540,7 @@ class _PagoCard extends StatelessWidget {
                       ),
                       Text(
                         'Venta #${pago.idVenta}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -551,7 +551,7 @@ class _PagoCard extends StatelessWidget {
                 // Monto destacado
                 Text(
                   '\$${pago.monto.toStringAsFixed(2)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -559,9 +559,9 @@ class _PagoCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            const Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 12),
+            Divider(color: AppColors.border, height: 1),
+            SizedBox(height: 10),
 
             // ── Chips de info ──────────────────────────────────────────────
             Wrap(
@@ -589,18 +589,18 @@ class _PagoCard extends StatelessWidget {
 
             // ── Referencia ─────────────────────────────────────────────────
             if (pago.referencia != null && pago.referencia!.isNotEmpty) ...[
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.tag_outlined,
                     color: AppColors.textSecondary,
                     size: 14,
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Text(
                     pago.referencia!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 12,
                     ),
@@ -611,9 +611,9 @@ class _PagoCard extends StatelessWidget {
 
             // ── Acciones (solo admin) ──────────────────────────────────────
             if (isAdmin) ...[
-              const SizedBox(height: 10),
-              const Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 10),
+              Divider(color: AppColors.border, height: 1),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -624,7 +624,7 @@ class _PagoCard extends StatelessWidget {
                     color: AppColors.info,
                     onPressed: onChangeEstado,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   // Editar
                   _AccionBoton(
                     label: 'Editar',
@@ -633,7 +633,7 @@ class _PagoCard extends StatelessWidget {
                     onPressed: onEdit,
                   ),
                   if (isAdmin) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     _AccionBoton(
                       label: 'Eliminar',
                       icon: Icons.delete_outline,
@@ -675,7 +675,7 @@ class _Chip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color, size: 12),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           Text(
             label,
             style: TextStyle(
@@ -752,7 +752,7 @@ class _Paginacion extends StatelessWidget {
         children: [
           Text(
             '$desde–$hasta de $total',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,
             ),
@@ -760,7 +760,7 @@ class _Paginacion extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.chevron_left,
                   color: AppColors.textSecondary,
                 ),
@@ -782,7 +782,7 @@ class _Paginacion extends StatelessWidget {
                 ),
                 child: Text(
                   'Pág. $page',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -790,7 +790,7 @@ class _Paginacion extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.chevron_right,
                   color: AppColors.textSecondary,
                 ),
@@ -829,19 +829,19 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
                 : 'No hay pagos registrados',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 16,
             ),
           ),
           if (tieneFiltos) ...[
-            const SizedBox(height: 8),
-            const Text(
+            SizedBox(height: 8),
+            Text(
               'Prueba con otros filtros o limpia la búsqueda',
               style: TextStyle(
                 color: AppColors.textFaint,

@@ -26,8 +26,8 @@ class RepuestoDetailScreen extends ConsumerWidget {
 
     if (repIndex == -1) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Detalle de Repuesto')),
-        body: const Center(child: Text('Repuesto no encontrado.')),
+        appBar: AppBar(title: Text('Detalle de Repuesto')),
+        body: Center(child: Text('Repuesto no encontrado.')),
       );
     }
 
@@ -40,13 +40,13 @@ class RepuestoDetailScreen extends ConsumerWidget {
         actions: canEdit
             ? [
                 IconButton(
-                  icon: const Icon(Icons.edit_outlined),
+                  icon: Icon(Icons.edit_outlined),
                   onPressed: () => context.push('/repuesto-form?id=$repuestoId'),
                   tooltip: 'Editar Repuesto',
                 ),
                 if (canDelete)
                   IconButton(
-                    icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                    icon: Icon(Icons.delete_outline, color: AppColors.error),
                     onPressed: () => _confirmDelete(context, ref, repuesto),
                     tooltip: 'Eliminar Repuesto',
                   ),
@@ -66,11 +66,11 @@ class RepuestoDetailScreen extends ConsumerWidget {
                   ? Image.network(
                       repuesto.imagen!,
                       fit: BoxFit.cover,
-                      errorBuilder: (c, o, s) => const Center(
+                      errorBuilder: (c, o, s) => Center(
                         child: Icon(Icons.image_not_supported, size: 80, color: AppColors.textSecondary),
                       ),
                     )
-                  : const Center(
+                  : Center(
                       child: Icon(Icons.settings_outlined, size: 100, color: AppColors.textSecondary),
                     ),
             ),
@@ -91,7 +91,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
                               repuesto.nombre,
                               style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Text(
                               'SKU: ${repuesto.sku}',
                               style: tt.titleMedium?.copyWith(color: AppColors.textSecondary),
@@ -108,7 +108,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   Row(
                     children: [
@@ -116,14 +116,14 @@ class RepuestoDetailScreen extends ConsumerWidget {
                         label: repuesto.stock > 0 ? 'En Stock (${repuesto.stock})' : 'Sin Stock',
                         color: repuesto.stock > 0 ? Colors.green : Colors.red,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       _buildPill(
                         label: repuesto.estado.toUpperCase(),
                         color: repuesto.estado.toLowerCase() == 'activo' ? Colors.green : Colors.grey,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   if (repuesto.descripcion != null && repuesto.descripcion!.isNotEmpty) ...[
                     Text(
@@ -134,12 +134,12 @@ class RepuestoDetailScreen extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       repuesto.descripcion!,
-                      style: const TextStyle(fontSize: 15, height: 1.5),
+                      style: TextStyle(fontSize: 15, height: 1.5),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
 
                   // Specs Card
@@ -162,7 +162,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         ...[
                           ('Nombre', repuesto.nombre),
                           ('SKU', repuesto.sku),
@@ -181,10 +181,10 @@ class RepuestoDetailScreen extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(entry.value.$1,
-                                        style: const TextStyle(color: AppColors.textSecondary)),
+                                        style: TextStyle(color: AppColors.textSecondary)),
                                     Text(
                                       entry.value.$2,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: AppColors.textPrimary,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -192,7 +192,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
                                   ],
                                 ),
                               ),
-                              if (!isLast) const Divider(height: 1),
+                              if (!isLast) Divider(height: 1),
                             ],
                           );
                         }),
@@ -232,12 +232,12 @@ class RepuestoDetailScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Eliminar Repuesto'),
+        title: Text('Eliminar Repuesto'),
         content: Text('¿Estás seguro de que deseas eliminar el repuesto "${repuesto.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
@@ -246,7 +246,7 @@ class RepuestoDetailScreen extends ConsumerWidget {
               Navigator.of(context).pop();
               context.pop();
             },
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),

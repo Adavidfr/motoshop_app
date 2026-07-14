@@ -19,8 +19,8 @@ class HistorialEstadoVenta {
 
   factory HistorialEstadoVenta.fromJson(Map<String, dynamic> j) =>
       HistorialEstadoVenta(
-        idHistorial: j['id_historial'] as int,
-        idVenta: j['id_venta'] as int,
+        idHistorial: j['id_historial'] as int? ?? 0,
+        idVenta: j['id_venta'] as int? ?? 0,
         estadoAnterior: j['estado_anterior'] as String?,
         estadoNuevo: j['estado_nuevo']?.toString() ?? '',
         fechaCambio: j['fecha_cambio'] != null
@@ -68,7 +68,7 @@ class PaginatedHistorialEstadoVenta {
 
   factory PaginatedHistorialEstadoVenta.fromJson(Map<String, dynamic> j) =>
       PaginatedHistorialEstadoVenta(
-        count: j['count'] as int,
+        count: j['count'] as int? ?? 0,
         next: j['next'] as String?,
         previous: j['previous'] as String?,
         results: (j['results'] as List)

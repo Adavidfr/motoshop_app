@@ -56,7 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -75,26 +75,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
-                  // Logo Card
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    width: 140,
+                    height: 140,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.black.withOpacity(0.2),
                       border: Border.all(
                         color: AppColors.accent.withOpacity(0.25),
                         width: 1.5,
                       ),
-                    ),
-                    child: Image.asset(
-                      'assets/images/logo_transparente.png',
-                      height: 140,
-                      fit: BoxFit.contain,
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/logo_circular.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     'AuraRider',
                     style: tt.headlineMedium?.copyWith(
@@ -103,7 +101,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       letterSpacing: 1.2,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     'Diseño, potencia y control en tus manos',
                     style: TextStyle(
@@ -111,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 36),
+                  SizedBox(height: 36),
 
                   // Card del formulario
                   Container(
@@ -149,11 +147,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                               child: Text(
                                 error,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColors.error, fontSize: 13),
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                           ],
 
                           // Campo usuario
@@ -166,7 +164,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onChanged: (_) =>
                                 ref.read(authProvider.notifier).clearError(),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 16),
 
                           // Campo contraseña
                           AuthTextField(
@@ -185,7 +183,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onChanged: (_) =>
                                 ref.read(authProvider.notifier).clearError(),
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24),
 
                           // Botón
                           AuthButton(
@@ -194,11 +192,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             isLoading: isLoading,
                           ),
 
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Center(
                             child: TextButton(
                               onPressed: () => context.push('/forgot-password'),
-                              child: const Text('¿Olvidaste tu contraseña?'),
+                              child: Text('¿Olvidaste tu contraseña?'),
                             ),
                           ),
                         ],
@@ -206,7 +204,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Link al registro
                   Row(
@@ -215,11 +213,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       Text('¿No tienes cuenta? ', style: tt.bodyMedium),
                       TextButton(
                         onPressed: () => context.push('/register'),
-                        child: const Text('Regístrate'),
+                        child: Text('Regístrate'),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                 ],
               ),
             ),

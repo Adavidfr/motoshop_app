@@ -263,8 +263,12 @@ class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
 
       final formData = FormData.fromMap(data);
       final res = await _dio.post('/motos/', data: formData);
+      print('=== DEBUG CREATE MOTO RESPONSE ===');
+      print(res.data);
       return Moto.fromJson(res.data as Map<String, dynamic>);
     } on DioException catch (e) {
+      print('=== DEBUG CREATE MOTO ERROR ===');
+      print(e.response?.data);
       throw ApiException.fromDioError(e);
     }
   }
@@ -304,10 +308,14 @@ class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
         );
       }
 
-      final formData = FormData.fromMap(data);
+       final formData = FormData.fromMap(data);
       final res = await _dio.patch('/motos/$id/', data: formData);
+      print('=== DEBUG UPDATE MOTO RESPONSE ===');
+      print(res.data);
       return Moto.fromJson(res.data as Map<String, dynamic>);
     } on DioException catch (e) {
+      print('=== DEBUG UPDATE MOTO ERROR ===');
+      print(e.response?.data);
       throw ApiException.fromDioError(e);
     }
   }

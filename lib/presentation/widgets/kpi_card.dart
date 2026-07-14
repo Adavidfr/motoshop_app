@@ -51,23 +51,23 @@ class KpiCard extends StatelessWidget {
                 child: Icon(icon, color: color, size: 20),
               ),
               if (hasAlert)
-                const Text('⚠️', style: TextStyle(fontSize: 16)),
+                Text('⚠️', style: TextStyle(fontSize: 16)),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               color:      AppColors.textPrimary,
               fontSize:   26,
               fontWeight: FontWeight.w800,
               height:     1,
             ),
           ),
-          const SizedBox(height: 2),
+          SizedBox(height: 2),
           Text(title, style: tt.bodySmall),
           if (subtitle != null) ...[
-            const SizedBox(height: 2),
+            SizedBox(height: 2),
             Text(
               subtitle!,
               style: TextStyle(

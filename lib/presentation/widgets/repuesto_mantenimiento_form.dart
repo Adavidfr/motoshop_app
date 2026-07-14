@@ -182,14 +182,14 @@ class _RepuestoMantenimientoFormSheetState
                 widget.initial == null
                     ? 'Agregar repuesto'
                     : 'Editar repuesto',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               DropdownButtonFormField<int>(
                 value: _mantenimientoId,
@@ -216,7 +216,7 @@ class _RepuestoMantenimientoFormSheetState
                     : null,
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               DropdownButtonFormField<int>(
                 value: _repuestoId,
@@ -253,7 +253,7 @@ class _RepuestoMantenimientoFormSheetState
                     : null,
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               TextFormField(
                 controller: _cantidadController,
@@ -276,7 +276,7 @@ class _RepuestoMantenimientoFormSheetState
                 },
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               TextFormField(
                 controller: _precioController,
@@ -301,7 +301,7 @@ class _RepuestoMantenimientoFormSheetState
                 },
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
 
               Container(
                 width: double.infinity,
@@ -313,7 +313,7 @@ class _RepuestoMantenimientoFormSheetState
                 child: Text(
                   'Subtotal: \$${_subtotal.toStringAsFixed(2)}',
                   textAlign: TextAlign.right,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -321,7 +321,7 @@ class _RepuestoMantenimientoFormSheetState
                 ),
               ),
 
-              const SizedBox(height: 22),
+              SizedBox(height: 22),
 
               Row(
                 children: [
@@ -330,16 +330,16 @@ class _RepuestoMantenimientoFormSheetState
                       onPressed: saving
                           ? null
                           : () => Navigator.pop(context),
-                      child: const Text('Cancelar'),
+                      child: Text('Cancelar'),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: saving ? null : _submit,
                       child: saving
                           ? const CircularProgressIndicator()
-                          : const Text('Guardar'),
+                          : Text('Guardar'),
                     ),
                   ),
                 ],

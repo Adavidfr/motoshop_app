@@ -84,7 +84,7 @@ class _MantenimientosAdminScreenState
                       crossAxisAlignment:
                           CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Mantenimientos',
                           style: TextStyle(
                             color:
@@ -97,7 +97,7 @@ class _MantenimientosAdminScreenState
                         Text(
                           '${state.total} mantenimiento${state.total == 1 ? '' : 's'} '
                           'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color:
                                 AppColors.textSecondary,
                             fontSize: 13,
@@ -116,11 +116,11 @@ class _MantenimientosAdminScreenState
                                   ref,
                                 );
                               },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 18,
                     ),
-                    label: const Text('Nuevo'),
+                    label: Text('Nuevo'),
                     style: ElevatedButton.styleFrom(
                       minimumSize:
                           const Size(0, 40),
@@ -133,7 +133,7 @@ class _MantenimientosAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -147,7 +147,7 @@ class _MantenimientosAdminScreenState
                       decoration: InputDecoration(
                         hintText:
                             'Buscar por moto, cliente, servicio o diagnóstico...',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color:
                               AppColors.textSecondary,
@@ -160,7 +160,7 @@ class _MantenimientosAdminScreenState
                                 : IconButton(
                                     onPressed:
                                         _limpiarBusqueda,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                     ),
                                   ),
@@ -169,7 +169,7 @@ class _MantenimientosAdminScreenState
                           vertical: 10,
                         ),
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color:
                             AppColors.textPrimary,
                       ),
@@ -178,13 +178,13 @@ class _MantenimientosAdminScreenState
                       },
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   IconButton.filled(
                     onPressed:
                         state.isLoading
                             ? null
                             : _buscar,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.search,
                     ),
                     tooltip: 'Buscar',
@@ -192,7 +192,7 @@ class _MantenimientosAdminScreenState
                 ],
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               SizedBox(
                 width: double.infinity,
@@ -208,7 +208,7 @@ class _MantenimientosAdminScreenState
                 ),
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               Row(
                 children: [
@@ -227,7 +227,7 @@ class _MantenimientosAdminScreenState
                       state.filtroEstado != null ||
                       state.ordering !=
                           '-fecha_registro') ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     IconButton(
                       onPressed:
                           state.isLoading
@@ -243,7 +243,7 @@ class _MantenimientosAdminScreenState
                                     setState(() {});
                                   }
                                 },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons
                             .filter_alt_off_outlined,
                       ),
@@ -264,7 +264,7 @@ class _MantenimientosAdminScreenState
             builder: (_) {
               if (state.isLoading &&
                   state.mantenimientos.isEmpty) {
-                return const Center(
+                return Center(
                   child:
                       CircularProgressIndicator(
                     color: AppColors.accent,
@@ -310,12 +310,12 @@ class _MantenimientosAdminScreenState
                         state.mantenimientos
                                 .length -
                             1) {
-                      return const SizedBox(
+                      return SizedBox(
                         height: 16,
                       );
                     }
 
-                    return const SizedBox(
+                    return SizedBox(
                       height: 10,
                     );
                   },
@@ -429,7 +429,7 @@ class _MantenimientosAdminScreenState
             borderRadius:
                 BorderRadius.circular(16),
           ),
-          title: const Text(
+          title: Text(
             '¿Eliminar mantenimiento?',
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -438,7 +438,7 @@ class _MantenimientosAdminScreenState
           content: Text(
             'El mantenimiento #${mantenimiento.idMantenimiento} '
             'se eliminará permanentemente.',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
             ),
           ),
@@ -447,7 +447,7 @@ class _MantenimientosAdminScreenState
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
@@ -484,7 +484,7 @@ class _MantenimientosAdminScreenState
                   );
                 }
               },
-              child: const Text(
+              child: Text(
                 'Eliminar',
                 style: TextStyle(
                   color: AppColors.error,
@@ -578,7 +578,7 @@ class _EstadoMantenimientoFilter
           ),
           textStyle:
               WidgetStateProperty.all(
-            const TextStyle(
+            TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),
@@ -614,7 +614,7 @@ class _EstadoMantenimientoFilter
             },
           ),
           side: WidgetStateProperty.all(
-            const BorderSide(
+            BorderSide(
               color: AppColors.border,
             ),
           ),
@@ -690,7 +690,7 @@ class _OrderingMenu extends StatelessWidget {
             color: AppColors.border,
           ),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
@@ -765,7 +765,7 @@ class _MantenimientoCard
               Expanded(
                 child: Text(
                   'Mantenimiento #${mantenimiento.idMantenimiento}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color:
                         AppColors.textPrimary,
                     fontSize: 15,
@@ -778,11 +778,11 @@ class _MantenimientoCard
                 estado:
                     mantenimiento.estado,
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               PopupMenuButton<String>(
                 tooltip: 'Acciones',
                 color: AppColors.surface2,
-                icon: const Icon(
+                icon: Icon(
                   Icons.more_vert,
                   color:
                       AppColors.textSecondary,
@@ -847,7 +847,7 @@ class _MantenimientoCard
             ],
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           _InfoRow(
             label: 'Moto',
@@ -881,14 +881,14 @@ class _MantenimientoCard
             mantenimiento
                 .diagnosticoInicial,
           )) ...[
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             Text(
               mantenimiento
                   .diagnosticoInicial!,
               maxLines: 3,
               overflow:
                   TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color:
                     AppColors.textSecondary,
                 fontSize: 12,
@@ -896,14 +896,14 @@ class _MantenimientoCard
             ),
           ],
 
-          const Divider(
+          Divider(
             height: 22,
             color: AppColors.border,
           ),
 
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Costo final',
                   style: TextStyle(
@@ -1008,7 +1008,7 @@ class _InfoRow extends StatelessWidget {
             width: 105,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color:
                     AppColors.textFaint,
                 fontSize: 12,
@@ -1019,7 +1019,7 @@ class _InfoRow extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: const TextStyle(
+              style: TextStyle(
                 color:
                     AppColors.textSecondary,
                 fontSize: 12,
@@ -1127,13 +1127,13 @@ class _PaginationControls
         children: [
           Text(
             'Página $page de $totalPages',
-            style: const TextStyle(
+            style: TextStyle(
               color:
                   AppColors.textSecondary,
               fontSize: 12,
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Row(
             children: [
               Expanded(
@@ -1144,17 +1144,17 @@ class _PaginationControls
                           ? null
                           : onPrevious,
                   child:
-                      const Text('Anterior'),
+                      Text('Anterior'),
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               DropdownButton<int>(
                 value: pageSize,
                 dropdownColor:
                     AppColors.surface2,
                 underline:
-                    const SizedBox.shrink(),
-                style: const TextStyle(
+                    SizedBox.shrink(),
+                style: TextStyle(
                   color:
                       AppColors.textPrimary,
                 ),
@@ -1182,7 +1182,7 @@ class _PaginationControls
                         }
                       },
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
                   onPressed:
@@ -1191,7 +1191,7 @@ class _PaginationControls
                           ? null
                           : onNext,
                   child:
-                      const Text('Siguiente'),
+                      Text('Siguiente'),
                 ),
               ),
             ],
@@ -1222,24 +1222,24 @@ class _ErrorView
           mainAxisAlignment:
               MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.error,
               size: 48,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.error,
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             ElevatedButton(
               onPressed: onRetry,
               child:
-                  const Text('Reintentar'),
+                  Text('Reintentar'),
             ),
           ],
         ),
@@ -1263,18 +1263,18 @@ class _EmptyView
         mainAxisAlignment:
             MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons
                 .miscellaneous_services_outlined,
             color: AppColors.textFaint,
             size: 55,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             hasFilters
                 ? 'No se encontraron mantenimientos'
                 : 'No existen mantenimientos registrados',
-            style: const TextStyle(
+            style: TextStyle(
               color:
                   AppColors.textPrimary,
               fontSize: 18,
@@ -1282,12 +1282,12 @@ class _EmptyView
                   FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             hasFilters
                 ? 'Prueba con otros términos o estados.'
                 : 'Registra el primer mantenimiento para comenzar.',
-            style: const TextStyle(
+            style: TextStyle(
               color:
                   AppColors.textSecondary,
               fontSize: 13,

@@ -21,6 +21,14 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(segurosAdminProvider.notifier).load();
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -44,16 +52,16 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface2,
-        title: const Text('Eliminar seguro',
+        title: Text('Eliminar seguro',
             style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           '¿Eliminar el seguro ${seguro.numeroPoliza}?',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar',
+            child: Text('Cancelar',
                 style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
@@ -62,7 +70,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Eliminar'),
+            child: Text('Eliminar'),
           ),
         ],
       ),
@@ -80,7 +88,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
     final nuevoEstado = await showModalBottomSheet<String>(
       context: context,
       backgroundColor: AppColors.surface2,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) => Padding(
@@ -88,7 +96,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 'Cambiar estado',
@@ -99,7 +107,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                 ),
               ),
             ),
-            const Divider(color: AppColors.border),
+            Divider(color: AppColors.border),
             ...EstadoSeguro.values.map(
               (e) => ListTile(
                 leading: Icon(
@@ -118,7 +126,7 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
                   ),
                 ),
                 trailing: e.value == seguro.estado.value
-                    ? const Icon(Icons.check, color: AppColors.accent)
+                    ? Icon(Icons.check, color: AppColors.accent)
                     : null,
                 onTap: () => Navigator.pop(context, e.value),
               ),
@@ -143,206 +151,210 @@ class _SegurosAdminScreenState extends ConsumerState<SegurosAdminScreen> {
     final isAdmin = user?.role == 'administrador';
     final state = ref.watch(segurosAdminProvider);
     final notifier = ref.read(segurosAdminProvider.notifier);
+    debugPrint('SegurosAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.seguros.length}');
 
-    return Column(
-      children: [
-        // ── Header ───────────────────────────────────────────────────────────
-        Container(
-          color: AppColors.surface,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Seguros',
-                          style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: Column(
+        children: [
+          // ── Header ───────────────────────────────────────────────────────────
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Seguros',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${state.total} seguro${state.total == 1 ? '' : 's'} '
+                            'registrado${state.total == 1 ? '' : 's'}',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isAdmin)
+                      ElevatedButton.icon(
+                        onPressed: () => showSeguroForm(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        Text(
-                          '${state.total} seguro${state.total == 1 ? '' : 's'} '
-                          'registrado${state.total == 1 ? '' : 's'}',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text('Nuevo'),
+                      ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        decoration: InputDecoration(
+                          hintText: 'Buscar por aseguradora o póliza…',
+                          hintStyle:
+                              TextStyle(color: AppColors.textFaint),
+                          prefixIcon: Icon(Icons.search,
+                              color: AppColors.textSecondary, size: 20),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(Icons.close,
+                                      color: AppColors.textSecondary, size: 18),
+                                  onPressed: _limpiarBusqueda,
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: AppColors.surface2,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                BorderSide(color: AppColors.accent),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  if (isAdmin)
-                    ElevatedButton.icon(
-                      onPressed: () => showSeguroForm(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        onSubmitted: (_) => _buscar(),
                       ),
-                      icon: const Icon(Icons.add, size: 18),
-                      label: const Text('Nuevo'),
                     ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      style: const TextStyle(color: AppColors.textPrimary),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar por aseguradora o póliza…',
-                        hintStyle:
-                            const TextStyle(color: AppColors.textFaint),
-                        prefixIcon: const Icon(Icons.search,
-                            color: AppColors.textSecondary, size: 20),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(Icons.close,
-                                    color: AppColors.textSecondary, size: 18),
-                                onPressed: _limpiarBusqueda,
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: AppColors.surface2,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.border),
+                    SizedBox(width: 8),
+                    SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: _buscar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.onAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              const BorderSide(color: AppColors.accent),
-                        ),
+                        child: Text('Buscar'),
                       ),
-                      onSubmitted: (_) => _buscar(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: _buscar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: AppColors.onAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                      ),
-                      child: const Text('Buscar'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _FiltroDropdown(
-                      hint: 'Estado',
-                      value: state.filtroEstado,
-                      items: EstadoSeguro.values.map((e) => e.value).toList(),
-                      onChanged: (v) => notifier.setFiltroEstado(v),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _FiltroDropdown(
-                      hint: 'Cobertura',
-                      value: state.filtroCobertura,
-                      items:
-                          TipoCobertura.values.map((t) => t.value).toList(),
-                      onChanged: (v) => notifier.setFiltroCobertura(v),
-                    ),
-                  ),
-                  if (state.filtroEstado != null ||
-                      state.filtroCobertura != null ||
-                      state.search.isNotEmpty) ...[
-                    const SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        notifier.limpiarFiltros();
-                        setState(() {});
-                      },
-                      style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accent),
-                      child: const Text('Limpiar'),
                     ),
                   ],
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        if (state.error != null)
-          _ErrorBanner(message: state.error!, onClose: notifier.clearError),
-
-        Expanded(
-          child: state.isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(color: AppColors.accent))
-              : state.seguros.isEmpty
-                  ? _EmptyState(
-                      tieneFiltos: state.filtroEstado != null ||
-                          state.filtroCobertura != null ||
-                          state.search.isNotEmpty)
-                  : RefreshIndicator(
-                      color: AppColors.accent,
-                      onRefresh: notifier.load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.seguros.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final seguro = state.seguros[index];
-                          return _SeguroCard(
-                            seguro: seguro,
-                            isAdmin: isAdmin,
-                            onEdit: () =>
-                                showSeguroForm(context, seguro: seguro),
-                            onDelete: () =>
-                                _confirmarEliminar(context, seguro),
-                            onChangeEstado: () =>
-                                _mostrarCambioEstado(context, seguro),
-                          );
-                        },
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _FiltroDropdown(
+                        hint: 'Estado',
+                        value: state.filtroEstado,
+                        items: EstadoSeguro.values.map((e) => e.value).toList(),
+                        onChanged: (v) => notifier.setFiltroEstado(v),
                       ),
                     ),
-        ),
-
-        if (!state.isLoading && state.seguros.isNotEmpty)
-          _Paginacion(
-            page: state.page,
-            total: state.total,
-            pageSize: state.pageSize,
-            hasNext: state.hasNextPage,
-            hasPrev: state.hasPreviousPage,
-            onNext: notifier.siguientePagina,
-            onPrev: notifier.paginaAnterior,
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: _FiltroDropdown(
+                        hint: 'Cobertura',
+                        value: state.filtroCobertura,
+                        items:
+                            TipoCobertura.values.map((t) => t.value).toList(),
+                        onChanged: (v) => notifier.setFiltroCobertura(v),
+                      ),
+                    ),
+                    if (state.filtroEstado != null ||
+                        state.filtroCobertura != null ||
+                        state.search.isNotEmpty) ...[
+                      SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          notifier.limpiarFiltros();
+                          setState(() {});
+                        },
+                        style: TextButton.styleFrom(
+                            foregroundColor: AppColors.accent),
+                        child: Text('Limpiar'),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
           ),
-      ],
+  
+          if (state.error != null)
+            _ErrorBanner(message: state.error!, onClose: notifier.clearError),
+  
+          Expanded(
+            child: state.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.accent))
+                : state.seguros.isEmpty
+                    ? _EmptyState(
+                        tieneFiltos: state.filtroEstado != null ||
+                            state.filtroCobertura != null ||
+                            state.search.isNotEmpty)
+                    : RefreshIndicator(
+                        color: AppColors.accent,
+                        onRefresh: notifier.load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.seguros.length,
+                          separatorBuilder: (_, __) =>
+                              SizedBox(height: 8),
+                          itemBuilder: (context, index) {
+                            final seguro = state.seguros[index];
+                            return _SeguroCard(
+                              seguro: seguro,
+                              isAdmin: isAdmin,
+                              onEdit: () =>
+                                  showSeguroForm(context, seguro: seguro),
+                              onDelete: () =>
+                                  _confirmarEliminar(context, seguro),
+                              onChangeEstado: () =>
+                                  _mostrarCambioEstado(context, seguro),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+  
+          if (!state.isLoading && state.seguros.isNotEmpty)
+            _Paginacion(
+              page: state.page,
+              total: state.total,
+              pageSize: state.pageSize,
+              hasNext: state.hasNextPage,
+              hasPrev: state.hasPreviousPage,
+              onNext: notifier.siguientePagina,
+              onPrev: notifier.paginaAnterior,
+            ),
+        ],
+      ),
     );
   }
 }
@@ -392,14 +404,14 @@ class _SeguroCard extends StatelessWidget {
                   ),
                   child: Icon(iconoEstado, color: colorEstado, size: 20),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         seguro.aseguradora,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -407,7 +419,7 @@ class _SeguroCard extends StatelessWidget {
                       ),
                       Text(
                         seguro.numeroPoliza,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
                         ),
@@ -417,7 +429,7 @@ class _SeguroCard extends StatelessWidget {
                 ),
                 Text(
                   '\$${seguro.costoAnual.toStringAsFixed(2)}/año',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -425,9 +437,9 @@ class _SeguroCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            const Divider(color: AppColors.border, height: 1),
-            const SizedBox(height: 10),
+            SizedBox(height: 12),
+            Divider(color: AppColors.border, height: 1),
+            SizedBox(height: 10),
             Wrap(
               spacing: 8,
               runSpacing: 6,
@@ -456,16 +468,16 @@ class _SeguroCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             Text(
               'Venta #${seguro.idVenta}',
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textFaint, fontSize: 11),
             ),
             if (isAdmin) ...[
-              const SizedBox(height: 10),
-              const Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 6),
+              SizedBox(height: 10),
+              Divider(color: AppColors.border, height: 1),
+              SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -475,14 +487,14 @@ class _SeguroCard extends StatelessWidget {
                     color: AppColors.info,
                     onPressed: onChangeEstado,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Editar',
                     icon: Icons.edit_outlined,
                     color: AppColors.accent,
                     onPressed: onEdit,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   _AccionBtn(
                     label: 'Eliminar',
                     icon: Icons.delete_outline,
@@ -578,7 +590,7 @@ class _Chip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color, size: 12),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           Text(label,
               style: TextStyle(
                   color: color,
@@ -636,9 +648,9 @@ class _FiltroDropdown extends StatelessWidget {
     return DropdownButtonFormField<String>(
       isExpanded: true,
       value: value,
-      hint: Text(hint, style: const TextStyle(color: AppColors.textFaint, fontSize: 13)),
+      hint: Text(hint, style: TextStyle(color: AppColors.textFaint, fontSize: 13)),
       dropdownColor: AppColors.surface2,
-      style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.surface2,
@@ -646,15 +658,15 @@ class _FiltroDropdown extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderSide: BorderSide(color: AppColors.accent),
         ),
       ),
       items: items
@@ -687,16 +699,16 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error, size: 18),
-          const SizedBox(width: 8),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
+          SizedBox(width: 8),
           Expanded(
             child: Text(message,
                 style:
-                    const TextStyle(color: AppColors.error, fontSize: 13)),
+                    TextStyle(color: AppColors.error, fontSize: 13)),
           ),
           IconButton(
             icon:
-                const Icon(Icons.close, color: AppColors.error, size: 16),
+                Icon(Icons.close, color: AppColors.error, size: 16),
             onPressed: onClose,
           ),
         ],
@@ -722,12 +734,12 @@ class _EmptyState extends StatelessWidget {
             color: AppColors.textFaint,
             size: 64,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             tieneFiltos
                 ? 'Sin resultados con los filtros aplicados'
                 : 'No hay seguros registrados',
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.textSecondary, fontSize: 16),
           ),
         ],
@@ -766,12 +778,12 @@ class _Paginacion extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('$desde–$hasta de $total',
-              style: const TextStyle(
+              style: TextStyle(
                   color: AppColors.textSecondary, fontSize: 12)),
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left,
+                icon: Icon(Icons.chevron_left,
                     color: AppColors.textSecondary),
                 onPressed: hasPrev ? onPrev : null,
                 padding: EdgeInsets.zero,
@@ -786,13 +798,13 @@ class _Paginacion extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('Pág. $page',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600)),
               ),
               IconButton(
-                icon: const Icon(Icons.chevron_right,
+                icon: Icon(Icons.chevron_right,
                     color: AppColors.textSecondary),
                 onPressed: hasNext ? onNext : null,
                 padding: EdgeInsets.zero,
