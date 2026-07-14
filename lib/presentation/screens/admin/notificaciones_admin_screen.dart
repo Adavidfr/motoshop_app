@@ -22,6 +22,14 @@ class _NotificacionesAdminScreenState
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(notificacionesAdminProvider.notifier).load();
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -85,7 +93,7 @@ class _NotificacionesAdminScreenState
     debugPrint('NotificacionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.notificaciones.length}');
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
           // ── Header ───────────────────────────────────────────────────────────
