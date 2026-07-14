@@ -308,7 +308,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         child: ElevatedButton.icon(
                           onPressed: () => context.go('/admin'),
                           icon: Icon(Icons.admin_panel_settings_outlined),
-                          label: Text('Panel de Usuarios (Admin)'),
+                          label: Text('Panel de Administración'),
                         ),
                       ),
                       SizedBox(height: 16),

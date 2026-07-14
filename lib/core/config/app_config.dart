@@ -25,6 +25,6 @@ class AppConfig {
     return '$baseDomain$path';
   }
 
-  static const String appName = 'Flutter Shop App';
+  static const String appName = 'AuraRider';
   static const double taxRate = 0.15; // IVA Ecuador 15 %
 }
