@@ -115,9 +115,7 @@ class SegurosAdminState {
 class SegurosAdminNotifier extends StateNotifier<SegurosAdminState> {
   final SeguroRemoteDatasource _datasource;
 
-  SegurosAdminNotifier(this._datasource) : super(const SegurosAdminState()) {
-    load();
-  }
+  SegurosAdminNotifier(this._datasource) : super(const SegurosAdminState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
