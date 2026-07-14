@@ -22,6 +22,14 @@ class _DevolucionesAdminScreenState
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(devolucionesAdminProvider.notifier).load();
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -147,7 +155,7 @@ class _DevolucionesAdminScreenState
     debugPrint('DevolucionesAdminScreen Build: isLoading=${state.isLoading}, error=${state.error}, items=${state.devoluciones.length}');
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
           // ── Header ───────────────────────────────────────────────────────────

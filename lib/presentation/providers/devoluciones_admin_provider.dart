@@ -105,9 +105,7 @@ class DevolucionesAdminNotifier extends StateNotifier<DevolucionesAdminState> {
   final DevolucionRemoteDatasource _datasource;
 
   DevolucionesAdminNotifier(this._datasource)
-      : super(const DevolucionesAdminState()) {
-    load();
-  }
+      : super(const DevolucionesAdminState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
