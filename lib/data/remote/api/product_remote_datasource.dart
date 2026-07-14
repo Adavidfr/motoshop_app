@@ -49,40 +49,71 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
     double? priceMax,
     String? ordering,
   }) async {
-    // Calculamos cuántos pedimos de cada endpoint
-    final halfSize = (pageSize / 2).ceil();
+    // Si se selecciona una categoría de moto, no tiene sentido traer repuestos
+    final bool fetchRepuestos = category == null;
+    final int motoPageSize = fetchRepuestos ? (pageSize / 2).ceil() : pageSize;
 
     final futures = await Future.wait([
       _fetchMotos(
         page:     page,
-        pageSize: halfSize,
+        pageSize: motoPageSize,
         search:   search,
         category: category,
         ordering: _mapOrdering(ordering, isMoto: true),
         priceMin: priceMin,
         priceMax: priceMax,
       ),
-      _fetchRepuestos(
-        page:     page,
-        pageSize: halfSize,
-        search:   search,
-        ordering: _mapOrdering(ordering, isMoto: false),
-        priceMin: priceMin,
-        priceMax: priceMax,
-      ),
+      if (fetchRepuestos)
+        _fetchRepuestos(
+          page:     page,
+          pageSize: (pageSize / 2).ceil(),
+          search:   search,
+          ordering: _mapOrdering(ordering, isMoto: false),
+          priceMin: priceMin,
+          priceMax: priceMax,
+        )
+      else
+        Future.value(const PaginatedResult<Product>(results: [], count: 0, next: null)),
     ]);
 
     final motoResult     = futures[0];
     final repuestoResult = futures[1];
 
-    // Intercalamos motos y repuestos
-    final combined  = <Product>[];
-    final maxLen    = motoResult.results.length > repuestoResult.results.length
-        ? motoResult.results.length
-        : repuestoResult.results.length;
-    for (var i = 0; i < maxLen; i++) {
-      if (i < motoResult.results.length)     combined.add(motoResult.results[i]);
-      if (i < repuestoResult.results.length) combined.add(repuestoResult.results[i]);
+    final combined = <Product>[...motoResult.results, ...repuestoResult.results];
+
+    // Ordenar los resultados combinados en memoria si hay criterio de ordenación
+    if (ordering != null && ordering.isNotEmpty) {
+      final isAsc = !ordering.startsWith('-');
+      final cleanOrder = ordering.replaceAll('-', '');
+      combined.sort((a, b) {
+        if (cleanOrder == 'price') {
+          return isAsc
+              ? a.priceWithTax.compareTo(b.priceWithTax)
+              : b.priceWithTax.compareTo(a.priceWithTax);
+        } else if (cleanOrder == 'name') {
+          return isAsc
+              ? a.name.toLowerCase().compareTo(b.name.toLowerCase())
+              : b.name.toLowerCase().compareTo(a.name.toLowerCase());
+        } else if (cleanOrder == 'created_at') {
+          // Si no hay fecha o similar, podemos fallback a ID
+          return isAsc ? a.id.compareTo(b.id) : b.id.compareTo(a.id);
+        }
+        return 0;
+      });
+    } else {
+      // Por defecto (relevancia), si se traen ambos, los intercalamos para variedad
+      if (fetchRepuestos) {
+        final list = <Product>[];
+        final maxLen = motoResult.results.length > repuestoResult.results.length
+            ? motoResult.results.length
+            : repuestoResult.results.length;
+        for (var i = 0; i < maxLen; i++) {
+          if (i < motoResult.results.length)     list.add(motoResult.results[i]);
+          if (i < repuestoResult.results.length) list.add(repuestoResult.results[i]);
+        }
+        combined.clear();
+        combined.addAll(list);
+      }
     }
 
     final hasNextMoto     = motoResult.next != null;
