@@ -123,6 +123,8 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
   // --- MOTOS TAB ---
   Widget _buildMotosTab(bool isStaff) {
     final state = ref.watch(motosProvider);
+    final totalPages = (state.count / state.limit).ceil();
+    final maxPages = totalPages > 0 ? totalPages : 1;
 
     return Column(
       children: [
@@ -157,18 +159,9 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                   : RefreshIndicator(
                       onRefresh: () => ref.read(motosProvider.notifier).loadFirstPage(),
                       child: ListView.builder(
-                        controller: _motoScrollController,
                         padding: const EdgeInsets.all(16),
-                        itemCount: state.motos.length + (state.isMoreLoading ? 1 : 0),
+                        itemCount: state.motos.length,
                         itemBuilder: (context, index) {
-                          if (index == state.motos.length) {
-                            return Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
                           final moto = state.motos[index];
                           return Card(
                             margin: const EdgeInsets.only(bottom: 16),
@@ -248,14 +241,6 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                                             ),
                                           ),
                                           SizedBox(height: 4),
-                                          Text(
-                                            'Año: ${moto.anio}  ·  Cilindraje: ${moto.cilindraje} cc',
-                                            style: TextStyle(
-                                              color: AppColors.textSecondary,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          SizedBox(height: 12),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
@@ -292,6 +277,16 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
                       ),
                     ),
         ),
+        if (!state.isLoading && state.motos.isNotEmpty)
+          _Paginacion(
+            page: state.currentPage,
+            total: state.count,
+            pageSize: state.limit,
+            hasNext: state.currentPage < maxPages,
+            hasPrev: state.currentPage > 1,
+            onNext: () => ref.read(motosProvider.notifier).loadPage(state.currentPage + 1),
+            onPrev: () => ref.read(motosProvider.notifier).loadPage(state.currentPage - 1),
+          ),
       ],
     );
   }
@@ -651,6 +646,77 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
               Navigator.of(context).pop();
             },
             child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Paginacion extends StatelessWidget {
+  final int page;
+  final int total;
+  final int pageSize;
+  final bool hasNext;
+  final bool hasPrev;
+  final VoidCallback onNext;
+  final VoidCallback onPrev;
+
+  const _Paginacion({
+    required this.page,
+    required this.total,
+    required this.pageSize,
+    required this.hasNext,
+    required this.hasPrev,
+    required this.onNext,
+    required this.onPrev,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final desde = ((page - 1) * pageSize) + 1;
+    final hasta = (page * pageSize).clamp(0, total);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: AppColors.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('$desde–$hasta de $total',
+              style: TextStyle(
+                  color: AppColors.textSecondary, fontSize: 12)),
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.chevron_left,
+                    color: AppColors.textSecondary),
+                onPressed: hasPrev ? onPrev : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text('Pág. $page',
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_right,
+                    color: AppColors.textSecondary),
+                onPressed: hasNext ? onNext : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
           ),
         ],
       ),
