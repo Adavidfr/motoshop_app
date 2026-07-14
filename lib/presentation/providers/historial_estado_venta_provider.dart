@@ -101,9 +101,7 @@ class HistorialEstadoVentaNotifier
   final HistorialEstadoVentaRemoteDatasource _datasource;
 
   HistorialEstadoVentaNotifier(this._datasource)
-      : super(const HistorialEstadoVentaState()) {
-    load();
-  }
+      : super(const HistorialEstadoVentaState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
