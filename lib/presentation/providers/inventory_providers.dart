@@ -33,6 +33,8 @@ class RepuestosState {
   final int offset;
   final int limit;
   final bool hasMore;
+  final int count;
+  final int currentPage;
   final InventoryFormState formState;
 
   const RepuestosState({
@@ -45,6 +47,8 @@ class RepuestosState {
     this.offset = 0,
     this.limit = 10,
     this.hasMore = true,
+    this.count = 0,
+    this.currentPage = 1,
     this.formState = const InventoryFormIdle(),
   });
 
@@ -58,6 +62,8 @@ class RepuestosState {
     int? offset,
     int? limit,
     bool? hasMore,
+    int? count,
+    int? currentPage,
     InventoryFormState? formState,
   }) =>
       RepuestosState(
@@ -70,6 +76,8 @@ class RepuestosState {
         offset: offset ?? this.offset,
         limit: limit ?? this.limit,
         hasMore: hasMore ?? this.hasMore,
+        count: count ?? this.count,
+        currentPage: currentPage ?? this.currentPage,
         formState: formState ?? this.formState,
       );
 }
@@ -82,19 +90,27 @@ class RepuestosNotifier extends StateNotifier<RepuestosState> {
   }
 
   Future<void> loadFirstPage() async {
-    state = state.copyWith(isLoading: true, offset: 0, error: null, hasMore: true);
+    loadPage(1);
+  }
+
+  Future<void> loadPage(int page) async {
+    if (state.isLoading) return;
+    final offset = (page - 1) * state.limit;
+    state = state.copyWith(isLoading: true, offset: offset, error: null, hasMore: true);
     try {
       final res = await _datasource.getRepuestos(
         search: state.search,
         ordering: state.ordering,
         limit: state.limit,
-        offset: 0,
+        offset: offset,
       );
       state = state.copyWith(
         repuestos: res.results,
+        count: res.count,
+        currentPage: page,
         isLoading: false,
         hasMore: res.next != null,
-        offset: state.limit,
+        offset: offset + state.limit,
       );
     } catch (e) {
       state = state.copyWith(
@@ -105,27 +121,9 @@ class RepuestosNotifier extends StateNotifier<RepuestosState> {
   }
 
   Future<void> loadNextPage() async {
-    if (state.isLoading || state.isMoreLoading || !state.hasMore) return;
-    state = state.copyWith(isMoreLoading: true, error: null);
-    try {
-      final res = await _datasource.getRepuestos(
-        search: state.search,
-        ordering: state.ordering,
-        limit: state.limit,
-        offset: state.offset,
-      );
-      state = state.copyWith(
-        repuestos: [...state.repuestos, ...res.results],
-        isMoreLoading: false,
-        hasMore: res.next != null,
-        offset: state.offset + state.limit,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isMoreLoading: false,
-        error: e.toString().replaceAll('Exception: ', ''),
-      );
-    }
+    // Retenido por si algún infinite scroll todavía lo llama, pero redirigido
+    if (!state.hasMore) return;
+    loadPage(state.currentPage + 1);
   }
 
   void setSearch(String q) {

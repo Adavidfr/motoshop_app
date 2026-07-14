@@ -148,6 +148,22 @@ class UsersAdminScreen extends ConsumerWidget {
             );
           }),
         ),
+        if (!state.isLoading && filtered.isNotEmpty)
+          Builder(
+            builder: (context) {
+              final totalPages = (state.total / state.limit).ceil();
+              final maxPages = totalPages > 0 ? totalPages : 1;
+              return _Paginacion(
+                page: state.currentPage,
+                total: state.total,
+                pageSize: state.limit,
+                hasNext: state.currentPage < maxPages,
+                hasPrev: state.currentPage > 1,
+                onNext: () => ref.read(usersAdminProvider.notifier).loadPage(state.currentPage + 1),
+                onPrev: () => ref.read(usersAdminProvider.notifier).loadPage(state.currentPage - 1),
+              );
+            },
+          ),
       ],
     );
   }
@@ -353,4 +369,76 @@ class _UserCard extends StatelessWidget {
       ),
     ),
   );
+}
+
+class _Paginacion extends StatelessWidget {
+  final int page;
+  final int total;
+  final int pageSize;
+  final bool hasNext;
+  final bool hasPrev;
+  final VoidCallback onNext;
+  final VoidCallback onPrev;
+
+  const _Paginacion({
+    required this.page,
+    required this.total,
+    required this.pageSize,
+    required this.hasNext,
+    required this.hasPrev,
+    required this.onNext,
+    required this.onPrev,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final desde = ((page - 1) * pageSize) + 1;
+    final hasta = (page * pageSize).clamp(0, total);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: AppColors.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text('$desde–$hasta de $total',
+              style: TextStyle(
+                  color: AppColors.textSecondary, fontSize: 12)),
+          const SizedBox(width: 16),
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.chevron_left,
+                    color: AppColors.textSecondary),
+                onPressed: hasPrev ? onPrev : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text('Pág. $page',
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_right,
+                    color: AppColors.textSecondary),
+                onPressed: hasNext ? onNext : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

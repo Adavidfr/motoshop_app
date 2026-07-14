@@ -133,18 +133,9 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                   : RefreshIndicator(
                       onRefresh: () => ref.read(repuestosProvider.notifier).loadFirstPage(),
                       child: ListView.builder(
-                        controller: _repuestoScroll,
                         padding: const EdgeInsets.all(16),
-                        itemCount: state.repuestos.length + (state.isMoreLoading ? 1 : 0),
+                        itemCount: state.repuestos.length,
                         itemBuilder: (context, index) {
-                          if (index == state.repuestos.length) {
-                            return Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
                           final repuesto = state.repuestos[index];
                           return Card(
                             margin: const EdgeInsets.only(bottom: 16),
@@ -251,7 +242,23 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
                         },
                       ),
                     ),
-        )
+        ),
+        if (!state.isLoading && state.repuestos.isNotEmpty)
+          Builder(
+            builder: (context) {
+              final totalPages = (state.count / state.limit).ceil();
+              final maxPages = totalPages > 0 ? totalPages : 1;
+              return _Paginacion(
+                page: state.currentPage,
+                total: state.count,
+                pageSize: state.limit,
+                hasNext: state.currentPage < maxPages,
+                hasPrev: state.currentPage > 1,
+                onNext: () => ref.read(repuestosProvider.notifier).loadPage(state.currentPage + 1),
+                onPrev: () => ref.read(repuestosProvider.notifier).loadPage(state.currentPage - 1),
+              );
+            },
+          ),
       ],
     );
   }
@@ -395,7 +402,7 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
         }
       },
       icon: Icon(_tabController.index == 0 ? Icons.add : Icons.swap_horiz),
-      label: Text(_tabController.index == 0 ? 'Nuevo Repuesto' : 'Reg. Movimiento'),
+      label: Text(_tabController.index == 0 ? 'Nuevo' : 'Reg. Movimiento'),
     );
   }
 
@@ -432,24 +439,27 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           if (showSort && sortOptions != null) ...[
             SizedBox(width: 10),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.border),
               ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: currentSort,
-                  icon: Icon(Icons.sort, color: AppColors.accent),
-                  onChanged: onSortChanged,
-                  items: sortOptions.entries
-                      .map((e) => DropdownMenuItem(
-                            value: e.key,
-                            child: Text(e.value),
-                          ))
-                      .toList(),
-                ),
+              child: PopupMenuButton<String>(
+                icon: Icon(Icons.sort, color: AppColors.accent),
+                tooltip: 'Ordenar',
+                onSelected: onSortChanged,
+                itemBuilder: (context) => sortOptions.entries
+                    .map((e) => PopupMenuItem(
+                          value: e.key,
+                          child: Text(
+                            e.value,
+                            style: TextStyle(
+                              color: e.key == currentSort ? AppColors.accent : null,
+                              fontWeight: e.key == currentSort ? FontWeight.bold : null,
+                            ),
+                          ),
+                        ))
+                    .toList(),
               ),
             ),
           ]
@@ -493,6 +503,78 @@ class _InventoryDashboardScreenState extends ConsumerState<InventoryDashboardScr
           TextButton(
             onPressed: onRetry,
             child: Text('Reintentar', style: TextStyle(color: AppColors.accent)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Paginacion extends StatelessWidget {
+  final int page;
+  final int total;
+  final int pageSize;
+  final bool hasNext;
+  final bool hasPrev;
+  final VoidCallback onNext;
+  final VoidCallback onPrev;
+
+  const _Paginacion({
+    required this.page,
+    required this.total,
+    required this.pageSize,
+    required this.hasNext,
+    required this.hasPrev,
+    required this.onNext,
+    required this.onPrev,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final desde = ((page - 1) * pageSize) + 1;
+    final hasta = (page * pageSize).clamp(0, total);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: AppColors.surface,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text('$desde–$hasta de $total',
+              style: TextStyle(
+                  color: AppColors.textSecondary, fontSize: 12)),
+          const SizedBox(width: 16),
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.chevron_left,
+                    color: AppColors.textSecondary),
+                onPressed: hasPrev ? onPrev : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text('Pág. $page',
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_right,
+                    color: AppColors.textSecondary),
+                onPressed: hasNext ? onNext : null,
+                padding: EdgeInsets.zero,
+                constraints:
+                    const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
           ),
         ],
       ),

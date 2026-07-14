@@ -38,6 +38,8 @@ class UsersAdminState {
   final String         search;
   final UserRoleFilter roleFilter;
   final UserFormState  formState;
+  final int            currentPage;
+  final int            limit;
 
   const UsersAdminState({
     this.users      = const [],
@@ -47,6 +49,8 @@ class UsersAdminState {
     this.search     = '',
     this.roleFilter = UserRoleFilter.all,
     this.formState  = const UserFormIdle(),
+    this.currentPage = 1,
+    this.limit      = 10,
   });
 
   List<User> get filtered => users.where((u) {
@@ -72,6 +76,8 @@ class UsersAdminState {
     String?        search,
     UserRoleFilter? roleFilter,
     UserFormState?  formState,
+    int?           currentPage,
+    int?           limit,
   }) => UsersAdminState(
     users:      users      ?? this.users,
     isLoading:  isLoading  ?? this.isLoading,
@@ -80,6 +86,8 @@ class UsersAdminState {
     search:     search     ?? this.search,
     roleFilter: roleFilter ?? this.roleFilter,
     formState:  formState  ?? this.formState,
+    currentPage: currentPage ?? this.currentPage,
+    limit:      limit      ?? this.limit,
   );
 }
 
@@ -92,13 +100,24 @@ class UsersAdminNotifier extends StateNotifier<UsersAdminState> {
   }
 
   Future<void> load() async {
+    loadPage(1);
+  }
+
+  Future<void> loadPage(int page) async {
+    if (state.isLoading) return;
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final result = await _datasource.getUsers();
+      final offset = (page - 1) * state.limit;
+      final result = await _datasource.getUsers(
+        search: state.search,
+        limit: state.limit,
+        offset: offset,
+      );
       state = state.copyWith(
         users:     result.results,
         total:     result.count,
         isLoading: false,
+        currentPage: page,
       );
     } catch (e) {
       state = state.copyWith(
@@ -108,8 +127,16 @@ class UsersAdminNotifier extends StateNotifier<UsersAdminState> {
     }
   }
 
-  void setSearch(String q)             => state = state.copyWith(search: q);
-  void setRoleFilter(UserRoleFilter f) => state = state.copyWith(roleFilter: f);
+  void setSearch(String q) {
+    state = state.copyWith(search: q);
+    loadPage(1);
+  }
+
+  void setRoleFilter(UserRoleFilter f) {
+    state = state.copyWith(roleFilter: f);
+    // the search/filter is done locally in 'filtered' getter for roles, but if search was server-side, 
+    // it's already reloaded in setSearch. roleFilter is local in this implementation.
+  }
   void resetFormState()                => state = state.copyWith(formState: const UserFormIdle());
 
   // Toggle staff — optimista

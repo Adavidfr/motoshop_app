@@ -512,24 +512,27 @@ class _CatalogAdminScreenState extends ConsumerState<CatalogAdminScreen> with Si
           if (showSort && sortOptions != null) ...[
             SizedBox(width: 10),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.border),
               ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: currentSort,
-                  icon: Icon(Icons.sort, color: AppColors.accent),
-                  onChanged: onSortChanged,
-                  items: sortOptions.entries
-                      .map((e) => DropdownMenuItem(
-                            value: e.key,
-                            child: Text(e.value),
-                          ))
-                      .toList(),
-                ),
+              child: PopupMenuButton<String>(
+                icon: Icon(Icons.sort, color: AppColors.accent),
+                tooltip: 'Ordenar',
+                onSelected: onSortChanged,
+                itemBuilder: (context) => sortOptions.entries
+                    .map((e) => PopupMenuItem(
+                          value: e.key,
+                          child: Text(
+                            e.value,
+                            style: TextStyle(
+                              color: e.key == currentSort ? AppColors.accent : null,
+                              fontWeight: e.key == currentSort ? FontWeight.bold : null,
+                            ),
+                          ),
+                        ))
+                    .toList(),
               ),
             ),
           ]
@@ -680,11 +683,12 @@ class _Paginacion extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: AppColors.surface,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text('$desde–$hasta de $total',
               style: TextStyle(
                   color: AppColors.textSecondary, fontSize: 12)),
+          const SizedBox(width: 16),
           Row(
             children: [
               IconButton(
