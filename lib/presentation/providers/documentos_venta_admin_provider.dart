@@ -106,9 +106,7 @@ class DocumentosVentaAdminNotifier
   final DocumentoVentaRemoteDatasource _datasource;
 
   DocumentosVentaAdminNotifier(this._datasource)
-      : super(const DocumentosVentaAdminState()) {
-    load();
-  }
+      : super(const DocumentosVentaAdminState());
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
